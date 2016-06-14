@@ -1,0 +1,1862 @@
+MCMC
+
+in the same family as random walk Monte Carlo algos
+another class of algo sampling from a distribution constructed by Markov Chains
+
+Bayesian Statistics
+	P(A|B) = P(A) * P(B|A) / P(B)
+
+Composite key:
+	Key made up of multiple columns within a table, can be different datatypes, and 
+
+Foriegn key:
+	Is a key in one table that points to a primary key in another
+
+Indexing function:
+	Finds the position of a substring within a superstring
+
+Creating an index within a SQL table:
+	-Creates an indexing column for a specific set of column(s) specifically so they could index faster.
+	
+	CREATE INDEX index_name
+	ON table_name (column_name)
+
+	for the entire table
+	CREATE INDEX index_name ON table_name;
+
+SQL Update:
+	UPDATE table
+	SET column1=column1+1
+	WHERE whatever filter
+
+	INSERT INTO table
+	VALUES (value1, value2, value3, value4)
+
+
+TALK MORE ABOUT NLP
+	-TFIDF Vectorizer over the corpus of great deals, did some latent topic modeling using NMF
+	-
+
+
+
+Types of Self Join Qs I've encountered:
+
+--showing managers and employees the same table
+SELECT t1.emp_name, t2.man_name
+FROM table t1, table t2
+WHERE t1.empID = t2.managerID
+
+??--cumsum
+SELECT t1.date, SUM(t2.case_no) as cumsum
+FROM table t1, table t2
+WHERE t1.date = t2.date
+	AND 
+
+-- 90 day window, count
+SELECT t2.ProdID, t2.Date, COUNT(1)
+FROM table t1, table t2
+WHERE t1.ProdID = t2.ProdID
+	AND t2.Date => t1.Date - 90
+GROUP BY 1, 2
+
+
+Practice test questions
+
+SELECT e1.EmployeeID, e1.FirstName, e1.LastName, e1.SupervisorID, e2.F
+FROM Employee e1
+LEFT JOIN (SELECT supervisorID, Name FROM Employee) as e2 ON e2.supervisorID = e1.EmployeeID
+
+
+Explain the difference between supervised and unsupervised machine learning.
+- labels and no labels
+	- unsupervised: seeks latent properties within 
+		- eg clustering, matrix factorization
+
+	-in terms of NLP: supervised section label and unsup topics
+
+Explain Pvalue.
+	- it's the probability I'd falsely reject hypthesis
+	- 'eg pval of .5 I'm only 50% of the time' Type I error
+	- it stands for probability value
+	- 
+
+Inner vs. outer join (SQL)
+
+MCMC:
+	-bayesian methods for hackers book
+
+
+Difference between Hadoop and SQL Server
+	-Hadoop: ecosystem
+		-which as distributed file system 'HDFS'
+		-should never use hadoop if any other technology works
+			-batch system, slower
+			-can't do interactive querying  
+			HIVE -> MR job: query in the order of minutes
+	-SQL:
+		-fails at too much data for a single machine
+
+
+How would you find the top 5 most frequent words in a text file?
+
+Explain linear regression and when you would use it.
+
+When given a list of #’s, when would you use mean and when would you use median?
+	-robust to outliers
+
+Inferential stats videos, coursera video
+
+go thru all of miniquizes OR SQL based  ~ 30 mins
+
+What's the advantage of ensembling?
+	- You can get a model generalizes better: 2 heads are better than one, in short it reduces the model variance.
+	- regression averages
+	- classificaton frequentist approach
+
+What's a MapReduce Job with an example use-case?
+	is a model for distributed computing: Map -> shuffle -> reduce OR Map ->  Combiner -> shuffle -> reduce
+	advantages: a scale-free computational model from a space complexity perspective
+
+	WORD count:
+	-split a text file into seperate lines
+	-map the counter dict to the line
+	-reduce by combining all these counter dicts into the desired output i.e. word counter of the entire text file.
+
+What's an Z-score?
+	basically a metric that translates distance from the mean, used in H-testing to define critical region and such.
+	z =  (x - mu) / std
+
+What's an F-test?
+	- it's use when using an ANOVA test which is a type of hypothesis test that measures the difference between more than one group. 
+	- In this case we use an F-ratio, the higher the ratio the more likely the H_0 true (less likely to create Type I error)
+
+- What's ARIMA? and how is it used?
+	models fitted to time-series to better understand and forecast i.e. trend analysis
+	ARIMA(p,d,q) 
+	p - autoregressive order, AR
+	d - integrated order, I
+	q -	lag, MA (window-size)
+
+	ARIMA(0,1,0) == random walk
+ 
+
+
+
+
+TFIDF
+	score is indicative of the importance of a particular word to a document within a corpus. A word can reoccur in a specific document several times and it basically wieghts it's importance as such
+
+
+
+/*
+payments
+  - id
+  - customer_id
+  - amount
+  - date ('2014-08-06')
+
+customers
+  - id
+  - name
+  - age
+  - zipcode
+*/
+
+
+# 1. HOW MANY PAYMENTS ARE THERE?
+SELECT COUNT(customer_id)
+FROM payments
+
+# 2. HOW MANY ZIPCODES ARE THERE?
+SELECT COUNT(DISTINCT zipcode)
+FROM customers
+
+# 3. WHAT IS THE LARGEST PAYMENT AMOUNT IN 2013?
+SELECT MAX(amount), customer_id
+FROM payments
+WHERE DATEPART(year,date ) = 2013
+
+# 4. WHICH CUSTOMER HAS SPENT THE MOST MONEY?
+
+SELECT customer_id
+FROM payments
+GROUP BY customer_id
+HAVING amount = MAX(amount) 
+
+OR
+
+SELECT c.name
+FROM payments p, customers c
+WHERE p.customers_id = c.id
+ORDER BY amount DESC
+LIMIT 1
+
+OR 
+
+SELECT customer_id
+FROM payments
+GROUP BY customer_id
+HAVING amount = MAX(SUM(amount))
+
+# 5. WHICH ZIPCODES HAVE AN AVERAGE PAYMENT SIZE ABOVE $100?
+SELECT c.zipcode, AVG(p.amount)
+FROM payments p, customers c
+WHERE p.customers_id = c.id
+GROUP BY c.zipcode
+HAVING AVG(p.amount) > 100
+
+# 6. HOW MANY CUSTOMERS OVER THE AGE OF 21 HAVE NEVER MADE A PAYMENT?
+SELECT COUNT(age)
+FROM customers c
+LEFT OUTER JOIN payments p ON p.customer_id = c.id
+WHERE p.age > 21 AND p.amount IS NULL
+
+
+Anomalies
+	static anomaly detection
+	temporal anomaly detection
+
+Time-series and see what stands wayout:
+ ie 
+ -put some type of threshold is 2 stds from the mean
+ -5day 10day moving averages
+
+What's method of moments?
+What's MLE?
+	Measuring whatever variable by it's frequency within a set
+
+If you had to model page-views what distribution would you use to model it?
+	Poisson, it models count data over a given time period where Lambda = mean over a given period of time.
+
+target = 3
+d = {key:[] for key in xrange(target)}
+
+for i in lis:	
+	d[i % target].append(i) 
+
+	#sort on key
+	then append value
+
+sorted(lis, key=lambda x:x % 3)
+
+What's Poission?
+Poisson Formula. Suppose we conduct a Poisson experiment, in which the average number of successes within a given region is m. Then, the Poisson probability is:
+
+	P(x; m) = (e - m) (mx) / x!
+
+where x is the actual number of successes that result from the experiment, and e is approximately equal to 2.71828.
+
+
+Probabilistic Models
+
+Defining probabilistic models with random variables
+
+Choosing proper distributions
+Out of the students in a class, 60% are geniuses, 70% love chocolate, and 40% fall into both categories. Determine the probability that a randomly selected student is neither a genius or a chocolate lover.
+
+A six-sided die is loaded in a way that each even face is twice as likely as each odd face. All even faces are equally likely, as are all odd faces. Construct a probabilistic model for a single roll of this die and find the probability that the outcome is less than 4.
+
+A four-sided die is rolled repeatedly until the first time an even number is obtained. What is the sample space for this experiment? What is the probability distribution for the number of rolls?
+
+Counting
+
+A 6-sided die is rolled three times independently. Which is more likely: a sum of 11 or a sum of 12?
+
+Consider n people who are attending a party. We assume that every person has an equal probability of being born on any day during the year, independent of everyone else, and ignore leap years (i.e. year has 365 days). What is the probability that each person has a distinct birthday? How many people are necessary to obtain a 99% probability of at least one birthday collision (i.e. 2 people with the same birthday).
+
+90 students are to be split at random into 3 classes of equal size. Joe and Jane are two of the students. What is the probability that they end up in the same class?
+
+How many 6-word sentences can be made using each of the 26 letters of the alphabet exactly once? A word is defined as a nonempty (possibly jibberish) sequence of letters.
+
+A well-shuffled 52-card deck is dealt to 4 players. Find the probability that each of the players gets an ace.
+
+Distributions
+--------------
+Bernoulli distributions are very applicable to binary classifiers such as the Logistic Regression. The pmf takes the form
+
+pmf
+X ~ p(x) = {(p^x (1 - p)^(1 - x): x = 0, 1), 0 : elsewhere}
+
+What's the difference between the pmf and cdf?
+pdf vs pmf? pdf - pdf for continuous and pmf for discrete
+cdF vs pmf - cdf is like the continuous portion for pmf
+
+What's CLT?
+
+	basically states that if you resample from any population distribution that the new distribution for whatever parameter eg mean will be aproximately normal
+
+	this concept is used in two sample test where you're setting the H_0:u-u = 0 Basically, saying that the variation made no difference, by checking whether or not the the variation mean happened by random chance we see if the p-value fell within the critical region of CLT.
+
+	standard error = sigma/radical(n)
+
+Ordinary Least Squares?
+
+MLE
+——-
+is the frequentist approach in estimating a parameter. e.g. in the case of Poisson estimating Lambda (the mean)
+
+log-likelihood
+---------------
+The only reason to use the log-likelihood instead of the plain old likelihood is mathematical convenience, because it lets you turn multiplication into addition. The plain old likelihood is P(parameters | data), i.e. assuming your data is fixed and you vary the parameters of your model. Maximizing this is one way to do parameter estimation and is known as maximum likelihood.
+
+Inferential Statistics
+----------------------
+Infer predictions through statistics about a larger population.
+
+Likelihood vs probability
+-------------------------
+If a coin is flipped 10 times and it's fair: what's a probability of getting a heads
+vs.
+After a coin is flipped 10 times and we've gotten 10 heads what's the likelihood that it's fair?
+
+Descriptive Statistics
+----------------------
+Using stats to describe a sample set
+
+
+Ordinary Least Squares
+----------------------
+This method computes the least squares solution using a singular value decomposition of X. If X is a matrix of size (n, p) this method has a cost of O(n p^2), assuming that n \geq p.
+
+
+Test Qs
+-------
+11.There is a group of 1000 people and we treat each for a disease. We know that the incidence rate of the disease in the group is 2% and every one that has the disease tests positive. We also know that the test is flawed and has a 1% false positive rate. If someone test positive what is the probability that they actually have the disease?
+
+P(disease | positive_result) = ?
+
+							 = P(positive_result | disease) * P(disease) / P(positive_result)
+
+P(positive_result | disease) = 100%
+P(disease) = 2%
+P(positive_result) = true_positives + false_positives = 2% * 100% + 98% * 1%
+
+12. Please explain how you would figure out how many cans of shaving cream it would take to fill the Empire State Building with foam (approximately, there is no need to look up the height of the Empire State Building or anything else)
+
+#Lets start at a base case and go from there:
+
+	#find the number of cans it takes to fill one room
+	# when finding the average size of a room be sure to take out the edgecases: halls, big, elevators, etc.
+
+	number_to_fill_one_room = 
+	sqft_of_an_average_size_room_in_empire_state / total_foam_from_one_can_sqft
+	
+	#simply multiply number of cans it takes to fill one with all of the rooms in building
+	number_of_cans = number_to_fill_one_room * number_of_rooms_total
+
+	#find the specific amount for each edge case room
+	for size_of_edge_case_room in size_of_edge_case_rooms:
+		num_cans_edge_case.append(size_of_edge_case_room / total_foam_from_one_can_sqft)
+	
+	total_cans = sum(num_cans_edge_case) + number_of_cans
+
+13. A car travels a distance of 60 miles at an average speed of 30 mph. 
+
+How fast would the car have to travel the same 60 mile distance home to average 60 mph over the entire trip? 
+
+#The way this question's worded, it would just take 60 miles per hour on average to average #60 mph home.
+#Apologies, I'm not following the question. Could someone please clarify?
+
+Silhouette coefficient
+----------------
+
+	Where a particular point sits within a cluster and with respect to other clusters in the data set.
+
+	s = (b - a) / max(a, b)
+
+	where: 
+	a = average distance between the subject sample and all other points within the same class
+	b = average distance between the subject sample and all other points in the nearest cluster 
+
+	There's a scoring method within sckit learn it basically goes from value 1 to -1: negative means sample's likely assigned to the wrong cluster and 1 is a solid score if it really pertaining that class. 0 is that there'a another cluster overlapping
+
+
+Kalman Filter
+-------------
+	is it a technique used to smooth noisy data
+	it's an estimator, used widely in signal processing
+	Kalman filters let you use mathematical models despite having error-filled real-time measurements.
+	Kalman filters can help when four conditions are true:
+	i)You can get measurements of a situation at a constant rate.
+	ii)The measurements have error that follows a bell curve.
+	iii)You know the mathematics behind the situation.
+	iv)You want an estimate of what's really happening.
+
+	Does Kalman Filters assume measurements @ constant periods of time. so you have to fix the time interval in which you update it.
+
+	Kalman filter finds the most optimum averaging factor for each consequent state. Also somehow remembers a little bit about the past states.
+	How do you use this thing?
+
+	it's a prediction of state based on:
+		-Previous state
+		-Measurement changes as of now
+			-it takes into a account the noise of the parameters ie the variance of input parameters and makes adjustments accordingly to the target prediction
+
+	for motion it just updates mean_prev + u where u 
+
+
+PageRank
+---------
+	"You are the average of the people that you surround yourself with"
+
+	It's a way to measure relative importance:
+		Rank is assessed by how many pages are pointing to you. 
+			i) the pagerank of the links
+			ii) each page that's pointing to you is weighted down by the number of outbound links
+			
+
+
+	Random fact:
+		Google uses it to rank it's page
+
+	PR(A) = (1-d) + d (PR(T1)/C(T1) + ... + PR(Tn)/C(Tn))
+	where
+		>PR(A) is the PageRank of page A,
+		>PR(Ti) is the PageRank of pages Ti which link to page A,
+		>C(Ti) is the number of outbound links on page Ti and
+		>d is a damping factor which can be set between 0 and 1
+
+A/B testing
+------------
+
+    #A/B Testing
+    from statsmodels.stats.proportion import proportions_chisquare
+    # [conversions: control, Variation] [views: control, Variation]
+    proportions_chisquare([103, 144], [612, 595])
+
+    1. The contingency table is as follows:
+    ''''
+    | Group | Registered | Didn't Register |
+    | ----- | ---------- | --------------- |
+    |     A |        103 |             509 |
+    |     B |        144 |             451 |
+
+    You can use scipy's chi squared test:
+    '''
+        from scipy.stats import chi2_contingency
+        chi2, p, dof, expected = chi2_contingency([[103, 509], [144, 581]], correction=False)
+        print "p-value:", p
+    '''
+    The p-value is 0.154, which is not below the threshold of 0.05 to be considered significant.
+    Conclusion:
+    	we can't reject the H_0 "the variation DOES NOT make a difference in the lift of ctr"
+    '''
+    '''
+    With A/B testing usually done with z-scores, chi-squared: calcs across all variations can't distinguish one from another
+
+    when to use what test: 
+    checking to see what a true conversion variable was: user engagement ie use of the site
+    have an actualy use case loaded example
+    start with a small test population
+    is time spent on the site necessarily a success?
+    is engagement different for groups: paying vs free : if the growth shows height of free customers vs paying
+    MapReduce - Hadoop
+    Key can be any column and be used to index
+    '''
+
+    Walk me through how you'd set up an AB test?
+
+
+    	-First setup a simple random sampling method:
+    		>split up traffic: 50 / 50
+    		>for some duration of time
+    		>geographies as much as possible
+
+    	-Duration, multiple tests with many observation, ie I wouldn't stop just because I saw a significant level.
+
+    	-Pre-determine the size of the experiment.. rule of the thumb:
+    	n = 16 * σ^2/δ^2
+    	where: σ^2 = p * (1−p) and δ is lift in conversion rates
+
+    	http://www.evanmiller.org/ab-testing/sample-size.html?_ga=1.21362749.747657199.1415308682
+
+
+
+Multiarm bandit 
+----------------
+    	-Instead of using a traditional AB testing scenario
+    		> multiarm bandit algo: epsilon greedy ie .1 exploration and .9 send to the highest lift variation
+    		>SOFTMAX:
+
+
+Bayesian experiment design
+
+Exercise 1: Write a function to determine sample size.
+
+Exercise 2: Write a function that takes two lists of 1's and 0's (indicator variables) and a significance level and runs and A/B test to determine which scenario had a higher click-through rate (i.e. list 1 or list 2). Extend this function to calculate statsitical power or anything else that you feel would be valuable.
+
+Power: CORRECTLY Rejecting H_0 when H_A
+Type I α: FP, rejecting H_0 when it's actually true and H_A is false
+Type II β: FN
+
+How to use a test?
+	-Is our data nominal or interval/ratio
+		if data == nominal:
+			test for proportion
+			difference two proportion
+			chisquared test
+
+Define hypotheses
+Specify significance level
+Find degrees of freedom
+Compute test statistic
+Compute P-value
+Evaluate null hypothesis
+
+Two sample T-test:
+	using simple random sampling
+	check the difference of the means of the set control and variation
+	By CLT the distribution of means should be Gaussian
+	if the difference is large enough s.t. it falls into a critical range, you're able to then reject the H_0.
+	H_0: says there's no difference between the variation and original
+
+	if the p-value falls within the critical region alpha which is specified ahead of time then you know you're results are statistical significant. alpha is the probability of commiting a Type I error which is a FP ie rejecting H_0 when it's actually true, ie the odds are very low that this occured by chance.
+
+	The sampling method for each sample is simple random sampling.
+	The samples are independent.
+	Each population is at least 10 times larger than its respective sample.
+	Each sample is drawn from a normal or near-normal population
+
+	This approach consists of four steps: 
+		(1) state the hypotheses, 
+		(2) formulate an analysis plan, 
+		(3) analyze sample data, and 
+		(4) interpret results.
+
+	Difference of two means paired sample
+
+	Difference Between Means vs. Difference Between Proportions: one compares the means and the other the proportions.
+
+	State Hypothesis: the variation doesn't make a change in ctr lift
+	Analysis plan:
+		Determine the alpha: signficance you want to see, .01, .05, .10
+		Test method:
+					Chi-squared - if you're determining rate of success eg which has a better rate of succes given certain amount of trials
+					Difference of means Two sample t-test -
+					Difference of proportions Two sample t-test 
+					Poisson Means: Does the rate of arrival differ across two time periods
+
+
+	Determine sample size: R has something called power.prop.test for this you can also google a couple things for python 
+
+
+CLT:
+	If you sample something a bunch of times randomly and independent samples and take the means of those samples they should be normally distributed
+
+Map Reduce:
+	It's a parallel computation model or distributed computing. 
+	Map() does the filtering and sorting into ques
+
+	Reduce() basically executed some function on these ques which is usually a summary function eg counting names, yielding frequencies
+
+	*Mapper - maps object to the data and reducer just reducing everything to a summary statistic
+
+cut -f n [filename(s)] >> filename
+	where n is col #
+
+cut -d, -f n [filename(s)] >> filename
+	where n is col #
+
+Gradient Boosting
+------------------
+	An ensemble regression model. Uses an ensemble of weaker prediction models eg decision trees
+	> boosting means stage-wise build out
+	> it generalizes well because of an differentiable loss function
+	> scikit learn has a package SGD
+
+Generative vs Discriminitive?
+-----------------------------
+Discriminitive:
+	LR, SVM, BOOSTING, Linear Reg
+	The idea is that the model has a training set and tries to predict probability given data(evidence)
+
+	P(label | evidence) 
+
+Generative:
+	Gaussian mixture model, Hidden markov model, LDA, NB
+	NB assumes independence between features
+
+	P(evidence | label) 
+
+	Generative vs Discriminative: Generative learns the joint probability of (label and data) vs Discriminative predicts labels given the data
+
+
+Recommender systems: Content vs Collaborative?
+----------------------------------------------
+Think about item recommender in amazon vs netflix movie recommender
+
+Specifically, Content regresses on features of an item or product and collaborative bases prediction on similarity of one user to another
+
+Collaborative algo minimizes both for features and prediction parameters
+
+Collaborative Filtering are based on the assumption that people who agree in past will agree in future too and that they will like the similar kinds if items they like in the past.
+
+Collaborative filtering approaches often suffer from three problems: cold start, scalability, and sparsity.[18]
+
+Cold Start: These systems often require a large amount of existing data on a user in order to make accurate recommendations.
+Scalability: In many of the environments that these systems make recommendations in, there are millions of users and products. Thus, a large amount of computation power is often necessary to calculate recommendations.
+Sparsity: The number of items sold on major e-commerce sites is extremely large. The most active users will only have rated a small subset of the overall database. Thus, even the most popular items have very few ratings.
+
+What is matrix factorization?
+
+a feature matrix decomposition step where you're using the eigen values to project on to a lower dimensions, Eigen values represent a similarity factor
+
+
+RMSE vs MSE
+------------
+Fitting a model via RMSE outliers will influence the curve less than MSE. Need to inspect why that is.
+
+UNION vs UNION ALL
+------------------
+UNION ALL includes duplicate rows. This is because of lack of DISTINCT sort in UNION ALL
+
+
+Create search engine for designers
+
+Hashtable? 
+	a look up table with unique identifiers. To avoid collisions that share the same hash you can create a linked list i.e. this process is called chaining.
+
+polymorphism?
+	using a function within a derived class from base class.
+
+Thread pool?
+	think about assigning a worker (thread) to a task which comes from a que from when it's complete
+
+What is object oriented programming OOP?
+	it's something that's opposed to procedural. It uses objects rather than actions and data rather than logic
+Hypothesis function of SOFTMAX (multinomial logistics regression):
+
+classify multiple disriminant classes 
+Since the components of the vector \sigma(\mathbf{z}) sum to one and are all strictly between zero and one, they represent a categorical probability distribution
+
+NoSQL vs SQL:
+
+SQL is ISO / IEC standard: 
+SQL is more mature
+SQL handles a relational data models
+NoSQL might be better for a graphing type architecture
+NoSQL dynamic schema for unstructured dat
+NoSQL is horizontally scalabe vs SQL vertically scalable
+SQL database examples: MySql, Oracle, Sqlite, Postgres and MS-SQL
+NoSQL database examples: MongoDB, BigTable, Redis, RavenDb, Cassandra, Hbase, Neo4j and CouchDb
+SQL is made for transactional DB
+ACID - 
+Atomicity, all or nothing, think roll-back 
+Consistency, any transaction will abide by the rules, think about fields with forced data types
+Isolation, the db state would occur as if the transaction occured sequentially,
+Durability, the transaction will remain under any condition even in the event of a powerloss ie 
+			things must be recorded in non-volatile memory. 
+
+JSON think NoSQL
+
+Why and when would you use a NoSQL DB:
+	-Does your problem involve a graphing algorithm, key-value pairs(tuples), document, wide-col?
+	-it's stored document by documents vs. row-by-row
+
+What's prototyping?
+	- setting up an example before rolling something out to producting
+	- simulates a few aspects of a final product
+	- Pipeline: Identify basic inputs/outputs, develop it, review: get feedback on improvements, enchance it
+
+
+
+What's the difference between gradient descent and stochastic gradient descent?
+
+	SGD model params update by every single training sample where as SG params update after it runs through the entire set. Clearly SGD is faster for error convergence.
+
+Walk me through a classification pipeline ML-wise:
+
+Data Structures
+	Dictionaries and Hash Tables
+	Trees (binary, balanced, splay, B)
+	Heaps
+	Stacks and Queues
+	Graphs and Networks
+	Sets
+
+Algorithms
+	Search (BFS, DFS, A*, Dijkstra's)
+	Dijkstra's
+		
+	Sorting (merge, quick, heap, radix)
+	Selection
+
+Performance (Asymptotic Analysis, hardware restrictions, indexing, etc.)
+
+ElasticSearch - 
+	Search server based on Lucene?e
+
+
+How does DFS work?
+	-Starting point, push to the top of stack, mark as visited.
+	-look at the adjacent nodes that's not in visited and goto one, 
+	-if no adjacent nodes then pop top of stack, and ...
+	-look at the adjacent nodes that's not in visited and goto one,
+
+	def dfs(graph, start):
+		visited, stack = set(), [start]
+		while stack:
+			vertex = stack.pop()
+			if vertex not in visited:
+				visited.add(vertex)
+				stack.extend(graph[vertex] - visited)
+
+	dfs(graph, 'A')
+
+How does BFS work?
+	-start @ node, mark as visited
+	-place all adjacent in a que (not in visited)
+	-goto node at the top of que
+	-mark as visited
+	-enque all the adjacent (not in visited)
+
+	def bfs(graph, start):
+		visited, queue = set(), [start]
+		while queue:
+			vertex = queue.pop(0)
+			if vertex not in visited:
+				visited.add(vertex)
+				queue.extended(graph[vertex] - visited)
+		return visited
+
+Difference between Spark and Storm:
+	Spark - ideal for executing quick mapreduce jobs: Data-Parallel computations eg Data analysis
+		Summary
+		Two advantages of Spark Streaming are that (1) it is not implemented in Clojure :) and (2) it is well integrated with the Spark batch computation framework.
+	
+	Storm - Task-Parallel computations eg streaming unstructured data into usable format
+		Summary
+		Storm has run in production much longer than Spark Streaming. However, Spark Streaming has the advantages that (1) it has a company dedicated to supporting it (Databricks), and (2) it is compatible with YARN.
+
+		Summary
+		In short, Storm is a good choice if you need sub-second latency and no data loss. Spark Streaming is better if you need stateful computation, with the guarantee that each event is processed exactly once. 
+
+
+Apache Accumulo is a computer software project that developed a sorted, distributed key/value store based on the BigTable technology from Google.[1] It is a system built on top of Apache Hadoop, Apache ZooKeeper, and Apache Thrift. Written in Java, Accumulo has cell-level access labels and server-side programming mechanisms. Accumulo is the 3rd most popular NoSQL Wide Column system according to DB-Engines ranking of Wide Column Stores.
+
+
+descriptive and inferential statistics
+
+
+Hash Table vs Dictionary:
+	computes a unique hash for each key effictively making a 'look up table' slower than a dictionary
+
+	Dict:
+		-returns error if we try to find a key which doesn't exist
+		-it is fast than a Hashtable because there is no boxing and unboxing?
+		-only public members are thread safe?
+		-Dictionary is a generic type which means we can use it with any data type
+
+	Hashtable:
+		-return Null if we try to find a key that doesn't exist
+		-slower than dict because of boxing and unboxing
+		-All the members in a Hashtable are thread safe
+		-Hashtable is not a generic type
+
+What is OOP?
+	it's a concept that integrates both code and data in an 'object'
+	An object is an abstract data type with the addition of polymorphism and inheritance
+	An object has both state (data) and behavior (code).
+
+polymorphism
+	an object that can take on many forms:
+	eg. parent class Animal
+		child class Deer
+
+	eg2 parent class shape 
+		child class circle
+		where circle has it's own code and data properties ie radius, center
+
+
+K-Means:
+
+Why would you use K-Means?
+- to identify groups of Data points and assign a centroid to each of the those groups
+
+What is a centroid?
+- It is representative of the average member for each of those groups
+
+What's the process:
+
+Cost function == minimize('intra cluster variation'): WCV(C_k)..sum of Euclidean distances / total number of observations
+
+Steps to kmeans:
+    Initialize your cluster centroids
+    Compute the distance between each point and every centroid
+    Assign each data point to the centroid closest to it
+    Move the cluster centroid to the center (mean) of all the points assigned to it
+    Repeat until convergence (or you get tired, i.e. hit a maximum number of iterations)
+
+
+Init clusters:
+Specify number of K and iterations:
+	-either start it off in the center 
+	-pick K random seeds observation
+
+Algo to repeat until convergence:
+	-assign data points to centroids via minimization of euclidean distance
+	-update the centroids by calcing all the nearest points to the centroids
+
+(1) randomly assign numbers from 1 to K, to each data point
+(2) repeat until assignment stops (convergence)
+    a) for cluster in clusters: where len(clusters) == K
+            compute centroid by getting vector of means per feature
+    b) Assign a data point to the closest centroid
+
+What happens with K-means when combined with PCA?
+    
+
+How do you choose K?
+    - How many groups do you want?
+    - TECHNIQUES: 
+        GAP statistic, 
+        Silhouette Coefficient -- 
+            comparing the similarity between observations intra cluster vs external to the cluster with this formula:
+                (sim_score_outer_obs - sim_score_inner_obs) / max(sim_score_outer_obs,sim_score_inner_obs)
+
+                Hence normalizing it with the greatest of the two results should be -1 =< x =< 1: 1 being strong seperation
+
+
+
+        “Elbow” method - look for the number of clusters in which adding another doesn't make a significant difference
+
+
+* results depend on random initialization; can be wiser using K-Means++ or try multiple initialization and pick the one with the lowest error
+
+
+inheritance
+	is an object or class is based on another object or class. using the same implementation
+
+kNN:
+
+Nuances: can be problematic in high dim spaces
+
+Encapsulation : data binding 
+Inheritance : getting special traits from parent class 
+Polymorphism : many forms under one name 
+Abstraction : revealing only what is required to the user
+
+Heap and priority queues
+
+An array is an example of a random access data structure
+A linked list is an example of sequential access data structure
+
+Stacks are LIFO containers
+Queues are FIFO
+
+http://stackoverflow.com/questions/12253151/distinguishing-overfitting-vs-good-prediction
+
+In short: Training is the process of providing feedback to the algorithm in order to adjust the predictive power of the classifier(s) it produces.
+
+Testing is the process of determining the realistic accuracy of the classifier(s) which were produced by the algorithm. During testing, the classifier(s) are given never-before-seen instances of data to do a final confirmation that the classifier's accuracy is not drastically different from that during training.
+
+However, you're missing a key step in the middle: the validation (which is what you're referring to in the 10-fold/k-fold cross validation).
+
+Validation is (usually) performed after each training step and it is performed in order to help determine if the classifier is being overfitted. The validation step does not provide any feedback to the algorithm in order to adjust the classifier, but it helps determine if overfitting is occurring and it signals when the training should be terminated.
+
+Think about the process in the following manner:
+
+1. Train on the training data set.
+2. Validate on the validation data set.
+if(change in validation accuracy > 0)
+   3. repeat step 1 and 2
+else
+   3. stop training
+4. Test on the testing data set.
+
+How would you gauge overfitting?
+	- deviance plot to see if they test error and the training converge.
+
+How would you use map reduce to join two data sets on a common key? How would you do this is that key is not unique. 
+
+List several ML techniques. Explain logistic regression and it's loss function. 
+
+Entropy thru Compression: the lesser the compression ration in data compression algo the greater the entropy
+
+Semantic filtering of posts: basically a way to measure or classify a posts acceptablility by way of shannon entropy
+
+ML pipeline - 
+	Preprocess the data ie clean it 
+	Find important features
+	Scale or Normalize it (divide it by the max)
+	pick the appropriate model eg LG, LR
+	test, train split
+	cross validate with appropriating metric to optimizae for ie accuracy, F1, roc_auc on, on training data.
+	I would test on test data.
+
+What's the difference between SVM and LGR?
+	SVM('linear') - is faster than LGR
+
+Explain to me what LGR is?
+
+Identifying under-fitting problems: Hi variance
+Identifying over-fitting problems: Hi bias
+
+Cross-validation - sometimes called rotation estimation, is a model validation technique for assessing how the results of a statistical analysis will generalize to an independent data set. Cross-validation when validating a model, you're basically trying to figure out how well it will generalize.
+
+
+What's the difference between Linear regression and Logistic regression?
+	- linear is ideal of dependant or target variable being continuous
+		- it works by using a cost function that's a line effectively
+		- it fits according to the parameters that minimize the cost function ie minimizing residuals between the observation points
+	- logistic is ideal when it's discrete/categorical
+		binary classifier or multi-classification (multinomial logistic regression)
+
+Why is a sigmoid even used as the hypothesis function in logistic regression, why not just use a line i.e. the same hypothesis function as linear regression?
+		- In short, outliers within the data can shift the line such that 0.5 threshold for classifying wouldn't make sense. Since, linear regression works by finding the "best fit line" hence the output can be greater than 1. Where as a sigmoid's output is {0,1}.
+
+Why can't you use Linear Regression vs Logistic Regression for classification?
+	- You can but linear regression won't work as well
+
+Generators vs iterators:
+	a generator is a type of an iterator. It uses an iterator to move through a list or another object one-by-one using the yield, using a space-cost of 1.
+
+Churn Prediction
+	-Take a snapshot of users at given point in time
+
+
+
+What is PCA? 
+	Principal Component Analysis?
+		
+		- It eliminates redundant features by projecting 2 features on to one space. It uses a method similar linear regression but it fits a line s.t. it minimizes for projection error i.e. the residuals are orthogonal to the line where as linear regression they're not.
+
+		- This makes sense if you're trying to find redundant features.
+
+		- Process:
+			i) mean normalization assuming everything's on the same scale: x_j = x_j - mu if not same scale /std
+			ii) compute covariance matrix
+			iii) then compute eigen vectors of the sigma matrix using SVD
+			iv) something with the U vector 
+			
+			how do you choose the number of components?
+				depends on how much information variance you want to retain
+
+What's Shannon entropy?
+	some score for disorder in data i.e. something with high randomness would have a higher score
+
+Write algo for find mean/median/mode for a continuous 1M stream of numbers. Do this in 20 mins and with minimal complexity.
+
+Three ants are on different vertices of an equilateral triangle and can walk along the edges to any other vertex. What's the probability that any 2 of them will collide?
+
+How would you combat overfitting of a model? 
+	- PCA or dimensionality reduction
+	- random forest: tree depth (pruning)
+		-increase the number of trees. The lower the learning rate the more trees are needed. Learning rate scales the contribution by each tree.
+	- linear regression lower number of degrees
+	- lasso or ridge regularization
+	- subset selection i.e. choosing a subseet of the feature space
+
+Identifying under-fitting problems?
+	- low variance or error the very thing your cost function is trying to minimize
+	- high bias
+
+Identifying over-fitting problems?
+	- low bias
+	- High variance
+
+How do you increase user engagement?
+How would you detect anomalies/fraudulent activity in a stream of a business data?
+
+Define user engagement in various ways (for example classification method)
+
+What is the difference between precision and recall?
+
+Hidden markov model?
+	markovian way to model observed random variables with a latent aka hidden markov chain effectively
+	eg. Figuring out the state of the user and what type of ads to show it and a specific order.
+Bayesian Multi-Arm bandit?
+
+Pymcmc
+
+How to combat class imblance?
+	- choosing a model with high bias and low variance eg multinomial naive bayes
+	- up weighting the class
+
+How to choose a model for a classification task:
+	- How much data? how many features?
+	- Is there class imbalancing?
+	- the entropy within the features set for each class
+
+What is vowpal rabbit?
+
+How do you guys add a node to the graph?
+
+Is my graph constructed through all of my fb freinds or is it filtered for users that are you hinge first
+
+SimRank - References/Preferences: swipes, school, ethnicity
+		- coefficient is way to weight an edge
+
+
+Strength - 
+	- 
+
+Weaks
+	- smaller city problem
+	- only people in your extended
+	- less open minded places
+	- limited by second degreee network: what happens if I went to omaha?
+	- people who use tinder?
+
+Where's ultimate Hinge experience for a user?
+
+What's sed and awk?
+What's matrix factorization?
+What's a factor model?
+What's bayesian bandit?
+What's a Cross join?
+	it's like an inner join, but's the cartesion product of a table
+	-cartesian product of the two tables i.e. num rows t1 * num rows t2
+	-SELECT * FROM T1 CROSS JOIN T2
+	
+-100 hat problem
+
+Selection criterion from choosing the best model from a finite set
+SUBSET SELECTION p
+- AIC: Akaike information criterion (AIC) 
+- BIC: Bayesian information criteroion (BIC)
+
+AIC vs BIC: penalizes parameters more 
+R^2 vs adj R^2: pays a price for the inclusion of unnecessary variables in the model
+
+How to choose the right penalty parameter
+#33
+boosting?
+
+LOGIT: Log Odds == ln(Odds Ratio)
+
+LH is the natural log of the odds ratio = b_o + b_1X where the betas coefficient are odds of a success
+
+FN: when model predicts NEGATIVES but it's actually POSITIVE
+FP: when model predicts POSTIVE but it's actually negative
+
+eg when something predicts as default when it's actually not is an example of FP
+or falsely labeling an email spam. What's the fix? incrementing the threshold.
+
+Confusion matrix -> ROC curve
+
+
+Why do you want work for HireVue? 
+(30 seconds / 60 seconds)
+	- Disruptive to the recruiting space, a very underserved region for innovation.
+	- I truly believe in its product, I'm actually encouraging others to use it.
+	- The leaders are seasoned veterans
+	- Having a chance to analyze interview data i.e. curious to see some interesting trends or patterns.
+
+What is the difference between supervised and unsupervised machine learning? Give example algorithms 
+(30 seconds / 60 seconds) 
+	
+	- supervised you train a model given the labels i.e. training by examples
+		linear & logistic regression, 
+		SVM, 
+		Random Forrest \ Bagging, 
+		Decision Tree,
+		Naive Bayes
+		KNN
+	
+	- unsupervised the model is trained with no labels and effectively finds them for you.
+		Clustering methods K-Means, DB-SCAN, topic modelers (LDA, NMF)
+
+	- active-learning: user is prompt if it doesn't exceed a certain threshold
+	- semi-supervised: multiple ML algos, part labeled and part unsupervised. eg using K-means to classify subsequently trainging/predicting on the classes
+
+	OR 
+
+	The other way around.
+
+Please list the languages, libraries, and tools that you use for data science in descending order based on how often you use them. 
+(20 seconds / 60 seconds) 
+	
+	DS:
+		Scikit Learn
+		Numpy
+		Pandas
+		Scipy
+		NLTK
+	
+	Data Access:
+		SQLAlchemy
+		Pyscopg
+		cPickle
+		...
+
+
+What data projects have you done during your free time outside of work? 
+(20 seconds / 60 seconds)
+
+	I have one in the works where I'll be using image processing & deep learning for computer vision. Other than that I've continued to tweak my research project Craigslist Arbitrage, using anomaly detection / regression techniques to find undervalued items.
+
+	I also like studying random ML implementations like word2vec, Multi-Armed Banted algos.
+
+	But I spend a majority of my time focusing on the next step career-wise, which I think is far more important.
+
+What is your proudest data science accomplishment? 
+(20 seconds / 60 seconds) 
+	
+	My research project, I think it was a very clever application of ML. Specifically a regression model not used the way it was indended to be. Namely, using the residuals of points to classify it as a good or bad deal.
+
+What methods do you use to prevent overfitting? 
+(20 seconds / 60 seconds) 
+
+	Regression - l1:Lasso or l2:Ridge 
+	RF - increase the number of trees or prunning 
+	Decision - tree pruning
+
+Explain the difference between type I and type II errors and why they might be important. 
+(30 seconds prep, 60 seconds to answer)
+
+	Type I - FPs model classfiying / predicting True when it's actually false
+	Type II - FNs model classfiying / predicting False when it's actually True
+
+Define cloud computing? 
+(20 seconds / 60 seconds)
+	
+	datawarehousing and computation remotely eg AWS
+
+Tell me everything you know about regression models 
+(20 seconds / 60 seconds)
+	
+	Used for predicting continuous target variables e.g. temperature, prices, time
+	Cost Functions: Mean Absolute Error, 
+
+Describe how you would create a sentiment model using twitter data from concept to final product. 
+(20 seconds /60 seconds)
+
+	Say if I had access to the twitter firehouse (which would be awesome, btw).
+	i) Start off with some initial corpus: Documents are tweets
+	ii) train a model, say multi-nomial Naive Bayes, on whether something's opinionated or just stating a fact
+	iii) if it is opinionated then is it positive or negative.
+
+	Cross-validate and tune the models
+
+	then test on the hold-out, using a roc-plot to evaluate model performance
+	F1 or Precision/Recall or determining metrics
+
+Explain how you would write an algorithm to predict the outcome of this interview 
+(30 seconds / 60 seconds) 
+	
+	Model gauge interviewee's success given information from interviewer:
+
+	interviewer would have features such as: 
+	articulation/communication (1-10), 
+
+	Do I have data from other interviews?
+
+	Use logistic regression to figure out 
+	Features:
+		over prescribed time limit: (Boolean)
+		elapsed_time: (datetime)
+		Did I answer questions adequately: 1-5
+
+Data exploration
+How do you summarize the distribution of your data?
+How do you handle outliers or data points that skew data?
+What assumptions can you make? Why and when? (i.e When is it safe to assume "normal")
+
+Confidence intervals
+How they are constructed
+Why you standardize
+How to interpret
+
+Sampling
+Why and when?
+How do you calculate needed sample size? [Power analysis is advanced]
+Limitations
+Bootstrapping and resampling?
+
+Biases
+When you sample, what bias are you inflicting?
+How do you control for biases?
+What are some of the first things that come to mind when I do X in terms of biasing your data?
+
+Modeling
+Can you build a simple linear model?
+How do you select features?
+How do you evaluate a model?
+
+Experimentation 
+How do test new concepts or hypotheses in....insert domain X? i.e. How would evaluate whether or not consumers like the webpage redesign or new food being served?
+How do you create test and control groups?
+How do you control for external factors?
+How do you evaluate results?
+
+	
+
+
+ROC built
+
+Bonfuroni correction
+
+chi-square, set test if the sample, 
+
+- user 25% chance of going to each treatment
+- polt vs welch
+- compare variances using f-test
+
+Real-time personalization for retail brands
+- What are some key distinctions with TellApart vs other platforms?
+- What was your motivation to join?
+- How is the data team broken out? i.e. are the Data Scientists also responsible for Data Engineering duties.
+- Does TellApart only target clothing retailers, do they have a niche focus on clients?
+- When hiring a Data Scientist what are few key qualities you're looking for?
+
+
+
+Statistics: Confidence intervals, parameter estimation, p-value, hypothesis testing.
+
+Common metrics: Engagement / retention rate, conversion, similar products / duplicates matching, how to measure them. 
+
+Useful cost functions: Log-loss, other entopy-based, DCG/NDCG, etc.
+
+Basic machine learning: Classification / regression / ranking problems, overfitting, convex optimization, trees, ensembles, boosting, collaborative filtering, etc.
+
+Tools: R / Python / Mathematica, Weka & similar. Code up something yourself would help too, Kaggle is very useful.
+
+Mathematics and complexities: Eigenvectors, singular values, PCA, LDA, Gibbs Sampling, Information Bottleneck et. al.
+
+Real-life numbers and intuition: Expected user behavior, reasonable ranges for user signup / retention rate, session length / count, registered / unregistered users, deep / top-level engagement, spam rate, complaint rate, ads efficiency.
+
+1.  The business wants to take advantage of all its data and build a super predictive model.  What should they know about using a large feature space?  In the case of OLS how does the variance of the error term change with the number of predictors?  What is the curse of high dimensionality?  What is the computational complexity of algorithm X in terms of the number of features.  What dimensionality reductions can be used for preprocessing the data?
+
+Decision Trees
+---------------
+Regression decision trees split features that yield the lower MSE or RSS
+
+Random Forests
+--------------
+- Split on sqrt(p) features (as oppossed to bagging which uses all features)
+- Random subsample training (as in bagging)
+- each tree is grown independently of another
+- what is OOB: the sample space that the no trees were built on
+- feature importance: what the gini impurity on avg for each selection (p) split
+
+What's the difference between Gini Coefficient and information gain?
+----
+information gain is measured either by calculating the amount of entropy from splitting from a feature or the gini-impurity. Gini is faster computationally
+
+Gini coefficient is something specifically applied to binary classifiers and has to do with ranking of examples in someway
+
+Boosting
+--------
+- slow learner
+- Trees here are grown sequentially i.e. dependent of one another
+- it focuses on examples that the previous model got 'wrong'
+	- it basically tries to predict the residuals of the previous model. That model is then combined with the previous one making it stronger altogether.
+- number of trees can overfit if it's too large, inversely related to bagging & RF
+- parameters B, lambda, depth
+
+SVMs
+---
+- goal of the algorithm is to find a plane that separates the classes in the feature space
+- find the hyperlane that with the max margin
+- there is a tolerance for how many points can be in the class
+- C margin size: small overfit (high variance), smaller equates to a larger margin and more missclassified points and larger equates to smaller margin classifier, higher accuracy but tendencies to overfit
+
+- when the data2's not linearely seperable then enlarge the feature space and from 2 to 9; then it may work
+
+SVM vs LR
+----------
+- When classes are near linearly separable: SVM is better than LR and is faster. When it's not LR with ridge and SVM are similar
+- LR will return to you the probability!
+
+
+Naive Bayes
+-----
+- Generative makes predictions based on joint probabilities as oppossed discriminatory
+- P('Ball' | sports) = .38 
+	the probability that a word is part of a certain topic given the prior of sports
+
+- It's naive in that it assumes independence so if you have a sentence structure s.t. or an n-gram where the words that come after one another are dependant, it'll assume independance
+- a discriminatory model uses the prior p(class | Data)
+- generative learns the joint distribution
+- it's nice becasause it assumes independence and it's fast 
+- works very well with high dimensional space
+- can be used online
+- handles imbalanced classes
+- can generate example text
+- usage: spam classifier
+
+PCA - is an example of unsupervised learning
+examples
+	- groups of shoppers Data: browsing and purchasing history
+
+PCA: max variance -> mutually uncorrelated
+- covariance matrix :if the variables are measured on the same scale then we shoudl take the 
+- correlation : if the variables are measured on different scales 
+- strength == variance; i.e. the component with the largest variance 
+- feature matrix is full rank
+
+K-means
+------
+goal is to minimize WCV within cluster variation
+
+- 3 perms; 3 combos
+- reservior sampling
+- change machine problem
+
+def change_machine(in_amt, denominations_list):
+	#not sure what the corner cases to this were
+	#corner cases: where all the largest denoms make it such that the smallest don't work
+	
+	sorted_denominations_list = sorted(denominations_list, reversed=True)
+	output_list = {}
+	residual_amt = in_amt
+	
+	for denom in sorted_denominations_list:
+		multiple_of_denom = in_amt / denom
+		residual_amt -= multiple_of_denom * denom
+		output_list[denom] = multiple_of_denom
+
+	return output_list
+
+
+
+Stats_class: Statistical learning
+----------------------------------
+- 
+
+Overfitting
+--
+How to prevent overfitting: 
+	- reduce model complexity by removing features, 
+	- increase regularization parameter (L1 or L2). 
+	- If you've added polynomial terms, remove them.
+
+SVM
+--
+- Simply, SVMs find a decision boundary between classes, similar to logistic regression. Explaining the large-margin aspect is a bit more difficult but a simple diagram that shows maximum separability between classes will usually be sufficient.
+
+Is the coin fair given that I've gotten 8 out of 10 heads?
+--------------------------------------------------------
+
+How to set up the problem:
+-------------------------
+Suppose the coin is in fact fair calculate the probability of getting such results:
+
+p = Choose(10, 8) * (1/2)^10 
+
+Hypothesis test we can now determine whether or not the coin is fair. If we vary the fairness probability of the coin e.g. Choose(10, 8) *(.25)^8 Head (.75)^2 Tails, Choose(10, 8)* (.33)Heads(.66)Tails, ... we get the Beta distribution.
+
+then if we find the area underneath the curve where p is less than 1/2 (fair coin) we can see there's about 0.89 chance that the coin is unfair. Now consider where your confidence intervals are to be considered statistically significant.
+
+
+Fibonacci
+---------
+1,1,2,3,5..
+
+Vector use
+-----
+def fib(n, computed = {0: 0, 1: 1}):
+    if n not in computed:
+    computed[n] = fib(n - 1, computed) + fib(n - 2, computed)
+return computed[n]
+
+fibonacci generator
+---------
+def fib(n):
+#use list(fib(10))
+    a, b = 0, 1
+    for _ in xrange(n): # First iteration:
+        yield a # yield 1 to start with and then
+        a, b = b, a + b 
+
+Linear O(N) iteratively
+--
+def fib(n):
+   fib_values = [0, 1]
+   for i in range(2, n + 1):
+      fib_values.append(fib_values[i - 1] + fib_values[i - 2])
+   return fib_values[n]
+
+Linear O(N) recursively 
+--
+def fib(n, results = {}):
+    if n == 0 or n == 1: 
+        results[n] = n
+        return n
+    elif n not in results:
+        results[n] = fib(n - 1) + fib(n - 2)
+    return results[n]
+
+Linear distribution
+-------------------
+- the residuals are normally distributed assuming all the errors are i.i.d
+    not the case with time-series
+- goal is to minimize error
+- cost function is to minimize sum squared: not robust to outliers 
+    as points are further out the more they get penalized
+- cost function is to minimize sum squared: robust to outliers
+
+*go back to SE slide
+
+*does rss == error?
+measures: RSS, RSE, R^2, TSS = variance * n_observations = sum([(y_i - y.mean() for y_i in observations)])
+
+Comparing models
+---------------
+compute the F-statistics... basically comparing two nested models i.e. same model with model or less paramenters
+
+.. Why use the F-test, how does a T-Test
+
+if we get a F-Statistic we get is close to 0 then we know our model is doign something
+
+*she should definitely mention that this WILL be asked in interviews
+
+R^2 or adjusted R^2?
+---------------------
+-situation where a model is overfit
+    adjusted penalizes for too many features, R^2 will give a great overview
+
+in use of using categorical variable
+----------------------------------
+B_0 - base level : should be an extreme of the category
+
+
+What is SE in the context of Regression?
+---------------------------------------
+- it's the dispersion of data points around the best fit curve and it's used to construct the prediction interval: B_1 - 2 * SE(B_1), B_1 + 2 * SE(B_1)
+- what's it mean? how tightly the points around curve are dispersed.
+
+
+How would you check for multi-collinearity?
+-------------------------------------------
+- scatter plot
+- correlation matrix
+
+If it's more than pairwise then we use VIF
+- Through VIF, if we get larger than 10 then we probably shouldn't include that variable
+    - you're using the measure of R^2 when using other predictors to predict themelves
+
+VIF
+---
+
+- use all the other predictors in the model for the target predictor and calc R^2
+    LOOP through all predictors
+
+    Hopefully error is low for each
+
+
+
+what's the motivation to use interaction of beta?
+-------------------------------------------------
+- Sometimes the synergy of two predictors actually explain the movement of the model
+
+what's VIF?
+---
+- overfitting? multi-collinearity
+- Rule of thumb: less than 10
+
+Heteroskadicity
+---------------
+- error term is not constant,
+- solution: take the log normalize Y
+- you can fit a line to the residuals, and the slope
+- Income of normal people to billionaire millionaires
+
+what are other issues with you data: Outliers
+---------------------------------------------
+- could be from dirty data
+- real prediction and how to handle
+
+what is a Spline?
+-----------------
+
+Is the coin fair given that I've gotten 8 out of 10 heads?
+--------------------------------------------------------
+
+How to set up the problem:
+-------------------------
+Suppose the coin is in fact fair calculate the probability of getting such results:
+
+p = Choose(10, 3) * (1/2)^10 
+
+With a Hypothesis test we can now determine whether or not the coin is fair. If we vary the fairness probability of the coin e.g. Choose(10, 8) *(.25)^8 Head (.75)^2 Tails, Choose(10, 8)* (.33)Heads(.66)Tails, ... we get the Beta distribution.
+
+H_0: Coin is fair
+ 
+Then find the area underneath the curve where p > 1/2 (fair coin) = 0.89, hence we can see there's about 0.89 chance that the coin is unfair. Now consider where your confidence intervals are to be considered statistically significant. eg .90, .95, .99
+
+Theoritically we can't reject the Null since it's less than the confidence interval
+
+http://www.sitmo.com/article/is-this-coin-fair/
+
+You have a population N and you have some sub-population n with two different conversion rates; what's the error on the two conversion rates?
+-----------------------------------------------------
+
+First thing is to understand the conversion rate is a metric of success.
+P-Test
+
+What is Standard Error, when and why is it used?
+------------------------------------------------
+It's used in regression modeling when constructing the confidence interval, you multiply some multiple to it depending if you want 95% CI, 90% CI
+
+What's one way to find outliers?
+--------------------------------
+studentize the residuals s.t. the normalized by the SE and then look for points that are outside of +-3
+
+CV & Regularized Regression
+---------------------------
+
+How to evalaute a model when adding featurest to go by
+-----------------------------------------------
+RSS, R^2 always increases with number of predictors
+
+What what is CV?
+---
+    test train split
+    CV technique: random things have random outcomes
+
+What's better than CV ... Kfold CV
+--------
+    - you test across the data and you take the mean
+    - k is the parameter for the number of fold rule of thumb is 10
+    - benefits is that it avoids bias
+    
+    - the validation blocks are randomly chosen
+    - random number generator to split into 5 groups and those groups stay fixed
+
+Process
+----
+    - Tune model on K-folds
+    - then evaluate on holdout
+
+Mallow_cp
+    - another metric for evaluating a regression model; Relatively Precise and Unbiased; the ideal is the have the number as close to the number of predictors as possible and is to be used in conjuction with other metrics; 
+AIC
+Adj_R^2
+
+Bias variance tradeoff
+----------------------
+MSE = Var(f_(x)) + Bias(f(x)) + Var(e)
+
+What's Bias
+---------
+- eg using SF data to build a model that will be generalized to the entire united states. optimized for the incorrect solution.
+
+What's variance
+-----------
+- variance between the curves to when you fit the data
+
+Model evaluation plot (deviance plot)
+----
+- why increase the complexity if the training and test error show little improvement
+
+
+linear regression is scale invariant
+-----------------------------------
+
+B coefficients are normalized
+
+Why would you choose ridge or lasso?
+-----------
+- if  all 30 are contributing in someway or another than Ridge is you man
+- is there are 25 out of 30 not doing shit than Lasso
+
+causality vs correlation
+----------------------
+- cause and effect of two different observations
+- correlations implies these two observations occur at the same time
+
+Ridge L2 vs Lasso L1
+--------------------
+- Ridge brings all the p's toward zero but doesn't set it to zero which could create problems when tryin to intrepret the final model i.e. all the features are still there
+- Lasso sets it zero hence can be used for feature selection
+
+
+StatLearning (pg 17-19, 29-36, 176-178), 1.5 hrs
+
+if p > n: the number of examples is less than predictors OLS is useless since the variance is infinite and the method cannot be used at all.
+    
+- If you don't scale then PCA will just assign weights where there is high variance, hence must scale to 0 mean and unit variance.
+
+What is multi-collinearity?
+----------------------------
+- the predictors used in the model are highly correlated in a way which adversley affects predictions of the response variable
+- One predictor can be predicted by the other in a with a non-trivial degree of accuracy
+
+How do you deal with Categorical Data?
+-------------------------------------
+- Recoding to numeric
+    downside is you're somewhat ranking our categories but sequencing them
+- Binarizaiton
+- Faceting
+
+balance[['African American', 'Asian', 'Caucasian']] = pd.get_dummies(balance['Ethnicity'])
+balance['Gender'] = balance['Gender'].apply(lambda x: 0 if x == ' Male' else 1)
+
+def preprocess(multivariate):
+    ''' Solution to Part 2: Multivariate Regression question 1 '''
+    # multivariate.info()
+    cols = multivariate.columns - ['model', 'origin', 'car_name']
+    multivariate = multivariate[cols]
+    multivariate = multivariate[multivariate['horsepower'] != '?']
+    multivariate['horsepower'] = multivariate['horsepower'].astype(float)
+    # multivariate.info()
+    return multivariate
+
+def run_statsmodel(model_str, multivariate):
+    ''' Solution to Part 2: Multivariate Regression question 2 '''
+    print model_str
+    print '------------------'
+    model = smf.ols(model_str, data=multivariate)
+    result = model.fit()
+    result.summary()
+    df = pd.concat([result.params, result.pvalues], axis=1)
+    print df.rename(columns={0: 'coeff.', 1: 'p-val'})
+    print '\n\n'
+
+
+def print_VIF(multivariate):
+    ''' Solution to Part 3: Multicollinearirty question 2'''
+    model_1 = 'weight ~ acceleration + cylinders + displacement + horsepower'
+    model_2 = 'horsepower ~ acceleration + cylinders + displacement + weight'
+    model_3 = 'displacement ~ acceleration + cylinders + horsepower + weight'
+    model_4 = 'cylinders ~ acceleration + displacement + horsepower + weight'
+    model_5 = 'acceleration ~ cylinders + displacement + horsepower + weight'
+    rsquared = {}
+    rsquared['weight'] = run_statsmodel(model_1, multivariate)
+    rsquared['horsepower'] = run_statsmodel(model_2, multivariate)
+    rsquared['displacement'] = run_statsmodel(model_3, multivariate)
+    rsquared['cylinders'] = run_statsmodel(model_4, multivariate)
+    rsquared['acceleration'] = run_statsmodel(model_5, multivariate)
+    for k, v in rsquared.items():
+        print 'Dependent variable %s, VIF %.4f' % (k, 1./(1 - v))
+
+
+
+Generalization of linear to classification problems == logistic
+
+logistic the probability of it being one class or another. Very fast performance and used a lot in Ad-Tech. 
+
+Odds Ratio == the probability of X belonging one class or the other.
+Recall - how well you predict tp aka sensitive: TP/(TP + FN)
+precision - TP / (TP+FP)
+feature engineering, tweaking
+
+you could down sample from your majority class to a more balanced class scenario
+
+Gradient Descent
+--------------
+- Objective to search for Betas that optimizes likelihood of some hypothesis function
+- Graph search algo minimizes for minimum spanning tree, min cost path
+
+look up: log likelihood
+
+Cross entropy
+------------
+RF uses this cost function: Negative log likelihood 
+greedy - first search? line search?
+
+Tensor Matrix
+--------------
+- What's a tensor matrix?
+
+
+Finding the K in K-means
+------------------------
+what is the elbow method?
+    - plotting the intra cluster variance vs the number of k clusters, the point at which the curve is non-continuous (not smooth) is a point where adding another cluster isn't too helpful at capturing the variance ergo the name elbow method.
+    - the elbow method is very similar to selecting the correct number of eigenvectors via PCA
+
+what's silhoette coefficient?
+    - proportion of intracluster similarity and outra-cluster dissimilarity
+
+What is the curse of dimensionality?
+-----------------------------------
+- expected edge length = e_p(v) = v^(1/p); N^(1/p); suppose 10%
+- if N_1 = 100 then N_10 = 100^10 in terms of data points for a dense sample; it's more or less the ratio needed to achieve the same density.
+- kNN is quite problematic in high dim spaces
+    - though it's good at p < 5
+- the nearest neighbor can be quite far in high-dimensions and it makes it harder to distinguish it from anything else
+- say for e-10% the coverage volume will be dramatically smaller for p=1 vs p=10
+
+K-means falls backs
+--------------------
+-euclidean distance not robust to outliers i.e. could really morph the shape of a clusters
+    -same reason it's problematic for categorical variables
+-curse of dim
+-solution is K-mediod
+    -handles categorical variables better and robust to outliers
+
+
+What is a centroid?
+-------------------
+    - is the point that represents the average of a group of points in a cluster
+    - it's one part of the step in K-Means
+
+What's the GAP statistic?
+------------------------
+compare the intra-cluster scatter with rectangle box with the points uniformly scattered within it. Find the largest gap. i.e. the number of clusters that yield the largest distance from the rec box is your ideal number of clusters. it's like saying this number of clusters will give you the furthest thing from a mess.
+
+Silhoutte score
+---------------
+K-means converges at local optimum depending on random initialization: K-means ++ avoids that and it's faster.
+
+
+What's Silhoutte score?
+-----------------------
+a(i) average dissimilarity of all points within the cluster the smaller the better
+b(i) lowest dissimilarity of all points within clusters of which is not a member
+
+An analysis that goes through each point and assigning a coefficient that represent how well does this point belong to it's current cluster
+    How does it do that?
+    
+- an analysis used in finding optimal K clustering
+- studies the separation of each clusters  i.e. how well they're seperated
+Silhoutte coefficient per point:
+- +1: properly assigned to the cluster and far away from other clusters
+- 0: close to other clusters
+- -1: wrong assignment
+
+choosing K - Elbow method
+-------------------------
+- intragroup variance / Total Variance
+
+What's Multi Correspondence Analysis?
+-------------------------------------
+
+What's a better way to deal with categorical variables?
+------------------------------------------------------
+- Multiple Factor Analysis
+
+Reducing dimensionality
+=======================
+
+PCA vs SVD?
+-----------
+Dumbing down the concept -- PCA's like getting the cliff notes of the text books basically extracting just the meat of them material but not all. Just like it would be easier for a human to learn from cliff notes from a time perspective same from an ML algorithm.
+
+- Projecting on to a lower dimensional space extracting on useful information from the data
+    - PCA, SVD, OPCA
+    - ICA
+    - LDA
+
+- Manifold Modeling Methods
+    - finding a lower dimensional subspace that best preserves the structure of the data* 
+    - Manifold learning is an approach to non-linear dimensionality reduction
+        - LLE
+        - Isomap
+        - Laplacian Eigenmaps
+
+TSNE 
+
+- How does TSNE work?
+    The high-level steps are as follows--
+
+    1) You loop through the data set where you're making a pairwise comparison of every single example(observation) against eachother. This process is called finding the affinities (similarities) between the data points. The basic idea is to compute the euclidean distances normalized by a dynamic variance between each point as conditional probabilities: "the probability x_i would pick x_j as it's neighbor"
+
+    2) Map it on to a lower dimensional space (often 2-d or 3-d for visualization) then minimize the difference between the representation on the high-dim space vs the low dim space. 
+        - the exact cost function is called the Kulback-Liebler
+
+        * the algorithm cares more about smaller differences between two points rather than larger ones. PCA, on the otherhand is great at capturing the large differences but not the small. The end result on the screen is that PCA is good at differetiating the groups (the global structure) but not so good at local structure (intra-groups).
+
+    3) Plot it using matplotlib or ggplot
+        you have an option to show it as just data points which are unlabeled/labeled and also show it displaying some images over the points.
+
+
+- What are the PROs and CONs of TSNE
+    Pros:  
+        1) retains global and local structure of the examples. Meaning how certain clusters can relate to one another and even within the clusters how different points can relate to one another. 
+        EXAMPLE: imagine you were organizing your clothes: First step organizing all you t-shirts together and going a step further and putting all your the same color shirts together.
+
+        2) it's a superior approach to that of localized linear mapping, Sammon mapping, Isomap, PCA etc. It captures more complex non-linear relationships of the examples much better than the other methods. It captures small more intricate distances. Bottomline: it seperates the data very well for visual inspection.
+
+        3) it could also have multiple maps which capture a word/token's various semantic representations within a corpus of text documents. 
+        For example, consider the word 'Tie': In one map it could be very closely associated with the words like 'Tuxedo'/'Suit' and have a low weighted association with the word 'Knot'. In another map it could be the exact opposite which successfully both ways 'Tie' could interpreted.
+
+    Cons:
+        1) It's strictly made for an EDA tool. Meaning it hasn't been proven to work as a dimensionality reduction technique which is later fed into a prediction model.
+
+        2) It doesn't have a predict method nor does it label each point into a cluster (though you could manually write one). It takes the data in it's current form as opposed to assigning a label to it while it's online which is something we've seen in other unsupervised methods.
+
+        A viable solution would be to count the number of groups (k) using TSNE then use K-means to reap the benefits of an online algorithm (i.e. labeling, classifying new data points, etc).
+
+        3) it's certainly subject to the curse of dimensionality as the original algorithm scales O(N^2) though there's an implementation called Barnes Hut approximations which scales as O(N log N) but a bit less accurate.
+
+        4) It's not guaranteed to converge to the global optimum and it produces new results every run since it uses Stochastic Gradient Descent.
+
+
+- What are the use cases?
+    - Finding the number of groups within your data set
+    - Anomaly detection
+    - Checking whether your test and training set is biased
+    - Visualizing the manifold of your data set i.e. the decision boundary. How seperable is your data? is it linear or non-linear?
+    - Visualizing photos at every stage (layer) of a neural net i.e. it's a fantastic way to debug your net to see if it's picking up the right features and learning as you intended.
+    - Multiple semantic structures your dataset implies. E.g. Cheerleader example (see above).
+    - Finding the similarities/relationships of a user-base like the problem we had earlier in the year.
+    - ideal for any 2-d and 3-d representations of a feature matrix.
+
+- Are there are any hyper-parameters used for tuning?
+    - P: perplexity. Think of it 'k' in k-nearest neighbors or min_samples needed for a datapoint to be considered a 'core-point' in DBSCAN.
+
+- Can I feed it a pre-computed similarity matrix with using a similarity metric of my choice?
+    - Yes! Just like in DB-Scan you can use home-grown or another out-of-the-box similarity metric (other than Euclidean distance). 
+
+
+
+What's the dummy variable trap?
+------------------------------
+- basically when you include all the categorical variables which ultimately leads to multicolleanarity when you're regressing on them because if you add to the constant variable it leads to perfect multi-collinearity, you're suppose to leave one out or no no constant.
+
+classmethod
+-----------
+think of it as an alternative constructor for a class just as in C++ there's a concept of overloading. 
+@classmethod
+def from_string(cls, date_as_string):
+    day, month, year = map(int, date_as_string.split('-'))
+    date1 = cls(day, month, year)
+    return date1
+
+Staticmethod
+------------
+An encapsulated method within the class that doesn't have access to any other part of the class internals. ie. would be good use for just an helper function 
+
+@staticmethod
+    def is_date_valid(date_as_string):
+        day, month, year = map(int, date_as_string.split('-'))
+        return day <= 31 and month <= 12 and year <= 3999
+
+Generalization
+--------------
+    - optimizing a cost function to the point where you've found the global optimum may not be the best scenario when trying to generalize a particular model well.
+
+    - to prevent overfittign we could regularize and can also use the chi-squared test
+        - How would you use the chi-squared test?
+            - I'm not sure how this is used but, remember it talks about overfitting of categorical variables
+        - What is false discovery rate?
+            - it's one of way of conceptualizing type I errors
+            - for many h-tests with one threshold the probability of getting type I errors grows higher and higher while type II is static
+
+Class imbalance
+---------------
+    Max Kuhn covers this well in Ch16 of Applied Predictive Modeling.
+    As mentioned in the linked thread, imbalanced data is essentially a cost sensitive training problem. Thus any cost sensitive approach is applicable to imbalanced data.
+    There are a large number of such approaches. Not all implemented in R: C50, weighted SVMs are options. Jous-boost. Rusboost I think is only available as Matlab code.
+    I don't use Weka, but believe it has a large number of cost sensitive classifiers.
+    Handling imbalanced datasets: A review: Sotiris Kotsiantis, Dimitris Kanellopoulos, Panayiotis Pintelas'
+    On the Class Imbalance Problem: Xinjian Guo, Yilong Yin, Cailing Dong, Gongping Yang, Guangtong Zhou
+
+    =======
+    assigning a high-cost to teh misclassification of the minority class
+
+    down sampling as a bit more of an edge than upsampling
+
+    there's methods where you can tweak the RF algorithm such that it builds trees on an equal amount of class data Balanced 
+    AND 
+    Wtd RF: placing a heavier penalty on misclassifying the minority class, where the votes at the end are weighted. Weights can be determined by the out of bag estimates
+        you could use the out of bag error for generalization error
+
+    3) this is similar to Kripa's number (2), but a little different.
+    let N be number of samples in the rare class.  cluster the abundant 
+    class into N clusters (agglomerative clustering may be best here), and use the resulting cluster mediods as the training data for the abundant class.  to be clear, you throw out the original training data from the abundant class, and use the mediods instead.  voila, now your classes are balanced!
+
+
+    Undersampling. Select a subsample of the sets of zeros such that it's size matches the set of ones. There is an obvious loss of information, unless you use a more complex framework (for a instance, I would split the first set on 9 smaller, mutually exclusive subsets, train a model on each one of them and ensemble the models).
+    
+    Oversampling. Produce artificial ones until the proportion is 50%/50%. My previous employer used this by default. There are many frameworks for this (I think SMOTE is the most popular, but I prefer simpler tricks like Noisy PCA).
+    
+    One Class Learning. Just assume your data has a few real points (the ones) and lots of random noise that doesn't physically exists leaked into the dataset (anything that is not a one is noise). Use an algorithm to denoise the data instead of a classification algorithm.
+    
+    Cost-Sensitive Training. Use a asymmetric cost function to artificially balance the training process.
+
+

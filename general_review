@@ -1,0 +1,187 @@
+What is the CLT?
+    The central limit theorem states that you can random samples of an aggregate number from any distribution and it will comprise an normal distribution. 
+    example) if you repeatedly sampled the mean you'll find that the distribution of means that you've sampled is normally distributed.
+
+What is an IID random variable?
+    independant and identically distributed) 
+
+    independence-A great example would be a repeatedly throwing a fair coin i.e. each coin toss is independent of another. 
+
+    identically distributed-the coin stays fair. i.e. the distribution that random variable samples from is the same for each coin toss.
+
+    This concept is hugely beneficial in inferetial statistics. You could repeatedly sample the mean from some samples and these samples will approach a normal distribution.
+
+    Mathematical expression)
+    P(A * B) = P(A) * P(B)
+
+What is recall? 
+    out of the true positives, how many the model guessed wrong. we call this false positives.
+
+What is precision?
+    out of the group of ones that it guessed true how many were actually false.
+
+What does it mean to optimize for precision?
+    You're basically trying to make sure that what you classify as positive, it's surely positive. I.e. minimize the number of times the model misses on the positive classifications.
+
+What does it mean to optimize for recall?
+    You're basically being very loose with what you'd call a positive classification. Hence you'd minimize the number of times a model misses a true positive but you'll also missclassify a bunch of points as positives.
+
+How would you talk about how good a model is to a group of business users?
+    I would use a metric like ROC AUC and say something like X% the model guesses it X% correctly. 
+
+How would you explain to an engineer how to interpret a p-value?
+    it's a statistic that used testing a hypothesis.
+
+What is a kernel? What's a guassian kernel?
+
+What's the density of a Gaussian?
+
+
+A/B testing
+two sample difference of mean
+experimental design
+
+what would you think about when conducting a power test
+
+what assumptions do you have to make for a two sample test
+
+What is: collaborative filtering, n-grams, map reduce, cosine distance?
+How to optimize a web crawler to run much faster, extract better information, and better summarize data to produce cleaner databases?
+
+What is better: good data or good models? And how do you define "good"? Is 
+there a universal good model? Are there any models that are definitely not so good?
+
+What is probabilistic merging (AKA fuzzy merging)? Is it easier to handle with SQL or other languages? Which languages would you choose for semi-structured text data reconciliation? 
+
+Why is naive Bayes so bad? How would you improve a spam detection algorithm that uses naive Bayes?
+
+Do you think 50 small decision trees are better than a large one? Why?
+How do you summarize the distribution of your data?
+How do you handle outliers or data points that skew data?
+What assumptions can you make? Why and when? (i.e When is it safe to assume "normal")
+
+Confidence intervals
+    How they are constructed
+    Why you standardize
+    How to interpret
+
+Sampling
+    Why and when?
+    How do you calculate needed sample size? [Power analysis is advanced]
+    Limitations
+    Bootstrapping and resampling?
+
+
+Biases
+    When you sample, what bias are you inflicting?
+    How do you control for biases?
+    What are some of the first things that come to mind when I do X in terms of biasing your data?
+
+Modeling
+    Can you build a simple linear model?
+    How do you select features?
+    How do you evaluate a model?
+
+
+Experimentation 
+    How do test new concepts or hypotheses in....insert domain X? i.e. How would evaluate whether or not consumers like the webpage redesign or new food being served?
+    How do you create test and control groups?
+    How do you control for external factors?
+    How do you evaluate results?
+
+How does Zillow's algorithm work? (to estimate the value of any home in US)
+
+You're about to get on a plane to Seattle. You want to know   if you should bring an umbrella. You call 3 random friends of yours who live there and ask each independently if it's raining. Each of your friends has a 2/3 chance of telling you the truth and a 1/3 chance of messing with you by lying. All 3 friends tell you that "Yes" it is raining. What is the probability that it's actually raining in Seattle? ...
+--
+Bayesian stats: you should estimate the prior probability that it's raining on any given day in Seattle. If you mention this or ask the interviewer will tell you to use 25%. Then it's straight-forward: P(raining | Yes,Yes,Yes) = Prior(raining) * P(Yes,Yes,Yes | raining) / P(Yes, Yes, Yes) P(Yes,Yes,Yes) = P(raining) * P(Yes,Yes,Yes | raining) + P(not-raining) * P(Yes,Yes,Yes | not-raining) = 0.25*(2/3)^3 + 0.75*(1/3)^3 = 0.25*(8/27) + 0.75*(1/27) P(raining | Yes,Yes,Yes) = 0.25*(8/27) / ( 0.25*8/27 + 0.75*1/27 ) **Bonus points if you notice that you don't need a calculator since all the 27's cancel out and you can multiply top and bottom by 4. P(training | Yes,Yes,Yes) = 8 / ( 8 + 3 ) = 8/11 But honestly, you're going to Seattle, so the answer should always be: "YES, I'm bringing an umbrella!" (yeah yeah, unless your friends mess with you ALL the time ;)
+
+
+How do you take millions of users with 100's of transactions each, amongst 10k's of products and group the users together in a meaningful segments?
+--
+Of course there are many ways to separate the market. But apple has already got several segments that I believe work. First is the Mac line, within this is The education market. This includes 3 segments. Instructors, Students, and Schools. Instructors will be more likely to spend more on a single product, and buy software relevant to their subjects, but these decisions will influence there students to do the same, but generally students will seek a "value" product, and will buy software based on requirements. School on the other hand will buy a large amount of Computers and software at once, which also effect instructor and student purchases. So selling to schools will raise the sales in both other categories, and selling to instructors will raise the sales for students. This is just the first segment. You also have corporate industries which are similar to Education. Now lets move to the iPhone Segment within this segment you have to ask, why do people buy iPhone. There is the High-Tech segment, meaning those who always want the newest and best. Then you have the Mid-Tech segment. These are those that don't feel it is logical to flip out phones each year, they wait for two years before buying a phone. Now lets move into iPad. Interestingly this segment can move from business, to leisure. The business segment seeks to have an iPad because it allows them to get work done faster and easier. The leisure market seeks to have an iPad because it brings them entertainment and helps them relax. Then lets go to iPod. The wonder of the iPod, the product that sent Apple on a crash course to stardom. I believe the greatest segment for the iPod would be parents wanting to get a gift for kids / something to keep kids entertained. because the iPhone acts as a iPod there is a spill of sales that goes to iPhone, although the iPod touch does offer an affordable alternatives to those who do not want an iPhone. Although the iPod Nano does capture the convenience segment. These are just the segments for the Main Products of apple.
+
+Hired.com coding question. how to find an aggregate of a very large string.
+
+NLP: How to find who cheated on essay writing in a group of 200 students? Scalability: the same for 1,000,000 students. 
+
+MapReduce: Join two data files (customers, sales) and report top 10 performers. 
+
+palindrome recursively
+
+"Given the set a a b b a a c c b b of unknown length, write an algorithm that figures out which occurs most frequently and with the most continuous repetition."
+
+    lis = ['a','a','b','b','a','a','c','c','b','b']
+
+    def find_longest_sequence(lis):
+        stor = []
+        ctr = 0
+        best = 0
+
+        for index in range(1,len(lis)):
+            trailing_step = lis[index - 1]
+            current_step = lis[index]
+            if trailing_step == current_step:
+                ctr += 1
+            else:
+                ctr = 0
+            
+            if ctr > best:
+                best = ctr
+
+            trailing_step = current_step
+
+        return best
+
+    def find_frequency_of_each_char(lis):
+        return sorted(Counter(lis).items(), key=lambda x: x[1], reversed=True)[0]
+
+    def find_frequency_of_each_char(lis):
+        return max(Counter(lis).items(), key=lambda x: x[1])
+
+    def find_frequency_of_each_char(lis):
+        return Counter(lis).most_common(0)
+
+
+Why would a random forest be beaten out by a logistic regression. 
+    Random Forests like decision trees split in blocks of the data such that it's parallel ot the axis. though many trees the splits start to take the shape of a sigmoid as you would see with a logit function.
+
+
+What do you consider when you're selecting a model?
+    Number of training examples
+    Dimensionality of the feature space
+    Do I expect the problem to be linearly separable?
+    Are features independent?
+    Are features expected to linearly dependent with the target variable? *EDIT: see my comment on what I mean by this
+    Is overfitting expected to be a problem?
+    What are the system's requirement in terms of speed/performance/memory usage...?
+    ...
+
+diff between l1 and l2?
+    What's a different dim reduction techinque?
+    
+What does this do?
+    in a nutshell it prevents the interpreter from executing all the code when you 
+    import any modules from it and only execute all the code when you run the script directly
+
+Precision-Recall
+
+    Precision and recall are actually two metrics. But they are often used together. Precision answers the question, “Out of the items that the ranker/classifier predicted to be relevant, how many are truly relevant?” Whereas, recall answers the question, “Out of all the items that are truly relevant, how many are found by the ranker/classifier?”
+
+MAE vs RMSE
+----
+    both measure the errors between the predicted and true
+    MAE: scores but is robust to anomalies 
+    RMSE: scores not as robust to anomalies
+
+    Check for heteroskasiticity by taking the standard deviation of the residuals. 
+    How do we want to rollout the model w.r.t anomalies? RMSE if we really care and MAE if not
+    use adjusted r^2 if anything we want to penalize for the addition of every feature
+
+    Look at the plot of the Errors.
+
+Difference between: Decision Tree vs Logistic Regression
+----------------------------
+    no scaling required
+    don't have to worry about cats
+    don't have worry about multicollineearity 
+    you could interact two variables and include the entire set

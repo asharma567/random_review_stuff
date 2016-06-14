@@ -1,0 +1,533 @@
+Review 
+=====
+
+What is PCA?
+    - It stands for Principal component analysis
+    
+    What's the first component?
+    - the principal component is the first component, which yields the most variance.
+    
+    - It's projecting the axis in such a way that it captures the most variance from the feature_matrix and it captures all the covariance along the way.
+
+    - takes away the multicollinearity i.e. the sub_matrices k is full_rank.
+
+    steps it projects the first component in a way where the projection error is minimized the orthogonal distances of the points to the component.
+
+    What are the steps?
+        - scale the data first
+        - find the covariance matrix
+        - use SVD
+        - you should also remove the dummy variables and reconcat
+
+    how do you choose the number of components?
+        - depends on how much variance and number of components you'd like to reduce your dimensions to you'd like to retain rule of thumb: 90-95%
+        - You could gridsearch which number of components yields the best Roc Auc
+
+    how would you explain it to business user?
+        - it's kind of like getting the cliff notes of a text book. It's not all the information, but it captures the meat and potatoes if you will.
+
+    How is LDA different from PCA?
+
+    Alternatively instead of taking the eigen-decomposition of the covariance or the correlation matrix we can take the singular value decomposition of the feature matrix which yields the least squares approximation of feat_M. The eigenvectors are in Matrix S the middle matrix where each diagnol  is the eigenvalue.
+
+
+How does K-Means work?
+    - randomly initialize points are seeded into the space of the points
+        - the distances from these seeds to each data point is calculated
+        - each data point is assigned to it's respective seed which now makes it centroid
+        Loop time convergence of the cost function (basically where the points stop moving)
+            - the position of the centroid is recalculated
+            - points are reassigned to the closest one
+    - fallbacks
+
+    - what's the centroid represent
+
+
+What's the gap statistic?
+    - it compares the silhouette score of each point on a randomly scatter point plot versus the one with K clusters. The one with the largest gap from the reference box is the ideal k.
+
+
+How do you find K?
+    - tsne
+    - Gap statistic
+    - Elbow method
+        plots the intra-cluster variance by number of cluster. The point at which the curve is non-continuous indicating a sudden or sharp decline in slope is the point k at which every additional cluster doesn't matter as much from the perspective of variance.
+
+self join problem
+    tell me three ways we could 
+        time_series
+        time_stamp | value
+        1 2.0
+        2 3.4
+        3 5.0
+
+
+        calculate cumsum from a time series
+        - self join
+            
+            select t1.time_stamp, t1.value, sum(t2.value)
+            from time_series t1
+                join time_series t2 on t2.time_stamp = t1.time_stamp
+
+            
+        - can you also write a sub_query?
+            -- I don't know if this will work
+            select t1.time_stamp, t1.value, sum(t2.value)
+            from (select * from time_series where time_stamp = t1.time_stamp) as t2
+
+        - cumsum
+            df_time_series = pd.from_sql(select * from time_series)
+            
+            # check if this works
+            df_time_series['cumsum'] = df_time_series.value.cumsum()
+`
+        - window function
+            select sum(value) over time
+
+    
+How does TSNE work?
+    - it's a dimensionality reduction technique like PCA that's used for visualization. For low dimensional data-sets this problem's trivial but it comes handy in high-dim datasets, such as NLP or image processing related problems.
+
+    - it basically walks through all the examples in the training set calculating pairwise euclidean distances between all the points. At which you'll have structure in the hi dimensional space. then it maps to a low dim space call it a 2-d plot. It'll take a first guess at it and iterate through to optimize a cost function which is effectively the difference between the points.
+
+    - It's better than PCA and other methods in the sense that it captures global and local structure much better and specifically it captures the non-linear relationship between points. Which makes sense because PCA does the bigger differences quite well.
+
+    - to retain the distances of the map points it's modeled with a Student's t-Distribution.
+
+
+How would you explain Logistic Regression?
+    - Is a binary classifier. Which fits a sigmoid to the the given data set to figure out which side it's on.
+
+Choice modeling
+
+whiteboard: 2 easy codeval problems 1 medium, return the largest palindrome from a very long string
+
+model evaluation look it up tomorrow
+How is a ROC built?
+    The true positive rate (TPR/recall)  is plotted against the FPR/precision and it's calculated for all the thresholds between 0 and 1. 
+
+    recall - the portion of true positives w.r.t. TP + FN
+    precision - the portion of false negatives w.r.t TN + FP
+
+Explain the equation of Logistic Regression?
+    it's the log-odds of success given a one unit increment of x_1. it can be interpreted as pushing the probability of success i.e. 1 or 0
+
+
+How to deal with class imbalance?
+    Undersampling) Shaving off the majority class s.t. the minority class comprises larger portion of the training set.
+
+    Oversampling) Using methods like SMOTE or Noisy PCA to create artificial examples of the minority class.
+    
+    K-Medoids) Fitting K-median to the data and using that in someway to great
+
+    Sample weighting) Selectively applying a higher cost to some of the examples in the training set.
+
+
+Break-down PCA?
+    https://class.coursera.org/ml-005/lecture/85
+    use case) dimensionality reduction
+
+    by way of projecting a new set of axis into the data s.t. it captures most of the variance.
+
+    Method)
+        There are couple methods
+        
+        SVD) using singular value decomposition we get matrices, U, S, V. Where the first U_k vectors are the target mapping vectors we're interested in multiplying with our original feature matrix. S contains the eigenvalues of each vector. The first one is the largest.
+
+        eigendecomposition)
+
+
+    CONS) it only captures a linear manifold i.e. if you have complex feature relationships that exhibit non-linearity it will linearize them.
+
+
+
+What do you mean when you scale the data?
+    You basically center the data by removing it by the mean and dividing by std deviation.
+    It's use to put everything in terms of features on the same playing field. A one tick increment in some feature is just as important as a 1 tick in another feature.
+
+
+Gradient Boosting, Adaboost, 
+    https://www.youtube.com/watch?v=sRktKszFmSk
+
+    GBM) fits a set of sequential decision tree models which by themselves are weak learners but overall form a strong classifier. It basically chains together decision trees the subsequent ones correct the original tree where it has the most error (or largest residuals).
+        Why is it called gradient boosting?
+        - each learner basically fits to the error of the last learner by calculating the gradient and taking a step in that direction. You calc the gradient by taking the partial derivative w.r.t y^. The gradient is the value it needs to step to reduce the error.
+
+
+
+How do yo know if something's overfit?
+    - there's a divergence between train and test error. meaning you've gotten an great roc auc score in your train set but then when you validate with your holdout it's not all that good.
+
+    How do you solve it?
+    Regularization)
+        L1)
+            Lasso creates a parsimonious model by zeroing out really large features by calculation absolute error I.e. it does feature selection by zeroing on the less important features
+        L2)
+            Ridge shrinks all the features to zero by calculation of squared error. It's particularly noted for it's ability to penalize larger features more. 
+
+        *Both these functions are represented as + lambda(absolute error) or lambda(mean squared error)
+
+
+
+How do you know if something's underfit i.e. how do you know if the model's exhbiiting more bias than variance?
+    - poor training error and test error versus number of data points or model complexity.
+    
+
+What is model stability?
+    When you modify the training_set a bit and you get similar results. eg if you leave one example or 10% of the train_set out and get similar results. Obviously if the results change dramatically. You've got an unstable model.
+
+How does K-Means work?
+    it randomly seeds the initial centroids
+        LOOP
+            1)all the points closest to each centroid are assigned.
+            2)each centroid's position is recalculated to correctly represent the average point of it's assigned group.
+
+    How does it stop?
+        - there's a function in there to detect when the centroid stops moving. you could also define the number of iterations. 
+
+    What are methods to find K?
+        - elbow method - calculatin the SSE which is basically the distance of each point within a cluster from it's centroid. Summing that up for all the clusters. Naturally this will decrease as you increase the number K with the idea that distortion decreases. We're interested in the point at which there's a sharp shift s.t. each incremental K added is not as meaningful as before that point of infliction.
+        
+        - gap statistic) as you iterate through each k number of clusters you compare the average silhouhette score to a reference box which contains randomly scattered points. It basically represents the worst case scenario and the K with the largest gap is the ideal K to choose.
+            PROS
+            CONS
+
+        - Phan et el method <-- faster than the gap statistic
+
+
+
+- a function that takes a set of strings and needs to output all the similar strings
+
+    from collections import Counter
+
+    alpha_numeric_punc = set(string.alphabet + string.numbers + string.punctuation)
+
+    def vectorize(input_str):
+        initial_dict = {char:0 for char in alpha_numeric_punc}
+
+        for char in input_str:
+            initial_dict[char] += 1
+
+        return initial_dict
+
+    def find_all_similar_str(corpus_of_str):
+        vect_M = [vectorize(str_) for str_ in corpus_of_str]
+
+    def find_dist(x_1, x_2):
+        
+        #assume it takes the diff feature by feature
+        return np.sqrt(np.sum(np.square(x_1 - x_2), axis = 1))
+
+    def make_bag_of_words_model():
+        '''fill this out'''
+        #keys : alpha_num_set otherthing: loop through each exmaple initializing a countrer with alpha num set vectorize to just the keys list
+
+
+- how would you go about finding a certain market segment within a universe which has a higher conversion rate. How would you distinguish between the two?
+
+#constraining the cohorts and running analysis
+    #using the high conversion set as a control group
+    #using feature importance to indicate which features to constrain
+
+
+- how would you distinguish between businesses given thier contact/address strings if they had a small edit distance?
+
+
+
+
+- writing KNN algo out of scratch
+    
+    class NearNeighbor(object):
+
+    def __init__():
+        pass
+
+    def fit(X_train, y_train):
+        self.X_tr = X_train
+        self.y_tr = y_train
+        return None
+
+    def predict(X_test):
+        number_of_examples = X_test.shape[0]
+
+        y_pred = np.zeros(number_of_examples, dtype=self.y_tr.dtype)
+
+        for index in xrange(number_of_examples):
+            # it takes the the absolute difference of every single pixel and sums it this is L1
+            distances = np.sum(np.abs(self.Xtr - X_test[index,:]))
+            min_dist_index = np.argmin(distances)
+            y_pred[index] = self.y_tr[min_dist_index]
+
+        return y_pred
+
+
+- what is a Artificial Neural Network?
+    It's more or less a cs algo designed to model the brain and how it makes decision. Since it's artificial it's hidden layers it's decision making layers are fairly thin, often 3 or less.
+
+What's a p-value?
+    it's the probability getting a specific result or an observation occurring given we know the distribution before-hand. So if a p-value is within a certain range we can safely dismiss the possibility that this event/observation occurred by random chance.
+
+The CLT's specific to the arithmetic mean and sums of distributions
+
+What is CLT?
+    The CLT states that distribution of means formed but a group of properly normalized iid variables is gaussian shaped. 
+    * but it doesn't tell you fast. i.e. how many samples are needed for it to form a gaussian
+
+    You can say with some sense of certain i.e. confidence iterval the parameter you're trying to estimate (call it mu) will be contained in this distribution 95% of the time. So each repeat of the experiment will have a mean within this distribution 95% of the time. "I'm 95% confident that this parameter is contained within the CI"
+
+
+How do you evaluate a model?
+===========================
+    Depending on whether it's regression or classification model you'd want to measure it differently:
+        
+        In terms of metrics:
+        -------------------
+            I use adjusted r^2 for regression problems and I used the area under the receiver operator curve for classification problems.
+                Regression
+                ----------
+                Why adjusted?
+                    it's superior to regular r^2 because it penalizes for the number of features you have and regular r^2 is superior to the rest because it normalizes versus MSE/RMSE, RSS. It describes the proportion of variation of the dependent variable (y) explained by it's predictors (independent variables x). How much of your variation in y can be described/explained by the variation in x.
+
+                What's the gotcha with R^2?
+                    You can game it by adding more predictors. It goes up by mathematical definition by each feature you add regardless of whether or not it's relevant to the model. This becomes a problem when you're trying to assess whether or not a feature makes an impact on a model.
+
+                Why is it better than RSS?
+                    MSE: np.mean([(y_true[i] - y_pred[i])**2 for i in range(len(num_of_observations))])
+                    *RMSE: np.sqrt(np.mean([(y_true[i] - y_pred[i])**2 for i in range(len(num_of_observations))]))
+                    MAE: np.mean([(y_true[i] - y_pred[i])**2 for i in range(len(num_of_observations))])
+                
+                Special Case: MAE == RMSE: then there are no outliers in the data
+
+                Classification
+                --------------
+                For metric I like using ROC_AUC. It's the best way to compare classifiers to eachother based on true/false positive rates, true/false negative rates. Assume the model got an 80% roc auc, we say. We can optimize for precision or recall depending on the use-case for the model.
+                
+                How would you explain this to a business unit?
+                    The model has an 80 percent chance at predicting correctly.
+                
+                How would you explain recall to a business unit?
+                    Out of the set of true positives, the number of correctly predicted positives. This also implies it has a low number of false negatives. TP/(TP+FN) This metric is optimized when you really don't want miss one of the actual positives. e.g. cancer classification. in which case it may guess wrong at somepoints but hey you'll save a life.
+                
+                How would you explain precision to a business unit?
+                    Out of the positive predictions, the number of true positives. It's very suitable in cases where you want to make certain your classifier guesses correctly. e.g. Fraud detection, if your classifier predicts wrong than there are dire consequences like a very agree customer. TP/(TP+FP)
+
+                We have one basket of apples and oranges and we have a robotic arm whose job it is to pick the apples out of the basket. After it's done we look at the pile of apples that it's picked we and out of the total amount of fruits it's picked we divide by the number of apples -- that's precision. Did it grab the only the right ones?
+                If we count all the apples it left in the basket and in the pile and we divide by the ones only in the pile -- that's recall. Did it grab all of em?
+
+                f1_score versus roc_auc?
+                    F1 score is a great way to take both precision and recall into account but those two values are defined but a threshold value of what you consider positive or negative classification. Example a technique for optimizing for precision would be to just move the threshold up s.t. it correctly classifies a positives when it's certain of a label. Though since it weights it evenly, it's not a bad classifier for both.
+
+
+        
+        Evaluation methods:
+        -------------------
+            Leave one out:
+                K-fold cross-validation with leaving one example out and training on the entire set of data. Rule of thumb is 5-10 for K but this is dependant on the Training size of the data. 
+                PROS:
+                    - it does well for combating overfitting since it has an error for every possible data point treating it unseen. 
+                    - model stability is also pretty good to inspect here. We could see how the model performance varies with each and every prediction.
+                CONS:
+                    - it's only testing on one point at a time not a batch of points.
+                    - The risk of this method is low bias and very high variance since it's training on the entire set.
+
+            
+            Test/Train(50%)/Validation split (out of sample error):
+                Training on 50 percent of your data (rule of thumb) and having two seperate validation sets avoids the possibility of overfitting to the test data (or holdout). 
+                PROS:
+                    - avoids overfitting to the test data
+                CONS:
+                    - You need quite a bit of examples to run this type of a test since it's 50%
+            
+            K-Fold cross validation and out of sample error: 
+                Process goes as follows: Test/Train split and use the training set for K-fold cross validation. During the phase of feature engineering and tuning the performance of the model is solely based on the training set then ONLY when we're done with all of that we check against the hold out. In the event that it fails against the hold out, we make a new holdout. That is smaller the set, the more folds you'd want to have. The reason for this is because we need a larger training set to ensure lack bias that is the model is underfit. If we do a number of example versus performance chart and there's a considerable slope deviation on the number of training examples then the K-fold cross validation will over-estimate the errors which is why I also plot the errors of all the folds, to see how much the model error varies.
+
+                PROS:
+                    - This combination works well in low test data environments as well as high data environments
+                CONS:
+                    - I can't think of any at this point
+
+            Performance testing over time (time_series data):
+                Taking different points in time e.g. different days of the week, seasons of the year, etc. and seeing how the model performs. 
+
+            Curating your own hold out set:
+                Hand curating your own test and/or validation set.
+                PROS:
+                    - You could zero in on the performance of a classifier to very specific examples. Particularly ones which are very difficult to classify
+                CONS:
+                    - It takes time to hand curate instead of randomly choosing observations
+                    - risk of overfitting to the test set
+
+Data prep w Decision Trees versus Logistic Regression
+=====================================================
+    Linear models
+    -------------
+    - Scaling 
+    - Remove for multicollinearity
+    - Dummytizing w k-1 to avoid dummy variable trap
+
+    Decision Tree
+    -------------
+    - Continuous could be binned sometimes yields better performance. This occurs when there are a wide range of values for the variable i.e. it's too fine grain.
+    - Cats could lead to overfitting*
+    - Regression modeling without a smooth decision function might yield poor results
+
+What is the dummy variable trap?
+================================
+    where you've got perfect multicollinearity between your binarized categorical variables in linear model and your intercept value. A solution would be to either exclude one of the dummy variables or to exclude the intercept. This only occurs in linear models not when you use decision trees. If you exclude it from a decision tree then you're losing information.
+
+
+Can we update the model without retraining it from the beginning?
+================================================================
+    Some models are trained using Stochastic Gradient Descent and can be updated on a per batch basis. As opposed to gradient descent which needs to iterate through the entire training set again to find the optimal beta coefficients. Sklearn has an SGD classifier with various objective functions that can be trained on a per batch basis. K-means mini-batch is also able to train on a per batch basis which is why it makes for a great online model.
+
+What methods for dimensionality reduction do you know and how do they compare with each other?
+===============================================================================================
+    MDS -- ?
+    PCA --
+    TSNE -- t-distributed Stochastic Neighbor Embedding. It's kind of the opposite of the kernal trick in the context of mapping to dimsional spaces. it maps from a high dimensional space to a lower one 2d or 3d to be specific. It's amazing because it creates the relationships (similarities) in the high dimensional space and then finds a representation for it in the lower coordinate space. Unlike PCA if features have a non-linear relationship it'll retain it. This is specifically to be used for visualization purposes only and as an EDA tool unlike the other methods on here.
+
+    Local Linear Embedding --
+    Isomap -- 
+    LSH  -- Locality Sensitivity Hashing. I've seen it used in the context of NLP. It leverages the concept of collisions in a hashtable. Basically if two strings are very similar but not quite the same they'll have similar hashes. It'll differ the two hashes (if at all) in the specific area that it differs. Hence it's a great way to limit the search space because it'll create general 'buckets' (hashes) for each data point categorizing all the similar ones together.
+
+What's a p-value?
+================
+    it stands for probability value and it denotes a probability of some event occurring. It's often used in hypothesis testing to see whether the outcome of the test was due to random chance or not i.e. rejecting the null hypothesis with some level of confidence. These level of confidence i.e. the CI capture 90, 95, 99 percent of possible outcomes leaving unlikely outcomes at the tails of a distribution. This area is known as a the critical region. If a p-value falls here, it's often safe to reject the null hypotheses.
+
+Difference between l1 and l2?
+============================
+    These are both regularization terms added to the cost function of a linear model where the size of the penalty parameter is denoted by lambda.
+    *forgot the exact equation
+
+    y = b_0 + b_1x_1: some objective function
+
+    np.mean[(y_pred[i]-y_true[i])**2 for i in range(len(number_of_observations)))] + penalty parameter
+
+    l1: Lasso, shrinks the beta coefficients of the features to zero. it's effectively a way to create a parsimonous model by feature selection. that is, the features that do not have a significant or large influence on a model are zero'd out
+
+    l2: Ridge shrinks ALL beta coefficients s.t. they approach zero but it doesn't completely zero them out like l1 does. The overall affect of this is that features with a large betacoefficient are penalized much more hence they don't have as much of an influence on the model versus the other features.
+
+    ElasticNet: Is a linear model that incorporates both of these.
+
+What’s Faceting?
+================
+    it's when you fit a model to various sub categories to the data. say for example your modeling out home prices for the entire country. A sensible approach would be to fit a model for each state and/or metropolitan rather than fitting a model to the entire data set which will yield the average of all models.
+
+To confirm there is no heteroskedasticity, plot your residuals. If you have had heteroskedasticity in your data, what are the 2 ways you can reduce the problem? How would you measure volatility?
+===========
+    - I would fit a line i.e. bivariate model via mean absolute erros and measure the residuals and see if there are any residual well above the median. 
+    - Now if you plot the residuals they should be in the shape of a bell shape curve. No we can measure std deviation. In the context of standard deviations out. then we could set some threshold of call it two stds. or in this context how wide is the std deviation.
+    - fitting some type of a rolling average
+
+What the best ways to spot a bot? (anomaly detection)
+=================================
+    A good bot will match the pattern of traffic on your site. so I would think about what that means. that is if you're site's audience is particularly busy from the hours of 3-5p and there's someone that's making requests at 2am.
+    Ways to spot
+        - odd hours
+        - robotically regular frequency
+        - too fast of a frequency
+        - aggregate count of requests being made within a day, hour, ...
+
+
+What does a log transformation do?
+==================================
+    it transforms an the subject distribution from multiplicative e.g. to absolute. In the context of statistics and machine learning, this is a better modeling random variables as they relate to eachother.
+
+Should we scale by log or by 0 mean and unit variance?
+=====================================================
+    if we care about the relativity of the subject distribution more than than the absolute differences then log's the way to go. The bottomline is whether or not the relativity issue was important.
+
+Why is a sigmoid used for logit modeling? why not a line?
+========================================================
+    simply because the sigmoid has the bounds of {0,1} a line can go negative or over 1 as it approaches infinity which would be non-sensical in terms of modeling probability.
+
+What is Bagging?
+===============
+    it's also known as boostrap aggregating. When you build a tree based on a bagging techinque, it's like random forest without using the random selection window.
+
+Why is a random forest better than a decision tree?
+===================================================
+    * What are cases when it's not better?
+        Decision Tree is great for a simple analytical interepretation of a one time snapshot of the data at hand. Say if you wanted the model to overfit the data and you were trying to learn about feature importance.
+
+    In most cases, a Random Forest performs better than a decision tree because it's ensembled. The idea is 2 minds is better than one.
+    
+    Analogy--Just like that game show Jeapordy where the player has an option to ask the crowd for teh answer to a particular question and a majority vote is taken. In aggregate the crowd votes often are correct.
+
+    Analogy2--Asking one person for advice about a particular movie, this is a like a Decision Tree. This overfits to one person preferences. Asking a bunch of people for advice, we can assume that everyone takes different pieces of information away from the movie. It's actually a step further where you're giving your friends information about your preferences but you're only giving them bits and pieces of information.
+
+    The primary problem with a decision tree which eventually led to the advent of a random forest is that it overfits. To combat that ensembling techniques where created which involve the use of multiple trees. 
+
+    Each tree in it of itself is a very weak classifier though it aggregate it's a very strong classifier. Why is each tree a weak classifier? The key reason why a random forest is preventative of overfitting is because 
+    i)each tree that is grown isn't built on all the data, it's built on some random patch of it 
+    ii) it's feature splitting mechanism limits it's ability to split on all the features at each level
+
+    Out of Bag Error: 
+        (i) sampling is done with replacement so it's completely possible not to use all the data that's available in the training set. The portion of data that's not used is called the out of bag error. 
+    (ii) selection window for feature splitting defaults to p^2 where p is the number of features.
+
+write out euclidean distance
+===========================
+    d(x_1,x_2) = np.sqrt( (x_1_1-x_2_1)^2 + (x_1_2-x_2_2)^2 + (x_1_3-x_2_3..)^2 )
+
+
+Linear models: How to interpret beta coefficients?
+==================================
+    “The average effect on Y of a one unit increase in X2, holding all other predictors (X1 & X3) fixed, is 0.4836” • However, interpreta5ons are generally preJy hazardous due to correla5ons among predictors. • p-­‐values for each coefficient ≈ 0, so might be okay here
+
+    Note: Magnitude of the Beta coefficients is NOT how to determine whether predictor contributes.
+
+
+what is variance?
+    the dispersion of observations from a Random variable
+    how do you measure it discretely?
+        take the difference of all observations from the mean squared and the summation of that.
+
+What is the expected value?
+    the average of a random variable of an infinite amount of samples
+
+what is the covariance?
+    the measure of how two random variables change together
+
+what is correlation?
+    - it measures the strength of a linear relationship betweeon two random variables
+    - it's the normalized version of covariance. Specifically it's divided by the product of std deviations of both variables
+    - can also capture noisiness and direction but not slope
+    * this isn't the best metric to capture the relationship, it's just too simple to capture the various depictions of a linear relationship
+
+
+WHat are use cases of each distribution?
+    Bernoulli: Coin flip.
+    Binomial: Series of Bernoullis. # of coin flips out of 100 that turn out to be heads.
+    Geometric: Series of Bernoullis. # of flips until we reach out first head.
+    Poisson: Derived from poisson. # of taxis passing a street corner in a given hour (eg. 10 taxis per hour)
+    Exponential: the time it will take until taxi turns the corner
+    Gaussian: IQ score, height, etc.
+
+
+If the linear correlation between two random variables is negative and negative what does that mean but when you measure the coefficients in conjunction with eachother then it’s positive?
+
+
+Multicollinearity
+==============
+    What are consquences for Multicollinearity?
+        - predictive power of the model might be off.
+        - unable to accurately interpret the beta coefficients.
+        - can't use the normal equation to find beta coefficients becuase the feature matrix isn't invertible
+        - overfitting
+
+    What are indications of multicollinearity?
+        - a very unstable model. that is, add some explanatory variable to a set of variables that were linearly independent from one another and the Beta coefficients drastically change than that could be an indication of multicollinearity.
+        - insignificat variables using the F-Test. SE tends to be very large.
+        - dummy variable trap. having all categories binarized along with the including an intercept coefficient gaurantees multicollinearity.
+        - interaction terms of two variables which already exist in the model could cause it as well
+
+    What solutions to multicollinearity?
+        - PCA
+        - VIF and find the variable(s) that are causing it remove it. 
+        - Correlation matrix and looking 
+        - get more examples
+        - standardization helps if there are interaction terms 
+        - Ridge reg shoudl be able to help
+
+
