@@ -1,0 +1,40 @@
+What different types of transformations to random variables?
+    - The optimal type of transformation is found using the box-cox test
+        -.1 is a reciprocal
+        -.5 is a reciprocal square root
+        0.0 is log transformation
+        .5 is a square root transformation
+        1.0 no transformation
+
+    - 0 mean
+        What is this?
+            this is centering the data. basically you're centering the data around 0 
+        Why is it done?
+            it's done in efforts to normalize the distribution such that it's scale invariant.
+        How would you explain this to a business unit?
+            in stats and ml it makes the algorithm converge faster but more importantly from a intrepretation perspective it allows use to make statements like holding all other variables fixed one unit increase in x affects y by amount z on average.
+        How is this performed?
+            looping through each observations and subtracting the (sample mean). In the feature space.
+
+    - unit variance
+        scales the data such that it 
+
+    - log transformation
+
+    - linear transformations
+        - adding a constant Y = X + b
+        - dividing by a constant Y = X/b 
+        - multiplying by a constant Y = Xm
+        - any combination of the above Y = mX + b
+        
+        - OLS is an example of a transformation
+            - you're fitting a line to the data by two seperate ways
+            - OLS finds it's optimal parameters (weights) by way of normal equation. The normal equation is a linear tranformation on the data s.t. it yields the parameters for the best fit line. Though it's time complexity is O(n^3). The normal equation is a linear transformation of the matrix added with an intercept component. constraints are the matrix has to be full-rank. No multicollinearity.
+
+
+        - PCA
+
+
+    - non-linear tranformations
+
+- check out skewness

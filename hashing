@@ -1,0 +1,51 @@
+How do hashing functions work?
+	- doesn't support order 
+		- heap, search tree
+Why is it log n?
+
+Problem set 5
+
+
+2-sum problem == sum k trick
+binary search?
+
+try to do square's problem
+
+
+dealing with collisions
+think about hashing functions in the context of domain and range.
+
+Seperate chaining hash function
+	is a way of collision handling when an element hashes to the same bucket. Each bucket is effectively a linked list and the head is the first node. this makes for easy insertions, deletions, additions.
+
+	insertions in the front of the bucket
+
+open addressing
+
+How convert a string to a hash code?
+How to choose number of buckets?
+	- the number of buckets can't share any factors with the hashing function.
+	e.g. x mod 3 would be a terrible number for number of 30 buckets. Why because only 1/3 of th space would get filled.
+	- solution: 
+	i) pick a prime number
+	ii) not too close to the power of 2 (of n)
+	iii) not too close to the power of 10 (of n)
+
+What is the purpose of a hashing function?
+	- it's the distribute the incoming data uniformly as possible.
+
+===
+How does a hashing table work?
+	It's a data structure that limits search space by unique hash keys per object stored
+
+	You pass in some value, it converts it into a hash code then that code is passed into a hash function which looks up or allocates it to a bucket.
+
+	There's a conversion function which I don't know anything about and there's a function which looks up a bucket given the code. 
+
+	Assuming the code is some integer. It often time could be a modulus function with dividing value a function of the length of buckets. So if N is the number buckets the assignment would work like so--
+
+	input_hash_code mod x some number less than n but not a factor of n and not prime.
+
+	the hash function is also responsible for managing collisions and the uniform distribution of data through the.
+
+How do you convert a hash code into a string.

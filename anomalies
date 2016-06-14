@@ -1,0 +1,47 @@
+How do you handle outliers or data points that skew data?
+    the first question you'd have to ask is this outlier a point that's an accurate representation of the distribution or is it a typo? if it's a typo throw it away.
+
+How to find anomalies?
+    what is an outlier?
+        an observation that's exceptionally far from the mainstream of observations.
+        it's careful to distinguish between i) extreme observations ii) observations made by errors eg typo, measurement
+
+    visualizations
+        - tsne
+            if a data point isn't apart of any cluster and it's very distant from the rest of the clusters
+        
+        - 2-d scatter plots
+
+    statistical approaches
+        
+        - value_counts 
+            if theres very few repeats of the same data points, it's suspect
+        - assuming a normal distribution, multiple of a std from the mean.
+        - fitting a regression model using a cost function that's robust to outliers and calculating the residuals of each data point
+        
+        - max, min, average
+            visually seeing how far
+
+        - streaming data
+            - mean shift
+                calculating the average of some data feature and there's a stark shift in the average.
+            - slope shift
+            - max shift
+            - can we use the median?
+
+        extreme value analysis:
+            typical hypothesis testing using z-test or student's t-test to see if an observation falls within some critical regions s.t. you can reject the null hypothesis with some level of confidence.
+
+        probabalistic or statistical models:
+            uses the expectation-maximizationg technique to check the probability of whether or not a data point belongs to a particular distribution. If it's a low probability it's labeled as an outlier. Down fall, these models assume a particular distribution.
+
+        PCA:
+            projecting the data onto a lower dimensional sub-space by way of linear correlation or covariance of the data. In this process a new axis is being calculated by the process of fitting linear plane through the data. The projection distance is what's being minimized, ie the distance orthogonal to the observation.
+
+            *find out how this is done
+
+        Clustering:
+            DBscan based on NN search or k-means and silhoutte score.
+
+        similarity/distance metrics:
+            

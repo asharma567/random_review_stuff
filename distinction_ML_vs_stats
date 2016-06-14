@@ -1,0 +1,25 @@
+Stats attempts to estimate it's parameters via maximum likelihood. Sepcifically,
+
+Given the observations, what's the likelihood this is the parameter that correctly models the joint probability of this population/sample.
+
+Joint probability of these observations occurring, then you take the derivative with respect to the parameter and set it equal 0 which will get you the max value for P if you solve for P hence the name maximum likelihood.
+
+It's keeping the data fixed and allowing the parameters to vary. Given the observations what's the likelihood it's this parameter.
+
+    f(X_i, ..., X_n|theta) = f(X_i|theta) x .. x f(X_n|theta)
+
+    taking the log of this to make the computation more manageble and also bounding it by {1,0} will give you the log likelihood
+
+
+ML
+--
+as a ML model goes through it's training data it tries to minimize a cost function. i.e. it attempts to minimize for the number of missclassifications. By doing so it searches for the weights that provide the minimal loss/cost.
+
+
+Knapsack algorithm
+    still need to find the linear time solution
+
+How do you know if a coin is unfair?
+    
+
+
