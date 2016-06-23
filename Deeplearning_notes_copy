@@ -1,0 +1,78 @@
+NN - notes
+==========
+
+
+Artificial NN
+    Layer
+    it's a container that takes in weighted data and then transforms it with an activation functions and passes the remaining values for another layer to take.
+    first and last layers of a NN are called input and output and everything in between is called hidden. Layers are also uniform containing only one type of activation function, pooling, and convolutions tranformations.
+
+
+        1)Data is taken through an input layer
+        2)Transformation by taking a weighted sum over the inputs
+        3)Applies a non-linear transformation function to the inputs i.e. unit which in turn outputs an intermediate state which is ready to fed into another Layer
+
+    Unit 
+        the mapping of a cost-function (activation function) to the data eg. sigmoid, or a much more complex long-short term memory or maxout units which is composed of several layers of functions. Synonyms neuron
+
+    Intermediate state
+        Output of a layer which is effectively a learned feature of the data
+
+    Convolution
+        You could think of this as a filter eg it might filter for just the edges and discard the rest of the information. 
+        it describes the cross-correlation in which thiers an overlap between two sequences eg. the pixel map which outlines a nose seems overlapping the face. This is a powerful tool for feature detection.
+
+    Pooling/Subsampling
+        just like random forrests building trees on random samples of the data, it's the ability of the NN to learn on patches of data at a time. This helps from the perspective of if the images are tilted and taken of the object at different angles
+
+        data perspective think of it as a funnel for an image to be condensed and fed into a layer. The larger the pools the more information's condense but it's at the sacrifice of predictive power
+
+        max pooling 
+            max pooling takes the subsample yielding the highest activation unit out of each subsample. In practice it's good for homing in on the meat of the picture i.e. highest activation feature.
+
+            4 5 | 4 5
+            6 7 | 8 7
+            _____
+            2 3 | 6 1
+            9 6 | 5 4
+
+            then, 
+            1) Max pooling: takes the max out of each group:
+            so the matrix after max pooling will be:
+            7 | 8
+            ------
+            9 | 6
+
+            2) Avg pooling: takes the average of each group
+            so the matrix after avg pooling will be:
+            5.50 | 6
+            --------
+            5.25 | 4
+
+
+Epoch
+    it's the cycle in which every layer of the neural net has seen every example of the data. Basically when all the layers have gone through the training set.
+
+Drop out
+    you basically drop out parts of data to generalize the model better, so you have a seperate layer whose job it's in charge dropping out random bits of data until it passes it on to the next layer. This allows the next layer to form a different relationship between versus the previous layer
+
+
+Back-prop and Forward-prop (is this a function of recurrent networks?)
+    Classifying a data-point forward through the nearual net and then moving it back through the neural in an attempt to find the derivative of the error.
+
+ReLU
+Rectified Linear Unit is an activation layer that's to the likes of softmax or that's a sigmoid but it's a decision function that's in the shape of a hockey stick so it could be non-linear. The motivation is so that it could be non-linear without losing much accuracy. f(x) = Max(0, x)
+
+CUDA
+======
+Throughput vs latency?
+----
+
+In deeplearning the algo does the feature engineering for you
+
+- the various layers effectively tackles the issue of hierarchical features with varying gradients from small to large.
+- it's also great very long non-linear sequential data with the use of LSTM long-short term memory, recurrent neural networks which is employed in convolutional nets
+
+
+What's dropout?
+    It applies 20% dropout to the input data and 50% dropout to the hidden layers

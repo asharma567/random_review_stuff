@@ -1,0 +1,220 @@
+WHat is an outlier?
+	Is an observation that deviates so much from the norm of the data such which causes sense of suspicion as to how it was generated.
+
+Intrusion Detection System:
+	operating system calls, network traffic, other abnormal activity within the system
+	- Think about someone hacking into a secured system.
+
+Credit Card Fraud:
+	an example of an anomalous use case would be to detect a buying spree from an anomalous geo location
+
+Interesting sensor events:
+	sudden change from the norm my mark an interesting event that's occurred which a sensor is tracking.
+
+Law Enforcement: 
+	Fraud in credit card transactions, trading activity and other activities by financial institutions. 
+
+Sometime a sequence of points or set of points delineate an anomalous situation.
+
+outlier could be referred to as abnormality or noise, where as anomaly is a special case which is of interest to an analyst.
+
+distinguishing between anomolous behavior and noise can be difficult.
+	solution would be to create noise detector. thresholding the outlierness of a point we could classify one as being a weak or a strong outlier. 
+	
+	Do we have previous examples of outliers?
+		To distinguish the two points were could make an inference based on previously examples of anomalies. 
+
+	Supervised methods could be used for noise removal or identifying the anomaly
+
+What is a Gaussian mixture model?
+	It's a generative model i.e it generates probabilities from a prior distribution that the model has trained on. This model is a special case where it's prior distribution is comprised of some mix of guassians. think of a multi-model gaussian distribution.
+
+Regression based model
+proximity based model
+
+
+Generative model versus Discriminative:
+
+	Generative models use a prior distribution to find the joint occurrance of a point e.g. the probability of p(y, x) and occurring 
+
+	Where as discriminitive models p(y|x) what's the probability of it being this label given these learned parameters.
+
+	A good question one might ask is: Why is naive bayes better for text classification?
+
+
+With regard to using standard deviations from the mean
+	
+	- 'An implicit assumption is that the data is modeled from a normal distribution'. A good rule of thumb would be to measure a Z score > 3 as a proxy for an anomaly.
+
+	operating under the assumption that the 
+
+The first step NO MATTER WHAT in finding outliers in the data is learning the 'normal' structure of the data first and then picking the right model.
+	
+	- understanding, which model to use given a certain distribution of data. For example, if there was data which demonstrated a very high linear correlation 2-d or 3-d  linear regression would be the best choice.
+
+Was the way I modeled craiglist the best? 
+	- I don't know 
+
+Why non-linear versus linear?
+	- I just got better results with linear and you see if put it up on a graph. So within each year it would be normally distributed and having a linear model it wouldn't intersect the tails properly.
+
+I played around with other methods later to intentionally overfit the data but didn't get good results especially with the nonlinear models.
+
+Figuring out a model for outlier analysis is also highly dependant on finding a model that fits well if you find a model that's oversimple and is underfit it will declare something normal as an outlier. If it's overfit than it will overfit to the anomalies.
+
+Though, I feel this is an area that's also up to Analyst's discretion. 
+
+models that make fewer transformations to the data are usually the ones that are the most interpretable. e.g. PCA.
+
+Extreme value analysis?
+	Extreme value analysis is actually exactly what it sounds like 
+
+	EVA differs greatly from generative probabalistics models in the context of what's an outlier. EVA is all about the tails and generatives are all about shape of distribution and the probability of that point occurring. Take this set for example {1, 2, 2, 50, 98, 98, 99} where 50 is average and would be considered an anomaly by generative probabalistic model wehere using EVA it wouldn't.
+
+	This distinction gets even more complicated when EVA uses the outputs of a probabilistic model.
+
+	EVA is naturally designed for 1-dimensional data for obvious reasons.
+
+	The bottom line with EVA is that the point(s) must be considered on the outskirts of a dataset in ordered to be considered an outlier.
+
+*Expectation Maximization?
+	learning process akin to gradient descent that learns the parameters(weights) of the data. Key distinction about the learning in ML which is ... 
+
+Using a gaussian mixture model for outlier classification?
+	assuming the underlying probability distribution has multiple gaussians. It models how well the subject point would fall under each gaussian and the entire distribution as a whole.
+
+figuring out the params through PCA versus normal eqn versus gradient descent?
+	ask the author about this piece on page 13. 
+	What's the cost function for PCA?
+
+Spectral models?
+	Spectral models are used in conjuction with matrix decomposition techniques where the underlying dataset is graph/network based.
+
+Proximity based models
+Density based versus clustering based?
+	- density segments points and clustering segment the space eg k-means versus db-scan
+
+cluster shapes are assummed
+
+What are the problems with just simply training supervised model of what's an anomaly and not?
+
+	- It's operating under the assumption that you know what an anomaly is it will re-occur in the same form. That is, Fraud can appear in different forms that the model's never seen before.
+	- class imbalance
+	- multiple kinds of anomalies
+	- causal relatonships of anomalies i.e. things occuring in sequence hence they'll be represented by multiple points
+	- this method also implies that you've seen anomalies before
+
+
+How is a kalman-filter used?
+
+Information Theoretic models?
+	- it compares the code length i.e. the compression of a information to check whether it's an outlier
+	I'm thinking about LSH here but LSH might more sense as a proximity based model sense it hashes similar things into buckets and indexes them s.t. thier local to one another. Jaccard of the minhashes of two things. (this is a very dumbed down explanation, as there are several minhashes taken and compared) 
+
+	example of information theory--
+	If you're doing PCA and it's difficult to reduce the dimensions down to something small then that means there isn't that much redundant information hence higher population of outliers w.r.t to the subject data set.
+
+All these learners or models are doing is describing the dataset in some way.
+	- clustering descriptions, histograms, plots
+	- parametric supervised learning: learning the parameters which describe the data. eg. think about OLS mx+b=y, m & b are the parameters which are learned.
+	- PCA, spectral models -- projecting it out to a lower dimensional sub-space or condensed representation of a network.
+
+Proximity based models
+---------------------
+
+What are proximity based models?
+	- NN
+	- DBSCAN
+	- K-Means
+* Affinity Propagation
+* DBSCAN
+* K-means
+* Adapted kNN
+
+When to use a proximity based model?
+Which one to use?
+
+
+
+In k-means clustering think about fitting some numbers of clusters to the data. Iterating through the set of data-points computing the silouhette score or some type of entropy score (this is the outlier score) this is outlier score in this case. The one that makes the largest impact is an outlier
+	The problem with silhouette score is that it's taken in aggregate, among all points and it's indicative of how well the clusters are formed. We need something that's going to distinguish between clusters, clusters with odd shapes, edge of the data set and inside the dataset.
+
+*You could use ensemble methods in clustering as well?
+
+sequential vs independant ensembles?
+	random forest versus GBM
+
+Clustering based techniques--
+	- membership of a cluster base
+	- silhouette score*
+		- the metric which encapsulates how well it fits into a cluster versus how well it doesn't fit into the other clusters
+	- How does K-means work?
+		- randomly seed centroids
+			computes each points distances to each centroid
+			assigns each point to it's closest centroid
+			the centroid is recomputed (the mean of the points of it's assigned segment)
+
+			this process continues until there isn't movement of the centroid.
+KNN--
+	- looping through all the points the knn algo willl return indices and distances of it's k nearest neighbor, and now we have all the distances. If there's a repeated pattern of a certian point or a certain group of points being far from eachother, they could be considered outliers.
+	O(N^2) best case scenario. Though, this can be more detailed and accurate. It's without a doubt more granular.
+
+How does DBSCAN work under the hood?
+
+Why did I choose a regression based technique versus clustering?
+	- I fiddled around with DBSCAN and wasn't getting good results. There would also have to be another process of checking whether or not it was out the ordinary for bad or good reasons.
+		- talk about how size of the data is also pretty relevent
+
+Picking the data model given the data and it's size is absolutely crucial. Also think abo
+
+Distinguishing between noise and anomalies:
+	non-membership of a cluster just might indicate noise 
+	extraordinarily high deviation from center or nearest neighbor might indicate anomaly
+
+What's a good example to distinguish between noise and anomaly in clustering?
+	a data point that sits on the fringes of a large cluster is noise
+	a data point that sits far away from all other clusters is an anomaly
+
+How can you check the shape of data if it's high-dimensional?
+	- tsne might give you some intuition as to how the data sits
+
+WHat is mahalanobis distance?
+	- it's a good measure to compute the outlier score.
+	- works best with data that's multi-variate normally distributed.
+	- Uses PCA to project the data on to a new coordinate space and makes a measurement.
+
+105) go over the EM algorithm
+
+How to combat noise versus anomalies with clustering?
+	- don't just checking membership with a cluster technique
+	- use distance from a centroid
+	- these distances should be normalized e.g. mahalanobis 
+
+	* Clusters should have a minimum threshold on their cardinality in order to be considered true clusters, rather than a closely related group of outliers.
+
+Clustering is used for larger data_sets
+
+If you can get away with it, use k-nearest neighbors
+Lookup K-nearest neighbor outlier detection methods
+	O(n^2 * d) where d is distance computation
+	outlier detect algo knn:
+		iterate through set looking for outlier
+		once one is found to be outlier throw it in the bag
+		if a point is clearly not an outlier do not check that data point again
+
+Cell-based methods--
+	- great for lower dimensional data
+	- is an alternative to pairwise computation
+
+A good deduping approach would be to work deductively rather than inductively i.e. remove the outliers and keep the big clusters. In the case of dbscann: clusterquality will be to just throw away the smallest clusters and see what's left.
+
+Index-based methods--
+	- Look up an R*Tree
+		- a data structure used for indexing spatial data. eg. geo-spatial, think about lat lons as inputs
+	- need to be good about maintaing a solid inner and outer loop here
+
+Can you compose a distribution of distances with looping through KNN?
+	- Perhaps this is a good way to inspect the quality of the clustering
+
+What's reverse KNN--
+	basically if you were to think of a graph constructed of the k-nn'd data set. Where ever node is a data point and is given the chance of k edges. If we threshold these edges by some distance metric we'll have outliers with one one out or none at all hence we've identified them.
