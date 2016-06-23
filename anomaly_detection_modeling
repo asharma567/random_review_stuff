@@ -1,4 +1,12 @@
 http://datascience.stackexchange.com/questions/6547/open-source-anomaly-detection-in-python
+
+http://scikit-learn.org/stable/modules/outlier_detection.html
+
+http://scikit-learn.org/stable/auto_examples/applications/plot_outlier_detection_housing.html
+
+https://indico.lal.in2p3.fr/event/2987/session/9/contribution/27/material/slides/0.pdf
+
+http://www.datasciencecentral.com/profiles/blogs/introduction-to-outlier-detection-methods
 ----
 What is an outlier?
 	Is an observation that deviates so much from the norm of the data such which causes sense of suspicion as to how it was generated.
