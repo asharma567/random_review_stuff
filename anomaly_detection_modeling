@@ -7,6 +7,49 @@ http://scikit-learn.org/stable/auto_examples/applications/plot_outlier_detection
 https://indico.lal.in2p3.fr/event/2987/session/9/contribution/27/material/slides/0.pdf
 
 http://www.datasciencecentral.com/profiles/blogs/introduction-to-outlier-detection-methods
+
+====
+While statistical methods are mathematically
+more precise, they suffer from several shortcomings, such as simplified assumptions
+about data representations, poor algorithmic scalability, and
+a low focus on interpretability. 
+
+With the increasing advances in hardware technology for data collection, and advances in software technology (databases) for data organization, computer scientists have increasingly been participating in the latest advancements of this field. Computer
+scientists approach this field based on their practical experiences in managing
+large amounts of data, and with far fewer assumptions– the data
+can be of any type, structured or unstructured, and may be extremely
+large.
+====
+
+“Never take the comment that you are different as a condemnation,
+it might be a compliment. It might mean that you possess unique
+qualities that, like the most rarest of diamonds is ... one of a
+kind.” – Eugene Nathaniel Butler
+
+Intrusion Detection Systems
+Credit Card Fraud
+Interesting Sensor Events
+Medical Diagnosis
+Law Enforcement
+Earth Science
+
+read this introduction: talks about use cases
+
+Page 7) the importance of pickign the proper model given the distribution of the data
+
+read chapter 3: basic models for outlier detection
+
+page 23) Categorical, Text, and mixed attributes
+
+page 24) Time-series data and data streams
+
+page 28) Supervised Outlier Detection
+
+
+
+
+
+NOTES
 ----
 What is an outlier?
 	Is an observation that deviates so much from the norm of the data such which causes sense of suspicion as to how it was generated.
