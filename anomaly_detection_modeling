@@ -1,4 +1,6 @@
-WHat is an outlier?
+http://datascience.stackexchange.com/questions/6547/open-source-anomaly-detection-in-python
+----
+What is an outlier?
 	Is an observation that deviates so much from the norm of the data such which causes sense of suspicion as to how it was generated.
 
 Intrusion Detection System:
@@ -219,3 +221,4 @@ Can you compose a distribution of distances with looping through KNN?
 
 What's reverse KNN--
 	basically if you were to think of a graph constructed of the k-nn'd data set. Where ever node is a data point and is given the chance of k edges. If we threshold these edges by some distance metric we'll have outliers with one one out or none at all hence we've identified them.
+
