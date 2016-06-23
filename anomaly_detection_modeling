@@ -182,6 +182,7 @@ WHat is mahalanobis distance?
 	- it's a good measure to compute the outlier score.
 	- works best with data that's multi-variate normally distributed.
 	- Uses PCA to project the data on to a new coordinate space and makes a measurement.
+	http://stats.stackexchange.com/questions/62092/bottom-to-top-explanation-of-the-mahalanobis-distance
 
 105) go over the EM algorithm
 
