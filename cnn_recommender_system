@@ -1,0 +1,33 @@
+collaborative filters -- 
+	- figure out user preferences by the usage of patterns of historical data.
+	- and it relies purely on user usage data, it's content agnostic
+
+	CONS
+	- there's a strong bias towards items that are very popular and have a lot of usage data and this makes for boring and predictable recommendations
+	- heterogeniety of items. that is sometimes you don't want to be recommended certain items. eg cover, intro, outro, preludes. etc. Collaborative filter doesn't take anything into account at the item level.
+	- cold-start issue
+
+	the input layer: takes a mel-spectrogram which is basically the wave of an audio post fourier transform but this isn't to be confused with mp3 like compression. This scales logrithimically as opposed to linearly size wise.
+
+	the filter slides across the spectral wave of the audio and convolves the a single dimension, time. What this means is that the filter just slides across bits fo the song. Images typical use a two-dimensional filter for the feature mapping (convolving). 
+
+	max pooling to downsample the representation
+
+	WHat is the global temporal pooling layer?
+		- it's placed after the last conv layer to figure out summary statistics of the learned features across time: mean, max, the l2-norm
+
+	WHat are being used as the features and labels?
+		input: mel-scaled spectrogram, compressed form of the audio basically.
+		labels: latent factors from the collaborative filer that correspond that particular audio track.
+
+	Data Augmented by randoming cropping
+
+	The Filters(feature maps) detected harmonic bands (even the pitch, slanted up or down), human voices,
+
+	The first layer picked up pretty low level stuff like
+	multiplie people singing,
+	bass and drum,
+	ringing ambience,
+	vocal thirds,
+
+	

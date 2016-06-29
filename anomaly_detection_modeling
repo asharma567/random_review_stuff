@@ -101,7 +101,7 @@ With regard to using standard deviations from the mean
 
 	operating under the assumption that the 
 
-The first step NO MATTER WHAT in finding outliers in the data is learning the 'normal' structure of the data first and then picking the right model.
+The first step NO MATTER WHAT in finding outliers in the data is understanding the 'normal' structure of the data first and then picking the right model.
 	
 	- understanding, which model to use given a certain distribution of data. For example, if there was data which demonstrated a very high linear correlation 2-d or 3-d  linear regression would be the best choice.
 
@@ -272,4 +272,24 @@ Can you compose a distribution of distances with looping through KNN?
 
 What's reverse KNN--
 	basically if you were to think of a graph constructed of the k-nn'd data set. Where ever node is a data point and is given the chance of k edges. If we threshold these edges by some distance metric we'll have outliers with one one out or none at all hence we've identified them.
+
+What is EM? 
+	expectation maximization is the statistical techniques of learning (or estimating) model parameters of the underlying data distribution. Solving the MLE for a particular problem is a optimization problem but useing MLE  -- lets say -- to estimate the mean of a normal distribution is a method. Which method of moments could used an alternative.
+
+
+Advantage of probabilistic models (generative)--
+	for example, if that data is categorical then a discrete bernoulli coudl be used for the underlying mixture components.
+Cons
+	they could fit the wrong distribution type and potentially overfit
+
+If you use a distance threshold that might not work well with distribution that have several sub distribution with varying data sparsity. So a static threshold will identify outliers in one cluster while mistaking things which are noise outliers in the other clusters.
+
+
+Look this up again: reverse-nearest neighbor approach
+
+What is LOF?
+	local outlier factor is a way to quanitify a data points outlierness with adjust for the variation in local densities.
+
+Cons for distance/proximity based search?
+	all the points become very far from one another and pratically equidistant. proximity based methods will naturally degrade in quality the higher the dimensions.
 
