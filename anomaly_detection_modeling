@@ -293,3 +293,31 @@ What is LOF?
 Cons for distance/proximity based search?
 	all the points become very far from one another and pratically equidistant. proximity based methods will naturally degrade in quality the higher the dimensions.
 
+Read-up on PCR: ISL - try and understand the motivation behind it
+
+
+FFT for outlier detection
+-------------------------
+
+What is a transformation?
+	it transforms or maps data from one domain to another. Example non-linear to linear or time to frequency. For example PCA and the normal equation are examples of linear transformations. If you really wanted to be anal you could call it an orthogonal linear transformation.
+
+	Gets you from one representation of the data to the other. We could also think of this occurring in a conv net as an image passes through conv layers, it's filtering out the image to specific features.
+
+What are Fourier transforms?
+	they literally transform data from the time domain to the frequency domain represented by sinusoids. sine waves were the best becuase they're just easier to model as they don't change shape just amplitude and phase. We could easily monitor change in phase for our purposes of anomaly detection.
+
+What are some low-tech ways of finding outliers?
+	Rolling Median average as opposed to mean averaging. Why? because median is robust to outliers. In the context of identifying outliers it works quite well. Though if you're trying to model the normal state of the stream with this technique you'll find that it's terrible because it smoothens it where as FFT preserves the signal much better.
+
+Why is it dangerous to use a global threshold in rolling models?
+	global thresholds operate under the assumption the normal state of the data is consistent all throughout the stream. Something more dynamic and specific to it's window of data might make more sense.
+
+what is cascading?
+	sequentially layering of models.
+
+What are evaluation methods?
+	recreate the original signal with whatever modeling technique and you can grid search the optimal parameters e.g. window size
+
+FFT versus rolling median?
+	FFT, seems to work very well. I'll have to think more about it's weakness when it comes to anomalies detection. It seems to have a problem with noise but anomalies it doesn't.
