@@ -295,9 +295,129 @@ Cons for distance/proximity based search?
 
 Read-up on PCR: ISL - try and understand the motivation behind it
 
+Temporal Data
+-------------
+- Streaming data: think text.
+- Time-Series: an immediate shift in some dimension of the series.
+- novelty and change in detection in multidimensional cases
+	with sensor data two successive data points are often identical to eachother but in if it's text, this is often not the case in terms of dimensions. 
+
+	Time-instant change: as discussed above. Think of the trend detection bit by twitter or mean-shift, or std deviations out.
+
+	Novelties in individual's data points from one another: len(d_pt1) is largely different from the len(d_pt2). These are often trend-setters as there will be other points to follow and eventually will become a normal data point
+
+	change point outlier: len(d_pt1) is largely different from the average. Leverage's clt. multiple topics change in aggregate
+
+	CONS: these anomalies w.r.t past behavior.
+
+There's a concept of cross-correlation of independant time-series which could also aid in modeling. Think S&P and 10 yr T market
+
+Check out pg 160
+	For example, it has been shown in [160] that interesting outliers in widely separated domains such as intrusion detection and text news story analysis are related to the problem of change detection.
+
+Root cause analysis links:
+	http://www.datasciencecentral.com/profiles/blogs/great-example-of-root-cause-analysis-to-debunk-the-missile-myth
+
+	http://asq.org/quality-progress/2015/02/back-to-basics/the-art-of-root-cause-analysis.html
+
+What's the problem with high dimensional data?
+	It's more difficult to figure out what the normal state of the data is. If you consider the case in proximity models like nn where the higher the dimensions the more the points become equi-distant appearing from one another.
+
+
+Time-series
+-----------
+This this is a specific type of temporal data in the sense that there's a time domain and each observed point could be treated as i.i.d in sequential data. So all of those same rules apply
+
+what's a deviation-based outlier?
+	one that deviates far from historical figures eg. fitting a regression model and making a prediction and if it's really off from that prediction then it's a large deviation.
+
+	it's good for finding anomalies as well as noise since it's gives you a gradient of how much it was off by i.e. it's easy to produce some outlier score.
+
+Correlations across time:
+	aka stream filtering. fitting a model to time-series and seeing how much the next data point deviates from the series.
+	should this be rolling or take everything?
+
+Correlation across series:
+	eg. two sensors neighboring sensors recording bird calls.
+
+Autoregressive Models
+	- regression models that automatically move the modeling window.
+	- the errors are the metric for the deviation. they're iid and drawn from a normal distribution. The guassiian properties come in handy with large time-series (p).
+
+Moving Average
+	- component to make AR models more robust
+	- rolling model that views the deviations from the mean specifically where as AR tries to forecast the upcoming points
+	- the error terms here are dependent on the coefficients and implies a non-linear relationship*. So fitting this model cannot be done by least squares
+
+ARMA(p, q)
+	- p: the number of values used to fit for the forecasting on the autoregressive component
+	- q: the number of terms used for the MA component
+	 if p, q are too small than it won't fit the data well and anomalies won't be detected since the threshold for noise will be too high.
+	 - double-edged sword; on the one hand, it increases the expressive power of the model, and on the other hand, it could lead to overfitting.
+
+	 note: it's said that whatever time-series you're fitting the model to requires stationarity i.e. mean, variance is constant over this time period.
+
+	 So stationarity is one way of modeling the dependence structure. It turns out that a lot of nice results which holds for independent random variables (law of large numbers, central limit theorem to name a few) hold for stationary random variables (we should strictly say sequences).
+
+	 Many of the asssumptions that hold for iid random variables (law of large numbers, clt, ..) also hold for stationary sequences.
+
+	 if the data can't stationary from transformation or something then we use ARIMA to handle the differencing.
+
+ARIMA
+	- is used in a case where a time-series naturally drifts away from the mean, in which case it's common in practice to de-trend the time-series (decompose it) by using ARIMA pg 387 think of a random walk
+
+LAG CORRELATION
+Be familiar with the term lag correlation agianst another time series. referring the bird call sensor example there's a constant lag factor associated with the the data each sensor's picking up.
+
+implementation ideas:
+	ar model fit
+	ma model fit 
+	How to properly fit an arma model
+	arima
+	build an LTSM for time-series and discuss the advantages
+
+Direct generalization of ARIMA, ARMA models:
+look for this technique
+For example, the Muscles and Selective Muscles techniques proposed in [491] can perform the regression analysis much more efficiently.
+Recursive Least Squares is employed to solve the regression more efficiently
+ Wold's theorem
+ Augmented Dickey–Fuller (ADF)
+
+http://people.stat.sfu.ca/~lockhart/richard/804/06_1/lectures/ModelFitting/web.pdf
+
+How do you use time-series modeling in the context of outlier detection?
+	- after properly fitting model s.t. AR, MA, ARIMA, ARMA, or GARCH then seeing how large the error is with a new data point.
+	- this could and should be augmented by correct preprocessing procedures like decomposing/detreading or stationarizing etc.
+
+PCA (OR Spectral Model) -- Information compression approach
+	The reason why PCA coudl be effective is that i) it captures the correlation in the faeture matrix ii) if you examine the spread of information through the eigenvectors and the first few clearly capture most of the information then this is a good way to construct a supervised model since it's capturing most of the redundancy hence the remaining could be thought of anomalous. If information is spread quite evenly than it means that it's sparse.
+
+	So methods mentioned above highlight stark deviation from expected values and reports them as outliers.
+
+	- failure in sensor equipment or things that are causing volatility in sensor equipment
+
+
+	supervised approach
+	time-series of unusual shapes
+
+	pg236
+
+Cusum -- seems like an interesting approach though the fact that it's seems to needs stationarity first as it's suceptible to FPs from trends.
+
+Approaches to ryan's problem--
+	GOAL model a spike in airline prices.
+	- it's important to strip out all the outliers before fitting any model to anything, so when you do fit a model you're modeling what is normal
+	- ARMAX - well give you the chance to put in seasonal dummies such as, hour, holiday, weekend
+	- auto-regressive moving model, keeping track of the errors and seeing where the new point's error falls
+	- learning the entire time-series and then looking at the errors
+	- much of manuevering will lye on computing the window of time
+	- keeping a rolling avg/std and if it's too high then there's a cause for concern, but this only works after decomposition. Static thresholds won't work. Maybe if you leverage CLT it might work out well.
+	- supervised approach
+
 
 FFT for outlier detection
 -------------------------
+https://bugra.github.io/work/notes/2014-03-31/outlier-detection-in-time-series-signals-fft-median-filtering/
 
 What is a transformation?
 	it transforms or maps data from one domain to another. Example non-linear to linear or time to frequency. For example PCA and the normal equation are examples of linear transformations. If you really wanted to be anal you could call it an orthogonal linear transformation.
@@ -308,7 +428,7 @@ What are Fourier transforms?
 	they literally transform data from the time domain to the frequency domain represented by sinusoids. sine waves were the best becuase they're just easier to model as they don't change shape just amplitude and phase. We could easily monitor change in phase for our purposes of anomaly detection.
 
 What are some low-tech ways of finding outliers?
-	Rolling Median average as opposed to mean averaging. Why? because median is robust to outliers. In the context of identifying outliers it works quite well. Though if you're trying to model the normal state of the stream with this technique you'll find that it's terrible because it smoothens it where as FFT preserves the signal much better.
+	Rolling Median average as opposed to mean averaging. Why? because median is robust to outliers and it doesn't smooth the original signal though it could be quite jumpy with high/low peaks. In the context of identifying outliers it works quite well. Though might not be the best at recreating the normal state of the model.
 
 Why is it dangerous to use a global threshold in rolling models?
 	global thresholds operate under the assumption the normal state of the data is consistent all throughout the stream. Something more dynamic and specific to it's window of data might make more sense.
@@ -321,3 +441,6 @@ What are evaluation methods?
 
 FFT versus rolling median?
 	FFT, seems to work very well. I'll have to think more about it's weakness when it comes to anomalies detection. It seems to have a problem with noise but anomalies it doesn't.
+
+What's the problem with rolling and/or windowing methods?
+	trying to figure out the size of the window and if the window's too small it'll miss some anomalies not in the context of single points but a sequence of points or a window of points e.g. the flash crash.
