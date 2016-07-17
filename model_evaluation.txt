@@ -1,0 +1,43 @@
+NOTES on http://sebastianraschka.com/blog/2016/model-evaluation-selection-part1.html
+
+Model evaluation
+----------------
+- making sure the test data correctly represents the unseen data. particular pitfalls might be to that of distributions.
+
+1) we need to estimate future performance on unseen data by measuring the error rate. i.e. 'how well the model will generalize'
+2) we need to tune each model individually such that it fits the training set well (the hypothesis space). We select the best performing model for the hypothesis space.
+3) At the end we want to pick the algo that's best suited for the use-case and structure of the data at hand in additional the performance of the model. * need to come-up with examples of this.
+
+A good question for this, what are cases where a linear model like logistic regression better than the non-parametric random forests.
+
+* it is that biased performance estimates are perfectly okay in model selection and algorithm selection if the bias affects all models equally.
+
+By placing models side by side you rank models relatively. The key is they have to be on the same set of data because if there is in fact any bias in the training set it will affect all models equally... though to look at the models performance of 82% R^2 and say that how it performs on all data is absurd.
+
+* isn't time-series and temporal data one in the same? And do they not share the same properties of i.i.d.
+
+There are two types of Biases: statistical and in ML. Stats think MSE = variance + bias + error
+
+
+Bias is the difference between the expectation of the estimated coefficient and the true value of the coefficient
+
+Variance is simply the dispersion versus the true coefficient.
+
+* If a target variable is continuous and bounded can we use a binary classifier
+
+What's the distinction of parameters and hyper-parameters?
+	parameters of a model are variables that it learns to fit to the data itself (e.g.) the slope and intercept in a bivariate linear regression, The beta-coefficients in a logistical regression. 
+
+	where as hyper-parameters are what's being used to tune the model s.t. that it fits the data well. eg lambda parameter in ridge penalty, tree depth, number of trees.
+
+	model parameters are learned from the data. hyper-parameters are set manually.
+
+!Train it on the hold out before the delivery
+
+When you're modeling data you're making an assumption that the data is iid but ...
+* why does random subsampling violate independence?
+
+Pessimestic Bias is the second problem, i.e. what number of examples should we use to the train on? Has the model reached it's full capacity. If not, we're being pessimistic about it's performance.
+
+
+
