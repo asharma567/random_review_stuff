@@ -415,6 +415,18 @@ Approaches to ryan's problem--
 	- supervised approach
 
 
+Look up:
+	- ROOT cause | http://techblog.netflix.com/2015/07/tracking-down-villains-outlier.html
+	- What is spectral analysis
+	- FFT| http://nerds.airbnb.com/anomaly-detection/
+	- FFT | https://www.youtube.com/watch?v=t4zEeujVht8 | https://bugra.github.io/work/notes/2014-03-31/outlier-detection-in-time-series-signals-fft-median-filtering/
+	- Trace | https://www.cs.uic.edu/~urbcomp2012/papers/UrbComp2012_Paper18_J.T.Zhang.pdf
+	- Supervised learning across multiple time-series
+	- Discrete Wavelet Transform (DWT), Fast fourier
+	- symbolic Aggregate Approximation (SAX) [305]. In this method, Piecewise Aggregate Ap- proximations (PAA) 
+	read 3.4, 3.5, 4, look up that project
+	- https://linkurio.us/lyft-vs-uber-visualizing-fraud-patterns/
+
 FFT for outlier detection
 -------------------------
 https://bugra.github.io/work/notes/2014-03-31/outlier-detection-in-time-series-signals-fft-median-filtering/
