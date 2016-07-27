@@ -1,0 +1,49 @@
+Why is NB used in text classification problems?
+-----
+- It's great at dealing with high-dimensional space
+
+How many observations do you need?
+----
+- sci-kit learn states it's best at under 100k examples
+
+Why is naive bayes called "naive"?
+----
+- it assumes independence of features
+
+Why multinomial?
+-- 
+- seems to work well with BoW model, though it also work decently with tfidf
+
+How are teh parameters estimated?
+--
+smoothed version of Maximum Liklihood i.e. relative frequency counting
+
+What's the major differenece between Multinomial and Bernoulli NB?
+---
+- Bernoulli is indifferent for the non-existence of a feature in a document, multinomial penalizes.
+- it only takes BoW model
+
+highlights
+- Handles imbalanced sets quite well
+- It's fast so it can be used for online learning
+- Though it assumes no correlation between features, it does amazingly well in real-life applications
+- look-up the conditional probabilities table
+* also popular for spam classification* should look up as to why?
+* Laplace smoothing?
+* generative models even function well with a low number of training examples
+
+
+What is a Rocchio classifier?
+-----------------------------
+Nearest centroid based classifier, it works well when documents cluster well with one and another and do not overlap with the class of the other documents. It basically forms a centroid on your document cluster and classifies an new data point based on which one it's closest to. 
+
+There's disadvantages to this method. What if the documents of a single class form multiple clusters? What if the cluster of another class is in between these two clusters
+
+advantage: it's quite fast.
+
+WHat's the problem with using SVM for text classification?
+-----------------------------------------------------------
+
+What are popular text-classification algorithms?
+-------------------------------------------------
+
