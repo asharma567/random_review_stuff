@@ -1,0 +1,17 @@
+Churn
+------
+Aka customer attrition
+
+Defining a cohort
+	basically finding something in common about a group of users. e.g. sign-up date, first month's purchase, birth-date, acquisition, first purchase ever.
+
+Defining a key metric to track over time
+	usually a sales, usage metric eg. booking a trip for lyft uber or airbnb, or just signing on to thier app.
+
+How did you cohort analysis with bonds?
+	Bonds from different companies that were issued at a certain date and just track thier performance fixing on one metric in my case what percentage of the bond as paid down.
+	Obviously you want to be good about fixing as many variables as possible to avoid bias. Cohort analysis followed by a prediction model that took time-series data from the prior months.
+
+Taking snapshots of different time periods lets say months in our case my also be a worthy approach.
+
+Can I fit this into a the cab analysis thing
