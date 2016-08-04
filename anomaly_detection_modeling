@@ -456,3 +456,9 @@ FFT versus rolling median?
 
 What's the problem with rolling and/or windowing methods?
 	trying to figure out the size of the window and if the window's too small it'll miss some anomalies not in the context of single points but a sequence of points or a window of points e.g. the flash crash.
+
+Quick and dirty of how to deal with outliers?
+	- leave it as is and include it into the training set
+	- eliminate it
+	- winsorize it
+		Basically either assign it a lesser wieght or modify it making it appear close to the rest of the data points.

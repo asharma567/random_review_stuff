@@ -1,0 +1,10 @@
+How does uber's surge pricing work?
+-----
+- one solution, it could be a function of wait time but a global static threshold wouldn't be generalizable across cities since different cities have different median/average wait times
+- I like to the think of it as the S-curve as we used to do for pricing out mortgage bonds. What's an S curve. 
+
+If you plot the price versus interest rate you'll notice an S-shape (sigmoidal). Where as, if you plot the price of a Treasury or corporate bond it'll be convexed. Why this distinction? Because with mortgage bonds the price tends to dampen at certain levels where borrowers are insensitive to prepayment incentive. To back up one step, prepayment is basically the borrowers right to refi thier loan whenever they want. So if you're a bond holder you're basically short a call-option.
+
+In any case, I would imagine Uber's pricing algo to work the same way, at some point it hits some threshold and it dampens the demand to a point where it's flattened out. This will give it an S like shape.
+
+Bear in mind, folks have different incentives to pull the trigger, there are cohorts which are: highly sensitive to surge pricing ( that is they don't book at all if it's instatiated ), folks which are moderately, or some which are not at all.

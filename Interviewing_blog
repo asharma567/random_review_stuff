@@ -1,0 +1,27 @@
+Interviewing in the data science space
+-----------------
+
+Lets start with the bullshit coin flip and dice rolling questions from undergrad. You can study this stuff on khanacademy.
+Theoretical questions: the difference between "information and data"
+The business case question: "how many mcdonalds are there in US"
+* need to address the approach
+White boarding questions
+Computer Science algos - design and thing
+A/B testing questions - udacity
+
+
+
+Not only is this stuff quite frankly not relevant to being a good data scientist it's items that could trained solely to pass interviews without ever knowing any data science at all. It literally just tests whether or not the person's good at interviewing.
+
+The interviewing process to hire a data scientist is disjoint from actually practicing data science.
+
+
+Suddenly, questions that have to do with specific problems you're trying to solve or have solved fall to the way side e.g. Time-Series, the nuances of anomaly detection, dealing with class imbalance. 
+
+Rather than asking me questions about practical problem solving that I might see on the job you prefer to ask questions like "how many McDonalds there are in the US", "Is this coin/dice or unfair?" 
+
+Problems out of 120 questions maybe work okay for folks that are fresh out of school and have recent exposure to these problems.
+
+The problems are representative of day-to-day work As such they’re terrible metrics for evaluating the performance of a data scientist. It’s like evaluating a soccer player by asking him how much he leg presses or something. I.e. folks seem to justify it because it has some strain of significance. 
+
+As such, I’ve scraped all the questions off of glass door. You can just study these questions and do well and you’ll have your data science job and title. The people will poor interviewing practice here will suffer the most while this will leave the folks with good interviewing a solid pool of candidates.
