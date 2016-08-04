@@ -308,4 +308,99 @@ What solutions to multicollinearity?
 
 
 
+Questions
+----------
+how would you do A/B testing with supervised learning?
+Model deployment best practices?
+What are some noise removal and anomaly detection techniques?
+What are use cases for PCA, in areas which it's superior to other algorithms?
+How do you gauge cluster quality with DBSCAN?
+Which models are more stable: parametric or non-parametric?
+LDA versus PCA? and it's optimal use-cases?
+What is pca's inverse transform method?
+What is the optimal method to choose components for PCA?
+    what are the trade-offs for elbow method, kaiser, grid-searching
+How would you know the number of principal components to choose for getting rid of the anomalies?
+What are some methods for anomaly detection in time-series data? And how do they work?
+What does Series.select_dtypes do?
+What does Series.value_counts(normalize=true) do?
+What is the gale-shapley algo?
+What is the PCA feature contribution method?
+How do you emphasize a particular feature more or less
 
+http://machinelearningmastery.com/a-tour-of-machine-learning-algorithms/
+    Why is logistic regression a regression model?
+    Distinguish between regression learning, tree-based, instance-based, bayesian? 
+    What does recommender systems fall into?
+
+
+
+
+Kuhn: remedies for severe class imbalance? and data mining?
+
+
+Model evaluation
+=================
+- What’s the best Metric for evaluating a model for a multilabel problem?
+- What are best practices when deciding if one model is better than another?
+- How are you prototyping? test/train validation.
+- Do you use a seperate data set when you're training for feature engineering and grid-searching hyper-parameters, to model evaluation?
+- When is it better to use LR versus RF?
+- How do you deal with class imbalance?
+
+
+
+Deduplication techniques
+=======================
+- What are some popular ones you know of?
+- One's that aren't quadratic and expensive in terms of time-complexity?
+- Graph theory
+
+Log_loss
+========
+How does log_loss work?
+
+Anomaly detection
+==================
+Anomaly detection techniques?
+
+
+Does the model make any important assumptions about the data? When might these be 
+unrealistic? 
+What are some dimensionality reduction algorithms you've used in practice besides PCA?
+Are there any situations where you'd want the model to be overfit?
+What's a GLM?
+How would you combat overfitting of a model?
+What's the difference between a regular MR job and streaming MR job?
+How to penalize one class more than another?
+
+
+
+*Take a look at Sebastians blog
+
+
+Multicollinearity
+==============
+What are consquences for Multicollinearity?
+What are indications of multicollinearity?
+What solutions to multicollinearity?
+
+
+Seb's q
+-------
+In any case, I struggled to understand the last section of the post when you were talking about building a Confidence Interval with the generalization error.
+
+I’d love to clarify the sections that are unclear; however, it would be nice if you could give me a further hint regarding the part that was most unclear so that I could tackle these more specifically.
+Basically, I was just applying the “normal approximation,” since the predictions are binary; we have a 0-1 loss and the prediction for a given sample is either “right” or “wrong”. Now, if we average these predictions, we get the prediction “accuracy”. For example, let’s assume we have 5 samples. The true class labels are [1 1 0 0 0], and we make a prediction [0 0 0 0 0]. In this case, we have the following 0-1 Loss
+
+0 = 1 -> False
+0 = 1 -> False
+0 = 0 -> True
+0 = 0 -> True
+0 = 0 -> True
+
+which gives us a count of 3 correct predictions (think of a binomial distribution and computing the probabiliity of getting at least 3 out of 5 predictions right). The accuracy is then basically just this average number 3/5.
+
+Sorry if this sounds a bit abstract, but maybe google for the term “normal approximation” and browse through some of the articles; there are pretty good articles on this out there.
+
+Best,
