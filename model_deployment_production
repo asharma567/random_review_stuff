@@ -1,0 +1,102 @@
+- canary 
+
+- How does productionalizing work? (step by step) from prototyping to productionalizing?
+	- test environment
+	- canary deployments
+		- small subset of users 5%, using something like optimizely
+		- research what is a endpoint?
+			- round robin load balancer
+
+	- pickle it and version it
+	- testing for extremes
+		- passing a data type
+		- overfit or underfit
+
+	"doing data science" armadillo
+
+
+i) The step by step of deploying a model from prototype to production (best practices). Load balancing, tests, or anything else taken into consideration.
+
+ii) What are key distinctions of data scientists who work in the production code-base? how are they evaluated? how is the interview process different versus for regular data scientists.
+
+It's common thought that data scientists prototype a model an send it off to a data engineer. I'm looking to bridge the gap in between and I think it's a very valuable skill perhaps it might make for a good talk or blog.
+
+What are some common misconceptions Jr data scientists have about prototyping and deploying code.
+
+what edge cases are you testing for?
+how are you automating models?
+
+I have yet to come across good resources or material do you recommend?
+Any popular tools?
+
+
+
+
+Add REST endpoints:
+	Post, to post your regression data rows.
+	Get, to get proper score back for a certain factor or attribute.
+	Update previous added datasets.
+	and lastly Delete, for removing noise/or not needed data.
+
+What is NGINX plus?
+	It's a prepackaged load balancer?
+
+What's round robin balancer?
+	It's a load balancing paradigm where it distributes the requests to each node uniformly. One by one it simple rotates and the resulting buckets get filled uniformly.
+
+what is PEP 333?
+
+what is CerryPy?
+
+what is Gunicorn?
+
+what is Tornado?
+
+what is mod python?
+
+Put versus post?
+
+Hey Geoff -- How did you end up productionalizing betsy and/or escher? I know this could be a mouthful but I'm up for catching-up assuming you have time. 
+
+sklearn non-parametric
+
+health metrics for prediction, and training. cabana logs, graphana metrics
+
+testing models before rolling predictions, figuring out good edge cases, testing for preprocessing. Testing each stage of the way.
+
+all the basic points: 
+- cracking the coding interview
+- knowing the data-structures, understanding time complexity trade-offs datastructures.
+	- TRIE or Doubly Linked-lists would be a bit mucho
+
+- unit testing
+- version control
+- writing modular code Dont repeat yourself
+
+Pickling doesn't necessarily work well
+
+He likes saving the parameters to a table and scoring observations through the points because it's a light weight engineering solution that's fail proof
+
+using the other method can have issues like version controlling and dependency issues.
+
+======================
+Lookups
+	Also look up spinning virtual environements
+	the trade-off between rabbitmq and kafka
+	different endpoints for a flask app
+	loadbalancing
+
+come up with specific questions to ask this guy:
+	https://www.quora.com/What-is-the-easiest-way-to-deploy-a-machine-learning-model-say-a-regression-for-production
+
+Come up with unit tests for each stage of the ML pipeline specifically for a/b testing a new model against an old one. eg canary deployments
+
+What's the distinction between Kafka and RabbitMQ?
+
+What are the trade-offs between option 1 and 2 for model deployment
+
+	1) assumes a parametric model but much less engineering over head
+		eg. OLS, train beta weights in R or something, and use SQL to score.
+	2) serialization, version controlling issues and dependency issues.
+
+Think about how we did this with Zoltar.
