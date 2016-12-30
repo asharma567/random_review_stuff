@@ -530,5 +530,6 @@ Multicollinearity
         - standardization helps if there are interaction terms 
         - Ridge reg shoudl be able to help
 
+ESL) chapter 8: what’s model inference and averaging
 
 

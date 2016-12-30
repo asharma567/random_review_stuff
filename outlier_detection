@@ -1,0 +1,31 @@
+Supervised approach versus MA, ARMA, etc
+-----------------------------------------
+- ARMA and such will detect outlier based on the error it produces based on it's window and hence might not be enough to distinguish between anomaly and noise.
+
+
+This method involves learning all the error terms from something like arma or arima, centering the data to Z-vals or something then looking at the tails of the distribution and coming up with an alarm threshold.
+
+- primary abnormal events: true anomalies
+- secondary abnormal events: noise 
+
+The problem of capturing the entire sequence is still a problem eg flash crash. How can you spot such an unusual shape. You need a reference of what is normal to compare to. This becomes a challenge.
+
+What is pruning?
+	- basically trimmnig the TS for outliers
+
+Transformations to other representations--
+	- vectorize the entire time series via Ni
+
+Look up:
+	- ROOT cause | http://techblog.netflix.com/2015/07/tracking-down-villains-outlier.html
+	- What is spectral analysis
+	- FFT| http://nerds.airbnb.com/anomaly-detection/
+	- FFT | https://www.youtube.com/watch?v=t4zEeujVht8 | https://bugra.github.io/work/notes/2014-03-31/outlier-detection-in-time-series-signals-fft-median-filtering/
+	- Trace | https://www.cs.uic.edu/~urbcomp2012/papers/UrbComp2012_Paper18_J.T.Zhang.pdf
+	- Supervised learning across multiple time-series
+	- Discrete Wavelet Transform (DWT), Fast fourier
+	- symbolic Aggregate Approximation (SAX) [305]. In this method, Piecewise Aggregate Ap- proximations (PAA) 
+	read 3.4, 3.5, 4, look up that project
+
+
+	

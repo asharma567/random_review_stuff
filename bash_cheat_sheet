@@ -1,0 +1,83 @@
+Bash cheat sheet
+================
+
+Finding a file in Bash
+---------------------
+find . | grep "file_name.ext"
+rm -r delete_this
+tail -100, head -150
+cd, pwd, ls
+
+
+find path/to/directory -name "*.py"
+find . | grep "Slick.py"
+
+locate -i "helpers.py"
+
+locate -n 1 "helpers.py"
+
+find / -type f -iname "helpers.py"
+
+# find all files named  "Slick.py" and open them using sublime text
+find . | grep "Slick.py" | xargs subl 
+
+history | grep some_command
+ssh
+scp
+time
+echo
+cat
+sed
+awk
+pip list | grep psy
+crontab
+gzip
+#line count
+wc -l 
+grep "this_text" from_this_file.txt | wc
+sort, unique
+
+
+echo $PATH
+source ~/.bash_profile
+
+vim ~/.bash_profile
+grep -r text_within_file .
+
+# cut the first column by delimiter comma and transport it to a new.txt
+cut -d, -f 1 blah.txt > new.txt
+vim ~/.bash_profile
+cat ~/.bash_profile
+chmod 755 morning
+which bash_program_name
+sudo chmod 600 /swapfile
+
+#run this shell script
+./ec2.sh 
+
+ssh -i MyKey.pem ubuntu@ec2-54-183-100-62.us-west-1.compute.amazonaws.com
+scp -i MyKey.pem -r code/ ubuntu@ec2-54-183-100-62.us-west-1.compute.amazonaws.com:~
+
+# pandas is memory hungry # figure out what this does
+sudo dd if=/dev/zero of=/swapfile bs=1024 count=524288
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+
+sudo useradd Ajay
+sudo nohup python app.py&
+
+Python
+---------
+
+#the difference of sets! 
+aa.keys() - bb.keys() 
+
+#updating a dictionary
+some_dict.update(a)
+
+#getting the max from a dictionary
+sorted(some_dict.items(), key=lambda x:x[1], reversed=True)[:1]
+
+

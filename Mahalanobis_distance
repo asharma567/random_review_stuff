@@ -1,0 +1,52 @@
+Mahalanobis_distance
+
+What is it?
+	It's distance metric to compute an honest/accurate representation of points in a data set
+
+Why is it superior than most other metrics?
+	Most metrics aren't scale invariant, certainly the could be solved by some pretty rudamentry preprocessing i.e. subtracting the mean and normalizing by unit variance. 
+
+	But it also solves for correlation between metrics. For a simple case of euclidean distance if you include two of the same variable it would count doubly so for the distance metric, hence overweighting the importance of it. We need to take this correlation into account.
+
+	Take for example a pairwise plot of variables which results in an ellipsoid. There's certainly correlation among these two variables. And if there's a point that's an outlier from the mainstream it would be difficult to find it we're just using a density distribution of distances from the origin. 
+
+	To use something like eucledian distance in this case would be misinforming.
+
+How does it work?
+	Mahalanobis does that by using PCA before hand and then computing the distance matrix on the components. I'm not sure if you could use any distance metric but it's often described using Euclidean distance.
+
+	By using PCA is maps to a new coordinate space or rotates the access in such a way that it captures the most variance of all the variables (features), by performing this we've eliminated the correlation between features and made it scale invariant. 
+
+	Next we compute the pairwise distance matrix of all the examples on the components forming a density of distances. We're in a much better position now to inspect the tails for outliers.
+
+	Visually, we could think of it as taking our ellipsoid and rotating ti in such a way that it's now a circle and then calcing the delta versus the centroid/origin.
+
+
+Notes
+-----
+1) scales
+2) correlation, what ends up happening is that variable's weight is counted doubly.
+
+
+why is the sqrt important with euclidean distance and/or mahalanobis distance? he claims it's a waste of compute time.
+
+How is Mahalanobis like PCA just using a single component?
+
+How/when should we be using Mahalanobis distance be used?
+
+It's said to be scale invariant and unitless and takes into account correlation in the data set. which makes sense because the principal component is projected in such a way that captures the most variance between the variables.
+
+Given that it transforms distances s.t. they lie in a more equidistant space, it's possible to do look at std from the mean.
+
+
+The Mahalanobis distance is simply the distance of the test point from the center of mass divided by the width of the ellipsoid in the direction of the test point.
+
+A point that has a greater Mahalanobis distance from the rest of the sample population of points is said to have higher leverage since it has a greater influence on the slope or coefficients of the regression equation
+
+
+There is a strong connection with Principal Components Analysis (PCA). That alone goes a long way towards explaining the "where does it come from" and "why" questions--if you weren't already convinced by the elegance and utility of letting the data determine the coordinates you use to describe them and measure their differences.
+
+
+resources
+----------
+http://stats.stackexchange.com/questions/62092/bottom-to-top-explanation-of-the-mahalanobis-distance

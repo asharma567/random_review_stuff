@@ -1860,3 +1860,135 @@ Class imbalance
     Cost-Sensitive Training. Use a asymmetric cost function to artificially balance the training process.
 
 
+
+idea: ensembling the models and just taking the edges probabilities of all the learners will give you pretty decent results provided a normal shape in roc_auc score. Where does this fail?
+
+LR
+--
+- *could also deploy by just saving the beta coeffcients and doing the dot product on a new data point
+- Odds-ratio aka weight tells you how much a one unit increase will increase the chances of it being one class or the other which is determined by the logit function.
+- SGD for training on large sets becuse of the batch updates to the beta weights
+- feature importance by interpreting the size of the betaweights
+- *multicollinearity, what happens when you add features and the original beta weights change
+- interpretability is a key feature
+- variations: Lasso, Ridge, ElasticNet
+- Scale the data if you want the coefficients to give you some indication of
+    feature importance. 
+
+High bias: adding features, feature engineering will cause non linear relationships would could cause reduction in regularization.
+
+High var: reduce the feature space, PCA, ridge, lasso
+
+AIC, BIC: good for understanding the trade-off between the model complexity and error
+
+** this is getting me to think this still might be reason why it's more effective with PCA. I need to get this answered. Tammy
+
+avoid the problem of overfitting
+altogether - you'd build a probabilistic graphical model using PyMC with all
+the parameters and run MCMC to get the posterior distribution of the
+parameters given the data. For forward estimates, you'd use the expected
+value of each of the parameters.
+SUMMARY
+
+PROS 
+	- inter
+	- fast train
+	- fast prediction
+	- good default and general baseline model
+CONS
+	- sucseptible to outliers
+	
+
+WHEN TO USE
+
+SVM
+---
+- figure out how proba works with SVM
+- how would you interpret SVM
+- Is SVM parametric?
+- What's a hyper-parameter for SVM
+- Class weights well
+
+
+SUMMARY
+
+PROS
+	- robust to outliers
+	- high dimensiona
+	- resistant to overfitting
+	- fast pred speed
+	- Ability to generate non-linear decision boundaries with the kernel trick
+CONS
+	- Training speed long
+	- not good at training times
+
+
+WHEN TO USE
+ 
+Decision Trees
+---------------
+PROS
+	- very little preprocessing necessary: Categorical, continuous, don't even need to dummitize
+	* insensitive to monotone transformations of points,
+	- interpretable
+	- robust to outliers
+	- missing inputs
+	- plug and play out of the box
+CONS
+	- overfit, though ensembling helps i.e. boosting and Random Forest
+	- instability, split points could change dramatically and since it's hierarchal it'll have a chain reaction
+
+
+
+NB
+---
+
+SUMMARY
+
+PROS
+	- high dimensional data
+	- they clearly take the class imbalance into account considering thier prior though I don't see how this is a solution to a class imbalance issue, if anything it would be harder to model class imbalance given this because it would diminish the probability of it being a rare class.
+
+	- Fast training and predicton
+	- laplace smoothing
+
+CONS
+	- It's naive! It assume conditional independence of all the features but it works suprisingly well
+	- I think it's the not the best with class imbalance*
+
+
+
+WHEN TO USE
+Text
+high dimensional data
+Spam filters
+
+missing data methods
+--------------
+- impute via, modeling i.e. train the on the data and predict the age or class.
+- distance K-nearest neighbors
+- I'm not sure how tree-based models handle the missing data but they do!
+
+more data better?
+not necessarily, it comes at the cost of training time, engineering issues e.g. memory
+
+though it can be beneficial in model performance it'll have a better idea of what the entire population looks like and what's an outlier.
+
+best way is to do the observation test
+
+
+What's the difference between RMSE and MAE?
+-------
+- play around with the bounds
+
+Why is fewer predictors better than more
+--------
+- overfitting
+- model simplicity for intrepretation sake
+- better preprocessing speeds and space complexity from an engineering standpoint
+
+What's kurtosis?
+it's whether or not the tails are fat, indicating outliers
+
+What's Skewness?
+it's if the the distribution is leaning in a particular direction

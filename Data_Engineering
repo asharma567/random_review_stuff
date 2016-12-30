@@ -1,0 +1,150 @@
+Data Engineering
+================
+
+How do you deploy a protoyped model to product?
+	
+	Deployment design
+	-----------------
+	-parametric or non-parametric?
+		
+		Parametric
+		----------
+		training
+		--------
+		- offline, could be done automatically via crontab and weights dumped to some SQL table
+
+		prediction
+		----------
+		- this entire portion could be done in SQL or a query language
+		- upload table of beta weights to a a db
+		- take the dot product of new data points which you could do again through sql plus intercept
+		- this goes into a sigmoid function and depending on where your threshold is you'll have a 1,0
+		- if it's a regression problem, then just pass what you've done
+
+		PROS: 
+			extremely easy to maintain: 
+				no version controlling, could just roll back to another table.
+				no dependency issues
+
+			automate: 
+				timed SQL procs 
+			
+		CONS: 
+			you're limited to parametric and you've got to update the betaweights manually.
+
+		Non-parametric
+		--------------
+		
+			training
+			--------
+			- can be ran automatically through crontab or Oozie workflow
+			
+			- ETL from db can be done through scripts: 
+				i) query data
+				ii) preprocess into feature matrix
+
+			- Model is then train and pickled via sklearn
+			
+			logs
+
+			prediction
+			----------
+			- timed scripts via crontab
+			- predict method wrapped in a flask app that unpickles a serialize train model and predicts the data point returns a json
+
+			PROS: 
+				non-parametric learners can sometimes be better than parametric learners. 
+			CONS: 
+				version controlling, dependencies
+
+	How do you handle load balance?
+		- AWS has a load balancer (auto-scaler)
+		- what is Nginx
+		- round-robin design
+		- memcache, for memoizing
+
+	When should you update your model?
+		- this is an area of active learning?
+			you have a prediction score of that indicates model decay and it's happening repeadily this should set off an alert. Perhaps the example class has changes such that the information the model has trained on is no longer valid.
+			- alert
+			- firing off a script to activate a mechanical turk unit and have it autoupdate.
+		
+		- regular updates that have no bias, if you pay attention to health metrics you'll, it's like watching a market ticker go up and down. You'll have some emotional bias towards actions.
+	
+	How do you track the health?
+		- Grafana
+
+	What are good health metrics?
+		- Kibana, Grafana, Datadog
+
+	What are good tools to use?
+
+	When do you use Kafka or Kinesis?
+
+	When do you use HBase?
+
+	When do you use S3?
+		storage for objects, data but it's not a database with a concept of key:value
+
+
+	When do you Storm?
+
+	When do you use ElasticSearch?
+
+	Elastic Beanstalk?
+		it's a service from AWS that's provides orchestration for other AWS services: S3, EC2, RDS for relational databases and DynamoDB 
+
+	What's a pojo?
+
+	What is AWS lambda?
+		akin to flask
+
+	What is tornado?
+
+	How do you scale
+		- autoscale
+
+
+
+	Unit tests:
+		Data acquisition:
+			- testing all the queries
+
+		Preprocesses:
+			- simple unit tests of "is the function/transformation doing what I want it to do"
+			- passing it various type of datatypes
+		
+		Training:
+			- model versions, type of model
+			- timestamp of when it took place
+			- time it took to train: do we deadline this?
+			- size of training set
+			- log all the necessary metrics
+			- did it train?
+			- differences from the previous model e.g. coefficients
+				how else can you check if the model is different from the previous one?
+				how it scores some random sample of points? and take the delta?
+
+
+		Prediction:
+			- is the scoring pipeline working properly?
+				- vary the size of X
+				- is it dumping them where they should be dumped
+				- rate at which you ping it
+
+			- pass in data points of various lengths, data types, maybe some measuring errors
+
+
+	If there's a pre-existing model, A/B on a performance metric?
+	-------------------------------------------------------------
+
+	- small canary deployments: call it to 5% of the population and a/b test to see whether or not there's a statistically significant difference
+	- I lack in the area of figure out the size of the observations in the groups and duration i.e. the statistical power of the test.
+
+
+
+- Unit testing at various stages
+
+
+- Deployment
+	- Rollback

@@ -1,0 +1,31 @@
+Dice
+Question:
+1: Let’s say that I offered you a chance to play a game. The way the game works is that I roll a fair die once and you get paid however much you roll in dollars. Up to how much would you pay to play this game? (assume risk-neutrality)
+2: To make it harder, I'm going to give you the option to re-roll the die after the first roll if you are not satisfied with the first roll. How much would you pay to play this game?
+
+Basketball
+Question: In order to win a prize, would you prefer to have to make a single basket with one try or make at least two out of three attempts? What's the intuition why?
+
+Bank Teller
+Question: Let's say you're going to the bank. You have the option between bank #1 where there's 10 tellers with 10 people in each line and bank #2 where there's 10 tellers but a single line of 100 people. Everything else is equal between the two banks (same #/rate of customers). Which bank do you prefer?
+
+Hero Merchant
+Question: A predictive algorithm says that a random merchant will become a hero merchant. The predictive algorithm gives the correct answer 95% of the time. If we decide to work with this merchant, we will gain $1M if the merchant becomes a hero and lose $5M if the merchant does not. Should we work with this merchant? What is the minimum percent of the total merchant population that need to be hero merchants for us to want to work with the merchant?
+
+Last question is hard. It's bayesian. Try to answer it assuming 1% of all merchants are hero merchants, then move on to the last part of the question.
+
+
+
+p > 3p^2 - 2p^3
+3p^2 - 2p^3 - p < 0
+-2p^2 + 3p - 1 < 0
+
+(p-1)(p-1/2) > 0
+=> (p-1) < 0
+p < 1 
+p < 1/2
+
+
+2 of 3 shots can be taken in C(3,2) ways: (YYN, YNY, NYY). 
+
+Consider YYN, since these shots are independent, we can simply multiply their probabilities to find the probability of getting YYN.

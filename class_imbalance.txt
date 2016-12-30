@@ -1,0 +1,91 @@
+How do you deal with class imbalance?
+-------------------------------------
+Model adjustments
+- Asymmetrical cost-functions
+
+
+- example reweighting-
+	- Bayesian classifiers can deal with it by adjusting weights to the prior and conditional probabilities.
+	- Decision Trees split criterion for classes is often proportional to the class distribution. Gini impurity index or entropy.
+	- instance based (KNN) votes can be weighted.
+	- A symmetrical cost-functions: https://cran.r-project.org/web/packages/expectreg/index.html
+
+- One class learners
+	- though this is fit once you have a dataset pruned of the minority class and widely used for novelty detection i.e. the minority class isn't consistent. This would be a outlier removal technique though, it would misclassify anomalous behavior that is. It might not do a great job of distinguishing between noise and anomalies.
+
+- Grid-searching hyper-parameters
+	- you can optimize the specifity or sensitivity by grid-searching hyper parameters precision and/or recall. You'd probably want to optimize for recall.
+
+- Cut-off points
+	- there are obviously various cutoff points which. how do you find the point at which it's optimal for both specitity and sensitivity?
+
+How do you handle class imbalance?
+    - adjusting the prior probabilities. so with NB for example the percentage of your minority and majority class can weigh heavily on what decision is to be made.
+    - look up class weighted SVM
+
+Data adjustments
+- sampling 
+	OVER: SMOTE and Noisy PCA.
+		smote -- http://www3.nd.edu/~dial/publications/chawla2005data.pdf
+
+		noisy pca -- http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=6033567&tag=1&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6033567%26tag%3D1
+
+	UNDER: Hacking away at your majority class until your training set is balanced. Though there's an obvsious loss of information using this method. so it woudl be prudent use something more complex like ensembling. 
+
+	eg. save each portion of the hacked away class and copy-paste the minority class to each one, use ensembling to figure out the votes.
+
+
+=====
+
+** meeting the project deadline
+- ask dave, how many onsites did you guys have before me? just curious
+- start asking about what they're working on? Exciting and not so exciting stuff?
+
+==
+- CONS about the WRF: 
+	- noise in the minority class could really throw the algo off if it's mislabeled.
+	- computation takes much more time since it requires the entire training set
+- BRF:	
+	- BRF seems to be about the same but how you select the samples for the majority since makes a big difference. you want high variance of your majority class.
+
+SVM is worth a try. In theory it's suppose to be robust to outliers more so than other algorithms because it's a large margin classifier.
+
+the thing that makes me feel uneasy about the Weight_rf is the fact there are trees being grown on none of the minority class. Stratified bootstrap sampling, might work in theory. This has been tried and isn't a good way to solve this issue. Weighting the splits at each node and again weighting the votes at the terminal nodes seem to work quite effectively.
+
+Downsampling methods: 
+	- Active learning
+	- SHRINK
+	* looking up more
+	- clustering i.e. Db scan
+	- nn using a mahalabios distance
+
+Oversampling
+	- SMOTE
+	- duplication
+	- GANs
+
+cost sensitive learning: assigns a higher missclassification cost to the rare class as it tries to minimize overal cost.
+
+instead of using just plain ol accuracy which doesn't take class imbalance into account i.e. if the classifier just picks the majority class most of hte time it'll still perform seemingly well wtd will counter that measure
+
+
+RUSboost -- Random undersampling with boost
+
+
+- one-class learning
+	- e.g. one class SVM
+	cons- have to find the outliers in teh dataset first
+- down/over sampling
+
+	fabricating the minor class so that your learner is more balanced
+
+- cost-sensitive learning
+	over arching goal is that the missclassification costs for the minor clsas is much higher
+	- example weighting
+		- weighted random forest or just about any learner, very easy to do
+	- adjusting the cost function s.t. it's Asymmetrical
+		- e.g. nb adjusting the prior 
+
+	CONs:
+	- computationally expensive since you've got to train on the entire dataset
+	- the noise incase of mislabeling

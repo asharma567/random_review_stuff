@@ -1,0 +1,344 @@
+
+#flesh out the details and 
+#add the other posts about the bootcamp. 
+#the importance of honoring a reference
+#why networking is so much more important
+
+#Caveat: What follows are my personal thoughts, extrapolating from a small sample, and generalization from anecdotes
+
+#you may want to consider leaning more on networking if you don't have an advanced degree. 
+
+===============
+
+Data Science Job Search in NYC
+==============================
+
+
+To give thanks to all those that helped me out through my journey, I thought I'd write a guide to find a job as a data scientist in NYC specifically for the underdog.
+
+People say you've got to play thier game on some level. I said fuck thier game I'm going to focus on interviewers which play to my strengths -- which is all the stuff actually representative of day to day work.
+
+
+
+Ditinctions versus SF
+-----------------
+traditional mindset
+- your network is your networth
+- pedigree matters 
+- classic interview ettiquete
+	- eye contact
+	- handshake
+- perception based interviews
+
+
+Questions to be preppared for
+---------------------
+- What to do you want to do?
+	i) state what you're actually interested in doing on a day to day
+	ii) conclude it with how it contributes to them
+	Assuming you do think it's a fit, I'd style step i to thier needs and end it with how you'd like to make a contribution to them. This shows that you're ultimately looking to be a team player. You don't want to come off like someone that's only out for themselves. 
+
+- Tell me about yourself?
+	Journey of how you came to be a data scientist. Time to 60 secs otherwise you'll lose the interviewers attention.
+
+- What have you been up to?
+	Always be working on something, whether it's further optimizing your take-home project, blogging about side-projects, or working on a contracting assighment. The last one is the strongest because it actually states my skills are worth money.
+
+	DO NOT say you've just looking for a job. It'll give the impression that you'll take any job and that turns the interviewer off.
+
+- What's your favorite algorithm?
+	- don't say RF
+	- say something novel e.g. level set tree or t-sne or gmm
+		- teaches the interviewer something
+		- it hasn't been beaten to hell
+		- the diligencing on it won't be as much because they don't know as much
+
+How to study algos
+=================
+- sklearn simply memorize the names of everything for each respective category.
+
+ML must knows
+=========
+- Tree based models: Decision*, RF*, Boosting
+- PCA*
+- Regression models: OLS*, Logistic*, Regularization techniques*
+	- how to communicate the beta coefficients to a business unit
+- Vectorizing text: Bag of words*, TF-IDF*, Word2vec
+- ROC Curve*
+- Euclidean Distance (l2 norm)*
+- KNN
+- Class imbalance
+- Multilabel
+- Collinearity
+- Overfittness
+- Clustering: K-means*, DBSCAN, Hierarchical clustering
+	- diff between k-means and hierarchical clustering
+- Recommender systems: item based, collab, matrix factorization
+*know these down to the math
+
+buzzword bingo
+
+Feature Selection
+----------------
+- L1 Lasso
+- wrapper models e.g. stepwise methods
+- filter models e.g. fisher score, gini impurity
+- missing ratio
+
+Dimensionality Techniques
+--------------------
+- t-SNE
+- MDS
+- PCA
+- Isomap
+- Sammon mapping
+- LLE
+...more here.
+https://lvdmaaten.github.io/drtoolbox/
+
+Study techniques
+===========
+- flash cards
+- practice interviews
+- mock interviews
+- post interview reflection 
+
+How to couch approach to a problem or past projects?
+=========
+- Business problem
+- Analysis
+- Possible solutions
+- Results/impact to the business in the form of a metric e.g. FPs broken down to the dollar amount
+
+How to practice communication and vocabulary?
+===============
+- stand-up and orate the flash cards: business and technical 
+
+Studying for theory-based interviews
+==============================
+
+
+ESL
+---
+Watch these videos first on like 1.5x!
+
+3) Linear Regression
+4) Linear Classification
+5) Regularization
+10) Boosting
+12) SVM
+15) RF
+16) Ensembling
+Obviously read some area deeper than others but be very mindful of the vocabulary being used. This aids your communication.
+
+CS algo
+-------
+Didn't come across too many of these though the question that got me the job at my current company was word-break problem
+- Interview Cake
+
+Probability Theory and Intro Stats
+-------
+This should cover dice rolling and coin flips Qs
+- Khan academy
+
+
+Questions for Recruiter
+=======================
+This is your chance to save yourself a bunch of time and frustration and opportunity cost of interviewing with a better company. So, it's pretty importnat that you take this call seriously.
+
+Have you ever hired a data scientist before? Data Science is still pretty nascent consequently lots of folks have gotten in with very little experience in the real-world, only being validated by thier credentials. As such, they'll have very biased vetting processes and ultimately end-up building poor teams that you don't want to be a part of. This by far was one of the things I wish I did better filter out who I wanted to interview with. Though the issue is interviewing is quite disjoint from what you do on a day to day as a data scientist hence it made sense to practice it when possible.
+
+- Theory or Practical?
+	- Theory: Management case study, Dice rolling/Coin flipping,
+	- Practical: Live-code or whiteboard (SQL, CS algo, practical helper), take-home (average time).
+- Composition of team?
+	- if it's all PhDs, you'll have an idea of the types of questions they'll be asking they'll probably be on the more theoritical side.
+- Get background info of the hiring manager.
+	- Recency from academia? I found this to be a very strong indicator of terrible interview questions.
+- How long have you been trying to fill the position?
+	- if it's been a while that's a red flag, something's wrong with their interviewing process. I'd prod further to get insight what going on?
+	- Are you the first one in thier pipeline? REDFLAG!
+
+
+Staying motivated
+=================
+- I found that experimenting around with different strategies kept me on track
+- Always be working on something e.g. blog, contract project, take-home.
+
+If I had to redo my job search
+--------
+- I would've lined up a contractual assignment that would take about half my week and focused the rest on interview. 
+
+Resume
+========
+Everyone wants to be a data scientist! Unlesss you fit the mainstream mold, it's difficult for people to distinguish you from noise. so work on your resume! It'll doubly, during an application submission and in networking.
+
+Each project should be in the following structure.
+- business problem
+- solution
+- impact to the business by a quantifiable metric
+- tools used
+
+When working on project description simply start off verbose and then boil it down salient points, those are the points which you use in your resume. The structure will also help describe what you in a structured form to hiring managers when they ask.
+
+About the "Thou shalt not break the 1 page resume rule." Fuck that rule. Just make sure the arrange your resume s.t. the first thing a recruiter/hiring manager sees is the most relevent to your skill set. For me it was my skills (couple lines) and my prior experience as a data scientist. This will entice them to dig deeper to subsequent pages.
+
+Cover sheet trick
+If you really like the job, do the following make a T-chart with all the requirements from the job post. Layout the requirements on one side, examples of past work where you've demonstrated that exact requirement. Include this with the resume so it doesn't get lost.
+
+Projects sheet
+- Show case your projects with links ideally to your blog post or github repo. One thing to note about showcasing your work is that folks like to see the end product not sift through piles of code. Do not let the code do the talking for you.
+
+
+
+Negotiation trick
+================
+- try to negotiate a contract project
+
+Practical based interviews
+===================
+
+SQL
+---
+- Mode
+#add link to mode
+
+Bash
+----
+Know the basics
+- ls
+- ssh
+- look up a process and kill it: ps aux | grep app.py, sudo kill process_id
+- grep
+- cat
+#find a cheat sheet
+
+Experimental design and A/B testing
+------------------
+- Udacity
+#add link to udacity
+
+take-homes
+----------
+As a practitioner, this is where I shine - nearly had 100% conversion to an onsite. Takehome assignments do take more time but they're a wonderful way to build your skill and are usually quite enjoyable (assuming you love practicing data science and they've got thier content figured out). As you do these, make sure to purge all helper functions being made to a central toolbox. This aid you when you actually land a job so you could hit the ground running and it helps get through subsequent take-homes. It's the secret sauce to getting through them quickly.
+- Asking clarifying questions to make sure you understand the problem correctly is very fair and encouraged: 
+i) restate the problem 
+ii) state your approach(s) 
+iii) ask if you're on the right track before you dive in.
+
+
+summary sheet on top
+------------
+- The problem as you understand it
+
+- analysis
+Use visualization and a qualitative summary to speak about your findings. Even some steps are rudamentary like checking data types and the distribution of the data, etc. show that you did them! Why? Because, you want to avoid looking like a Kaggler. Kaggler's skip this phase and jump to model-selection and gridsearching hyper parameters. This is something an interviewer sees alot and redflags for.
+
+- enumerate approaches considered noting cost-benefit trade-offs
+
+- approach taken and why
+Stating you took the simplist approach for time sensitive purposes and couch it as a benchmark for later approaches is what I'd recommend.
+
+Demonstrate that you've scoped problems thoroughly before diving in.
+
+- What would you do for later iterations?
+
+Get rid of the noise! Abstract away most code into a helpers file, supress all error warnings. In the helper file, use descriptive variable names that make sense. Include docstrings and comments in your helper functions. Bonus for unit tests for all of your helper functions.
+
+Talk big game for your later approach. Don't be a afraid to wow them here.
+
+
+Seeking help
+==================
+Whenever you're stuck on any part of this job search phase, ask for help. People are very much willing to help you out provided they can. What you can do is be very specific about where you need help. 
+
+Example: I need help with X, I've tried a,b,c but it's gotten me no where. Any tips?
+
+This shows-- 
+i) you've put in effort 
+ii) where specifically you're stuck 
+iii) the specific area you need help in
+
+Also know when advice is bad or not relevant. This is a tough thing to do but do not naivly take everything at face value and follow instructions, always question it's validity
+
+Other helpful resources
+=======================
+- Trey Causey
+- Erin
+- http://www.jeannicholashould.com/getting-your-first-job-in-data-science.html
+- http://varianceexplained.org/r/year_data_scientist/
+- https://www.fastcompany.com/3063167/every-data-science-interview-boiled-down-to-five-basic-questions
+#get the one from eric
+- https://www.coursera.org/specializations/jhu-data-science
+
+
+Where to find ML side work
+==============================
+- elance.com
+- upwork.com
+- General Assemblies job board
+
+
+Sourcing interviews
+===================
+
+Casting a wide net and narrowing down what you want is totally fair approach and it's pretty much what I did. As you go through each and every interview make sure to ask deep questions about fit and be highly reflective post interview. Outline what you liked/disliked, how could your performance been better, etc.
+NYC quite different from SF in that it's highly sucseptible to networking (which is biased towards extroverts). 
+
+email reachouts
+--------------
+Meetups, LinkedIn/Rapportive reachouts. Why is networking just superior? Application drops for practice interviews.
+
+Application portals
+------------
+- Gary's guide
+- tinyletter
+- slackchannel
+
+Meetups
+-------
+What to do at meetups?
+	- show up early meet with the host and others. The host is a hub, that person knows lots of people, it's worth investing in that relationship. He may also guide you through your journey.
+	- the preliminary stages of the talk are often reserved for folks looking to hire, if that's not the case. Then just go talk to folks afterwards. Start with someone that's not talking to anyone just to warm things up. Have goal of meeting with X number of people per meetup whether or not their beneficial to you.
+
+What to say when you approach people? 
+	- You could do something as simple as stick out your hand and introduce yourself (just your name) and ask "so what'd you think of the talk?"
+
+	- The types of meetups you go to are very important. Beginner topics will have beginners.
+
+	- How to get noticed versus the other job searchers. Have your 60 sec story down. But just to be clear you're at the meet-up specifically to meet people.
+
+	note: if you've been studying, it'll show in your interactions with people because more than often it'll be the subject that's top of mind - this polarizes people.
+
+
+emails
+-----
+open with--
+	#who you are 2 sentences sell yourself here.
+	#what you want from them.
+
+- Using Rapportive to find out email
+	#build the tool this tool
+
+- find out their github email address
+	#build a tool for this as well
+
+Have one good recruiter
+--------
+- Jovena
+- Brooklyn Data Science
+
+Schedule
+=========
+- stick to a strong routine
+- Commit to some body of work every weekend. Whether it be a blog post, building on a past project, finding something that's shippable in a 2 or 3-day timeframe. Why? you need sustencance, you need to stay present, also building your public bodies of work.
+
+- Stay very healthy exercise everyday for at least an hour
+
+
+
+If I had redo my search
+-----------------------
+be more selective (with thier interview process), don't go for the big brand names, never be the first in line to interview, ask for feedback religiously (on the spot ideally), built out a blog and shipped out projects to it versus doing miniside projects which would sit in my desk drawer.
+
+

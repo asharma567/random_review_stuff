@@ -1,0 +1,184 @@
+I think we could all agree that EDA is a crucial part of Data Science. Yet I find some of the tools we use rather limiting e.g. scatterplots, <other examples>, etc. I've finally come across something that's extremely useful in visualizing your data - TSNE (t-Distributed Stochastic Neighbor Embedding). It's a very easy to use dimensionality reduction technique specifically for the purpose of visualizaton. 
+
+Before you go reading on to the technical details of the algorithm lets examine of its usecases to see if it could be of help to you.
+
+What are the use-cases?
+    - Finding the number of groups within your data set
+    - Anomaly detection
+    - Checking whether your test and training set is biased 
+#link
+#plot test/val
+#explanation
+    - The quality of your training set
+#link
+#0 and 1 plot i.e. do they overlapp
+    - Visualizing the manifold of your data set i.e. the decision boundary. How separable is your data? is it linear or non-linear?
+#link
+#plot of iris data set with PCA and TSNE
+    - Visualizing photos at every stage (layer) of a convolutional neural net i.e. it's a fantastic way to debug your net to see if it's picking up the right features and learning as you intended.
+#link
+#plots
+#preinput
+#of data after conv1
+#FC
+    - Multiple semantic structures your dataset implies. E.g. Tie example (#Link).
+    - Finding the similarities/relationships of a user-base. 
+#walk through how to do this
+    - Ideal for any 2-d and 3-d representations of a feature matrix.
+#plot of a 3-d
+
+
+
+How does TSNE work?
+    The high-level steps are as follows--
+
+    1) You loop through a data set where you're making a pairwise comparison of every single example(observation) against each-other. This process is called finding the affinities (similarities) between the data points. The basic idea is to compute the euclidean distances normalized by a dynamic variance between each point as conditional probabilities: "the probability x_i would pick x_j as it's neighbor."
+#the end result being? some distribution
+
+    2) Map it on to a lower dimensional space (often 2-d or 3-d for visualization purposes) then minimize the difference between the representation on the high dimensional space vs the low dimensional space -- cost function is called the Kullback-Leibler.
+
+#Jpeg of the cost function
+
+        * the algorithm is more sensitive to smaller differences between two points rather than larger ones. PCA, on the other-hand is great at capturing the large differences but not the small. Upon inspecting the end result displayed; PCA is good at differentiating the groups (the global structure) but not so good at local structure (intra-groups).
+
+#example either Mnist or houses
+#global structure
+#zoom in of local structure
+
+    3) Plot it using matplotlib or ggplot. There's an option to show it as points on a plot using standard symbols e.g. dots, triangles, etc. or  superimposing actual thumbnail images the data points correspond to.
+
+#example showing labeled plot, unlabeled plot, super-imposed words.
+
+What are the PROs and CONs of TSNE
+    Pros:  
+        1) Retains global and local structure of the examples. Meaning how certain clusters can relate to one another and even within the clusters how different points can relate to one another. 
+        For example, imagine you were organizing your clothes: First step organizing all your t-shirts together then your jeans, then your long sleeve etc. then going a step further and rank-ordering by color (or some other feature) inherent to the subject clothing article.
+
+        2) It's a superior approach to that of Locally Linear Embedding, Sammon Mapping, Isomap, PCA, etc. It captures more complex non-linear relationships of the examples/observations much better than the other methods. It captures small more intricate distances. Bottomline: it separates the data very well for visual inspection.
+#could you show a plot of K-Means?
+
+        3) It could also have multiple maps which capture a word/token's various semantic representations within a corpus of text documents. 
+        For example, consider the word 'Tie': In one map it could be very closely associated with the words like 'Tuxedo'/'Suit' and have a low weighted association with the word 'Knot'. In another map it could be the exact opposite which successfully captures both ways 'Tie' could interpreted.
+
+    Cons:
+        1) It's strictly made as an EDA tool. It hasn't been proven to work as a sturdy dimensionality reduction tool which is later fed into a prediction model. e.g. PCA, TruncatedSVD.
+
+        2) It doesn't have a predict method nor does it label each point into a cluster. It ingests the data in whole and then displays it. There isn't a way to classify a new/unseen data point.
+        A viable solution would be to count the number of groups (k) using TSNE and visual inspection then use K-means to reap the benefits of an online algorithm (i.e. labeling, classifying new data points, etc).
+
+#plot of any feature matrix using TSNE
+#feed the number of clusters into K
+#but is this any different from DBSCAN?
+
+        3) It's certainly subject to the curse of dimensionality as the original algorithm scales O(N^2) though there's an implementation called Barnes Hut approximations which scales as O(N log N) but a bit less accurate. It's the fastest implementation to date and it makes it easily usable in a reasonable amount of time.
+
+        4) It's not guaranteed to converge to the global optimum and it produces slightly different results every run since it uses Stochastic Gradient Descent.
+
+#What is Barnes-Hut approximations?
+
+
+Are there are any hyper-parameters used for tuning?
+    - P: perplexity. Think of it as 'k' in k-nearest neighbors or min_samples needed for a datapoint to be considered a 'core-point' in DBSCAN.
+
+Can I feed it a pre-computed similarity matrix with using a similarity metric of my choice?
+    - Yes! Just like in DB-Scan you can use home-grown or another out-of-the-box similarity metric (other than Euclidean distance). *check this
+
+
+
+The quality of your training set
+    <front of houses>
+    in the plot above we can clearly see that one class clearly falls on one side of the dataset and rest fall on the other, which is indicative of separable classes. But we can see there are a few points which overlap directly on to the other class, these points have a high similarity. 
+
+    If you notice the red points lost among the blue circled. Just by visual inspection, I would say a classifier would misclassify these points.
+
+    #show some results of a classifier scoring these two points
+
+    Solution) upon retraining your classifier one might suggest these points have a very high information gain hence we should put more points like this in the set.
+
+    <ploting the iris set>
+    Here's a plot of a dataset whose classes are much more seperable as you can see there are three clearly clusters of points
+
+What’s the distinction from a use-case perspective of MDS and TSNE?
+
+==============
+https://www.oreilly.com/learning/an-illustrated-introduction-to-the-t-sne-algorithm
+
+
+Hi Laurens,
+
+I'm a Data Scientist based out of NYC. I'm seeking a way to find consistently good results with T-SNE and I feel most folks have the wrong impression of it. Would love it if you could chime in.
+
+Is there a rigorous way to find the best parameters for t-sne? (e.g. via gridsearch)
+
+The best set of embeddings would represent the original dataset very well. More specifically, from a global and local structure perspective e.g. if there are 4 well defined groups in the data the plot should represent that there are 4 distinct clusters.
+
+I'm not sure if you've had a chance to check out this link here but the argument they're making is the plot of the embeddings can be quite random and varying quite a bit given parameters. Which would make one question the trustability of information you can glean from the embeddings. As such, I've attempted to make a helper function in python to grid-search the optimal parameters.
+
+Thanks creating the tool. It's my favorite algorithm. 
+
+Happy Thanksgiving,
+- Ajay
+
+=====================
+grid_search_params = {
+    
+    # inits with PCA gives a better global structure
+    'init':['pca', 'random'],
+    
+    # 'precomputed' is also an option or 
+    # also passing in a custom dist function
+    'metric':['euclidean'],
+    
+    #increases/decreases accuracy for the Barnes hut algo 
+    'angle':[0.5],
+    
+    #defaults at 1000 but 5000 is known to work the best
+    'n_iter':[1000,3000,5000],
+    'learning_rate':[100, 500, 1000],
+    'perplexity': range(5,50,10),
+    'n_iter_without_progress': 30
+    
+}
+
+def find_best_tsne(feature_M, verbose=None):
+'''
+Grid searches for the optimal parameters which yields the lowest KL_divergence_error
+'''
+    
+    #use multithreading to speed-up
+    best_kl_error = None
+    best_params = None
+    params = {}
+
+    for perp in grid_search_params['perplexity']:
+        params['perplexity'] = perp
+        for n_steps in grid_search_params['n_iter']:
+            params['n_iter'] = n_steps
+            for init in grid_search_params['init']:
+                params['init'] = init
+                
+                fitted_tsne = TSNE(**params).fit(feature_M)
+                embeddings, curr_error = fitted_tsne.embedding_, fitted_tsne.kl_divergence_
+                
+                #greedy search tool
+                if not best_kl_error or best_kl_error > curr_error:
+                    best_kl_error = curr_error
+                    best_params = params
+                    
+                #print plot for every configuration
+                if verbose:
+                    
+                    print curr_error, params
+                    plt.scatter(embeddings[:,0], embeddings[:,1], alpha=.2, color='red')
+                    plt.show()
+    
+    return best_params, embeddings
+
+Hi Ajay,
+
+For hyperparameters that do not change the objective function that you're optimizing (learning rate schedule, number of iterations, early exaggeration-related parameters, etc.), it is perfectly okay to do t-SNE runs on the same data with different values for these hyperparameters, compare the KL-divergence reported for the resulting solutions, and pick the solution with the lowest KL-divergence.
+
+Hyperparameters such as perplexity, however, do change the objective function and so the KL-divergence between solutions for different perplexities are not comparable. The perplexity parameter should be thought of as a scale parameter (like the k in k-means clustering): it defines what you consider to be "local" and "global" structure, or in other words, what the size of the clusters is you wish to find. This is a fundamental parameter that appears in a virtually all unsupervised learning algorithms in some form or the other --- so it is unsurprising changing it will lead to different solutions.
+
+Hope that helps,
+-- Laurens

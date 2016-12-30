@@ -1,0 +1,5 @@
+Huffman encoding
+-----------------
+- Makes a counter dictionary out of a vocab, then rank-orders by most frequent, and then compresses it with a bit string. This is used in word2vec to compress the size of the vocab.
+
+- the idea is that the least frequent term is represented by the longest bit string, hence it’s not a major ding on space complexity

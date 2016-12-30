@@ -1,0 +1,43 @@
+- Models have a natural tendency to degrade overtime
+- Spark beyond
+- Goodness of fit
+- Chris
+- KL 
+- source
+
+
+
+how would you use the model in practice of insights. in terms
+
+hardest type of model.
+practical experience
+process
+
+- show that understand the question,
+	- modeling choice informed by business constraints
+
+first thing with a new dataset
+- is there a data dictionary?
+- what are the sources, how is the  data generated?
+- what do all of these things mean
+- data types
+- strcuture of the data
+- patterns of missingness
+- cardinality
+
+- visualizations, within columns, what's collinearity
+- bivariate plots versus target
+- variance
+
+- rank the plots
+- analyzing
+
+These were the types of issues we had to deal with 
+
+
+In detail, this was a practical problem we're solving. 
+Model solves a real-world. 
+
+Understand under the hood.
+Preprocessing
+

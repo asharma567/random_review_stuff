@@ -1,0 +1,59 @@
+What are popular methods of customer segmentation?
+
+Cluster validation?
+	- probablistic metrics:
+		using an mixmodel see where the data points fit into a certain cluster
+	
+	- ssq:
+		minimization of the sum of squares to the centroid, which is how k-means work but it's terrible for intra-cluster validation.
+	
+	- silhouette co-efficient:
+
+	- intra-cluster/inter-cluster variation:
+		eg. gap statistic
+
+All the clustering methods?
+	- guassian mixture model
+	- Hieararchal clustering if you wanted to get a semantic reference to the taxonomy of clusters it forms. Agglomerative and top-down methods. 
+	- k-means for data summarization. Distance based hence it segments the space
+		-k-mode
+		-k-mediods
+		-k-minibatch
+	- db-scan for noise removal, density based, it finds the densities.
+	- sprectral clustering
+	- graph-based for community detection
+	- power iteration cluster
+	- Birch
+	- TSNE for visualization
+	
+	- NMF joint with some clustering method for collabarotive filtering
+	- k-means
+
+Hierarchical Clustering
+-----
+gives you a taxonomy of how the data segments, there are designs for it to be top-down or bottom-up with different trade-offs for each though I believe the bottom-up approach tends to be more accurate
+
+
+Ways of finding k in k-means?
+	- gap
+	- elbow as k-increases find the elbow of some minimal variation score
+
+dbscan versus k-means?
+	dbscan basically sits on top of a NN search and forms clusters that way
+	
+difference between hierarchical clustering?
+noise removal with clustering?
+
+what are some features you could create with clustering?
+
+use cases:
+	- cust segmentation
+	- collaborative filtering
+	- community detection in a network analysis
+	- data summarization
+
+What are different methods of feature selection?
+** a key error I've been making is studying/orating feature selection as it pertains only to supervised methods i.e. feature importance
+
+
+Can you grid-search penalty parameters?

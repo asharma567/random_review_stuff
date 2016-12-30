@@ -1,0 +1,46 @@
+What's merge sort?
+    it's a type of a sorting algorithm that's nlogn  in time complexity. It's a paradigm example of a divide and conquer algorithm.
+
+What the psuedocode?
+    output = []
+    index_r = 0
+    index_l = 0
+    
+    def merge(R_list, L_list):
+        while index_r < len(R_list) & index_l < len(L_list):
+            
+            #assignment
+            curr_R = R_list[index_r]
+            curr_L = L_list[index_l]
+                        
+            #comparison
+            if curr_R < curr_L:
+                output.append(curr_R)
+                index_r =+ 1
+            else:
+                output.append(curr_L)
+                index_l =+ 1
+
+        #add remainder
+        if index_l < len(L_list) - 1:
+            output =+ L_list[index_l:]
+
+        if index_l < len(R_list) - 1:
+            output =+ R_list[index_r:]
+
+        return output
+
+
+    def merge_sort(n_unsorted_list):
+
+        #base case
+        if len(n_unsorted_list) == 1: 
+            return n_unsorted_list
+
+        mid_point = len(n_unsorted_list) / 2
+
+        R = n_unsorted_list[mid_point:]
+        L = n_unsorted_list[:mid_point - 1]
+
+        
+        return merge(merge_sort(R), merge_sort(L))

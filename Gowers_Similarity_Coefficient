@@ -1,0 +1,4 @@
+Gower’s Similarity Coefficient
+• It is applied for mixed data types, namely, databases with continuous, ordinal or categorical variables
+at the same time.
+• Gower’s General Similarity Coefficient Sij compares two cases i and j and is defined as follows

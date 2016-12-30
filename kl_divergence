@@ -1,0 +1,4 @@
+What is KL divergence?
+	Given that each of the distributions are from the same family, it computes the distance/divergence between them. Assumptions, same family and they both have an equal amount of entries for each other. 
+
+	If this is not the case, we could do some tricks that populate an entry for that missing data point, e.g. size up OR we could use the mutual information criterion which is the KL divergence of the joint distribution.

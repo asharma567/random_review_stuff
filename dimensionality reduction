@@ -1,0 +1,64 @@
+
+The overarching principle to all these concept is, which features make the classes more seperable
+
+why is this even important?
+	- model complexity
+	- removal of uninformative features which could lead to noise which causes uncertainty in the model.
+
+dimensionality reduction
+------------------------
+- SVD
+- PCA
+
+non-linear
+------
+- TSNE
+- NMF
+- MDS
+- LLE
+- Isomap
+- Spectral embedding
+
+
+
+
+Feature selection/importance
+----------------------------
+
+I normally think of feature importance when I think of feature selection
+- Random forest, 
+	
+	Aside from thier own feature importance method which I believe operates off ensembling the votes of most important nodes to split on*
+
+	basically create a large set of trees on a data set and configure the split window to be 3, depth to be 2, take a look at the most popular node each tree splits on. This should also be able to provide you with some insight
+
+- Stepwise feature elimination method
+	- wrapper method
+	- using an n-gram based approach for sets of features
+	- CONs: computationally expensive and prone to overfitting.
+
+- checking the correlation versus the target variable and scoring
+	- filter method
+	- cons: discounts interaction variables, and ignores multicollinearity
+
+- using l1 to create a parsimonious model
+
+- Stats sheet and the p-value
+	 - wrapper method
+	 - the difference to the method above is that this is forward where it starts off with 0 predictors and adds, where as the other method is deductive.
+
+- correlation: after scaling look at the correlation of two features and if thier highly correlated remove one.
+- variance filter: calc the entropy or something of each feature and remove the lowest one
+- missing information ratio removal method
+- Beta weights using a linear model
+
+Unsupervised methods
+	*look this up; since wrapper models wouldn't work in this case try using unsupervised methods.
+
+
+Many models, especially those based on regression slopes and inter- cepts, will estimate parameters for every term in the model. Because of this, the presence of non-informative variables can add uncertainty to the predic- tions and reduce the overall effectiveness of the model.
+
+
+====
+http://www.stat.berkeley.edu/~mmahoney/pubs/NIPS09.pdf
+http://www.jmlr.org/papers/volume5/dy04a/dy04a.pdf

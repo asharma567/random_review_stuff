@@ -1,0 +1,70 @@
+How do we know if a time-series is non-stationary?
+
+why BIC over AIC or Pacf?
+what exactly is ARIMA doing that ARMA isn't?
+    - p: is just lag window for the dependent variable. so if =5 
+        then previous 5 terms will act as predictors
+    - q: window size for the ma 
+    - d: the number of differences. where =0 equal just the previous
+    
+how to detrend and decompose a time-series?
+    - filters: kalman, hop-prescott
+    - smoothing techniques: MA, rolling averages, ewma, wma 
+    - removing seasonality
+    - transformations: log, square or cube root
+    - aggregating: resampling by a large unit of time
+
+why did the stationarity fail?
+    - overall trend
+    - seasonality of weekdays
+
+
+- fit ma model
+- check whether or not the time series is stationary
+- dickey-fuller test 
+
+- decompose/detrend if necessary
+    the overall idea behind this is to fit and forecast whatever values 
+    after we've adjusted the time-series and the add back the affects 
+    of the trend after we've made our forecast.
+    
+    - random variable transformations
+        - log, square/cube root: if we need higher values 
+        to be penalized more than smaller vals.
+        
+    - smoothing: rolling averages, ewma, wma
+    - fittin a polynomial regression model
+    - 'aggregating':resampling by a larger unit of time i.e. weekly/monthly
+    
+    - differencing: taking the difference between the data points 
+        in the sequence i.e. p_0 - p_1
+    - decomposition:
+        - hop filter
+        - kalman filter
+    
+    
+    -- see if smoothing or aggregating works if not try differencing 
+        or decomposition this works better when there's high seasonality.
+    
+    -- evaluation) 
+    why not grid search the values that produce the best RSS?
+    Take the original TS and calc the RMSE between the two also plotting them
+    to see what the forcast looks like.
+    
+- fit arma model
+    - box jenkins: find p, q s.t. min BIC and AIC DONE
+    - there's also pacf and acf methods
+
+- fit arima model: p, q, d s.t. min BIC and AIC * double check
+
+- fit ma model
+- fit ar model
+
+- potentially contrive an exmaple anomaly and see how it does
+
+http://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/
+http://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/
+https://www.otexts.org/fpp/8/1
+http://www-stat.wharton.upenn.edu/~stine/stat910/lectures/08_intro_arma.pdf
+file:///Users/ajay/Downloads/Uber_Data_Challenge_StephenSmith_Final.pdf
+file:///Users/ajay/Documents/take_homes/Data_Science_Challenge_UBER/Uber!.html

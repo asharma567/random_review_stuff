@@ -272,12 +272,6 @@ Whats more likely: Getting at least one six in 6 rolls, at least two sixes in 12
 
 If the linear correlation between two random variables is negative and negative what does that mean but when you measure the coefficients in conjunction with eachother then it’s positive?
 
-Multicollinearity
-==============
-What are consquences for Multicollinearity?
-What are indications of multicollinearity?
-What solutions to multicollinearity?
-
 
 1. You have three coins in your pocket. Two fair coins and one two-headed coin. You pick out a coin and flip heads twice. What is the probability that you picked the two-headed coin?
 
@@ -365,6 +359,7 @@ Anomaly detection
 Anomaly detection techniques?
 
 
+
 Does the model make any important assumptions about the data? When might these be 
 unrealistic? 
 What are some dimensionality reduction algorithms you've used in practice besides PCA?
@@ -382,25 +377,130 @@ How to penalize one class more than another?
 Multicollinearity
 ==============
 What are consquences for Multicollinearity?
+    - an unstable model
+    - beta coefficients are incorrect and could be non-sensical. eg lets the beta coefficients are all positive and all of the sudden some go negative as soon as you add a feature.. this is a sign of multicollinearity.
 What are indications of multicollinearity?
 What solutions to multicollinearity?
 
 
-Seb's q
--------
-In any case, I struggled to understand the last section of the post when you were talking about building a Confidence Interval with the generalization error.
 
-I’d love to clarify the sections that are unclear; however, it would be nice if you could give me a further hint regarding the part that was most unclear so that I could tackle these more specifically.
-Basically, I was just applying the “normal approximation,” since the predictions are binary; we have a 0-1 loss and the prediction for a given sample is either “right” or “wrong”. Now, if we average these predictions, we get the prediction “accuracy”. For example, let’s assume we have 5 samples. The true class labels are [1 1 0 0 0], and we make a prediction [0 0 0 0 0]. In this case, we have the following 0-1 Loss
-
-0 = 1 -> False
-0 = 1 -> False
-0 = 0 -> True
-0 = 0 -> True
-0 = 0 -> True
-
-which gives us a count of 3 correct predictions (think of a binomial distribution and computing the probabiliity of getting at least 3 out of 5 predictions right). The accuracy is then basically just this average number 3/5.
-
-Sorry if this sounds a bit abstract, but maybe google for the term “normal approximation” and browse through some of the articles; there are pretty good articles on this out there.
 
 Best,
+===========
+
+- feature selection?
+    supervised models
+    missing value ratio per column: basically remove columns missing information
+
+    unsupervised models?
+
+- active learning?
+    There are methods of updating a model via highest information gain, static s.t. thier periodic to avoid any type of biases, 
+- what’s more robust to outliers l1 or l2?
+    this is a non-sensical question as this pertains to penalizing the betaweights of a feature as a opposed to a particular example
+
+- what's the hotsax approach?
+- all dim reduction methods?
+- hierarchical clustering versus k-means?
+- what's better for outliers SVM or Logistic regression?
+- what are situations that don't require scaling to the 0 mean unit variance?
+- What's the distinction between covariance and correlation?
+    Correlation is a normalized s.t. that everything's on the same scale i.e. -1 to 1. It provides for a better basis of comparison. This is achieved by normalization i.e. dividing variance or covariance by std deviation.
+    Covariance is the measure of how these to variables move in proportion to one another and doesn't take units of measurement into account.
+- why does PCA require scaling?
+    Because it requires figuring out the correlation or covariance of a matrix which takes into account the pairwise differences of features/examples which requires them to be on the same scale.
+
+- How to handle the loss of meaning after doing PCA?
+    - Wrapper models: Roc auc benchmark but it would tell you direction so what you can do is the method where you take a contrived set of examples and just move variables around and plot the probability as you change it. This isn't an exact science but I think it's one of those good enough cures.
+
+    - inverse-transform: suppose to you do the transformation to prune away anomalies or something th
+    - variable loadings in each fo the components
+
+- Should you not scale if you're using NMF?
+    Both are matrix decomposition techniques. Original matrix in which we are interested may be very 'big', sparse, with no order. Factoring it would yield a set of more manageable, compact and ordered matrices. Further, using these factors, it is easy to find hidden relationships (if any) like correlation, orthogonality, sub-space/ span/ projection in the original matrix. Many decomposition exists for a matrix viz. Singular value decomposition (SVD), Non-negative matrix factorization (NMF or NNMF), LU decomposition, QR decomposition, Cholskey decomposition etc. The difference comes from the applicability and physical significance that can be deduced by these based on domain in which they are applied (e.g. Signal processing with applications to wireless communication, time-series analysis, speech and image processing, data compression and storage, Text and Data mining, Privacy protection/ data encoding etc.). Here are few pointers:
+
+    1. SVD factors contains both positive and negative entries while NMF factors are strictly positive. This is useful in case of text mining where usually TF or TF-IDF matrix is being factorized. Since entries of original matrix are positive and has physical meaning (term frequencies...), once would want factors to be positive so that physical connections are be directly made.
+    2. SVD factors can be related to Eigen-functions of a system when original matrix represented a system about which one is interested in terms of signal processing perspective. They are used in sub-space decomposition, characteristic matrices (useful in speech and image processing - face recognition etc.). NMF can also be used but the associating physical relationships are more indirect and hence 'tedious'/ 'more mathematically involved'
+    3. SVD yields unique factors whereas NMF factors are non-unique. This makes NMF more suitable for privacy protection algorithms.
+
+- How does RF feature importance work?
+- How you design a unit test for overfitt and underfitt?
+- what's the hotsax approach?
+- what’s more robust to outliers l1 or l2
+- why is document fingerprinting better with cosine similarity versus euclidian distance
+- what do you want to do? (when asked by a big company)
+- what do you want to do? (when asked by a startup)
+- how do you grid-search the penalty parameter for elasticnet?
+    - You generally have to figure out the ratio of L1 vs L2 which is some number [0,1] selection cycle = 'cyclic'. alpha which is actually the weight on the penalty parameter where 0 is the equiv of OLS i.e. no regularization
+
+
+
+What's a link function?
+We could us link functions to relate linear regression to 
+
+log(p/1-p)=Ax+B => p=(1/(1+e^-(Ax + B)))
+
+p=prob(y=1|x_i, bib0)
+the probability that someone survive (1) given the features you see
+
+y in linear regression is thougt to be normally distributed
+
+What is multinomial logistic regression
+
+How is the sigmoid function related to the logit function?
+it's the inverse of one another?
+
+What is heteroskadiscity?
+How would you summarize normal approximation and heteroskadiscity?
+
+Ax + B stretchs or compresses the sigmoid
+
+logit function takes in odds and converts to log odds and sigmoid inverts the function.
+
+What could I have done better with take-home
+
+What's the cost function for logistic/linear regression
+
+Business reason to drop category that have some ordinality because it's much more interpreable. So take care in dropping it.
+
+WHat's it mean when a loss function is convexed?
+
+Walk me through how to fit Logistic Regression Step-by-step?
+
+WHen do you use classifier with a regression problem
+
+Do Decision trees interact the features for you?
+
+deciles charts
+
+#what's the difference between MB and Naive Bayes?
+#Which similarity metric is the best for which situations:
+    # pearson
+    # jaccard
+    # manhattan
+    # cosine_similarity
+
+#what's the difference between MB and Naive Bayes?
+
+#what's the difference between adjusted R**2
+#what's the difference between MB and Naive Bayes?
+
+What is BIC?
+
+it's a meric used to find the best fit model with varying complexities. It also shows at which point a model might be overfit. Meaning the incremental change in fit due to model complexity might be harmful. It penalizes the number of parameters for a model to give you an acurrate view of fit gain by adding additional parameters. As tool it aid in providing a good fit while avoiding overfitting.
+
+P(data | model) / P(data | all_models)
+
+What is the gap statistic?
+
+What is the elbow method?
+
+What is Silouette?
+
+With k-means or any other clustering metric this coefficient indicates how well a points belongs in it's respective cluster. 
+
++1: the point it far away from a neighboring cluster
+0: the point is on the boundary
+-: the point should've been assigned to another cluster
+
+Calculate the coefficient for every single cluster and plot it cluster by cluster. If any of the points are in the negative then it doesn't belong in that cluster. If the distribution is uniform, it does belong in that cluster.

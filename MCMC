@@ -1,0 +1,18 @@
+MCMC
+
+Use-case?
+	- figuring out an average (expected value) result of some function when sampling from complex (multi-variate) distribution
+
+It's just fancy terminology for a sampling method. It should be called Markov Chain, Sampling Method as a opposed to Monte Carlo.
+
+It repeatedly samples from a prior distribution producing values of some applied function, as a result a density (frequency distribution) is formed. The markov chain comes in as a part of the sampling. Each new sample depends on the previous. Ultimately, this creates a random walk of samples if you were to create a plot of values over time (number of sample taken). The problem with this approach is that the density distribution of drawn samples doesn't necessarily represent the original prior. Hence the Metro-Hastings which creates a thresholding mechanism to discard/retain certain samples.
+
+Markov chain
+
+Metro-Hastings
+
+
+resources
+==========
+https://www.youtube.com/watch?v=OTO1DygELpY
+https://jeremykun.com/2015/04/06/markov-chain-monte-carlo-without-all-the-bullshit/?utm_content=buffer0b41f&utm_medium=social&utm_source=linkedin.com&utm_campaign=buffer

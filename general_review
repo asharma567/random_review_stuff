@@ -185,3 +185,47 @@ Difference between: Decision Tree vs Logistic Regression
     don't have to worry about cats
     don't have worry about multicollineearity 
     you could interact two variables and include the entire set
+
+
+- Walk through TSNE
+- Walk through how to have explained that Pandora song recommender and contrast it with how a TRIE works under the hood
+- Khan academy biased coin example
+- Solutions to: foursquare check-in fraudster or clothing recommender
+
+- Hierarchical Bayesian model: Look this up
+- What are the advantages with using median versus mean?
+- ESL w Ike:  3,4, 8,9,10, 12,15,16
+- what’s the Feynman technique
+
+
+	Why is nb used in text classification?
+	- what's a p-value
+		- given the null hypothesis is true, the probability of this 				observation occurring
+	- Where would it make sense for the Bayesian concept to not take place
+	- How would you construct a Hypothesis test if a coin is fair or unfair?
+	- You toss a coin, given that you've gotten 9 heads in a row what's the 			probability that the coin is unfair?
+	- what’s silhouette score
+	- how would you gauge cluster quality
+	- out of the 50 runs of k-means what is the difference in clusters
+
+	- How to connect what I’ve learned in Khanacademy to probability theory
+
+What's the distinction between Adaboost, Gradient boosting, RF?
+    - with a single decision tree, the more the number of features the more prone it is to overfit
+    - when to use boosting or bagging algos
+        - bagging is used to cure the overfit case
+        - boosting was designed to cure the underfit case
+            - a good way to think of the decision trees used in boosting is that they are stumps. so they all individually have very simple decision boundaries. The way it works is that one will split where it seperates the classes the most creating a very simple hypothesis/decision boundary. 
+
+            Then if we weight the samples we got wrong in that split and have another decision split on the space again, it'll split in a different area. Then you keep reiterating this pattern.
+
+    To put everything in context you could throw a decision tree at a data set and figure out which direction to go whether it's underfit or overfit?
+
+    hypothesis and decision boundary function is the same thing.
+
+How to treat categorical variables with tree-based models in sklearn?
+    From what I understand, a decision tree will disregard ordinality of a categorical variable if and only if it's treated as a categorical variable and not continuous one. Sci-kit learn's implementation treats everything as continous and feature space has to be fully numerical. 
+
+    So, you will most certainly get different results if you were to one-hot encode a categorical feature versus encode them ordinally.
+
+    http://datascience.stackexchange.com/questions/5226/strings-as-features-in-decision-tree-random-forest

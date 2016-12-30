@@ -1,0 +1,66 @@
+Business problem:
+	- eBay for homes: time intensive on the ops team.
+	- image quality correlating to the success of a home-sale. unsuprisingly there was some correlation.
+	- providing recommendations to people who post thier properties
+	- condition assessment
+
+Tell me about your computer vision project.
+	- I was inundated working on other projects so I couldn't give it my full attention but it was a problem the other data scientists on my team have been trying to figure out for months. So, while I was on my 2-weeker, I thought of a solution.
+
+	- They playing around with the idea of using a linear model called elastic net and featurizing builind out a feature matrix -- traditional methods. After months of getting sub-par results I decided to step in and give it a shot.
+
+	- I started by doing some research about it on my vacation and then seeing that NNs were the best solution to this problem and what great opportunity to learn a bit more about deeplearning. So while on my vacation, I proposed a strategy-plan on execution to my boss, he loved it. I was assigned to the problem and built an awesome conv net which is something I'll do for your team as well.
+
+	- I did have some background in deeplearning though from NLP and I also had some footing with the canonical hand written digits problem.
+
+	- After leaving the company the Sr. Data Scientist was so happy he gave me a recommendation about it
+
+Phases:
+	- research: figuring out the nuances of each package and a lot of scoping.
+	- data gathering 
+	- infrastructural buildout
+	- proper evaluation techniques
+	- figuring out how to make the model stronger
+
+	- configuring your local machine to be gpu enabled was one of the biggest bottlenecks
+	- manually gathering the hold out set
+	- stumbling into TSNE
+
+How would you have done the computer vision project differently?
+
+	- I definitely would've used tensorflow. 
+		why?
+			- it solves a lot the deployment issues I spoke earlier about
+			- documentation is far superior to anything I've seen
+
+			- I think I would've done it all over AWS. Maybe prototyped locally and then done it over AWS.
+
+You majored in Math but followed a CS track.
+
+i) I need to know about your use-case then I could helpout.
+
+	The platform measures data related to how mitigated motor vehicle traffic affects resident behavior such as walking, bicycling and using public transportation.
+
+ii) What I'm actually even more interested in is the infrastructure for real-time analysis. 
+
+iii) What's your timeline for the role?
+
+- couple of weeks, implementation month, deployment
+
+iv) How is the model to be delivered?
+
+wireless sesnsor systems
+camera, 
+what objects are there and where in the they're 
+feature extractor, and boosted decision trees
+multiclass 
+identify pedastrians, bicyclist, strollers, cars, trucks, vehicle
+
+1) classify image 2) bound the object 3) integration
+
+who built--dawd gordon
+
+squeezenet
+test driven development
+continuous
+

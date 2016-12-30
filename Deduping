@@ -1,0 +1,79 @@
+What is LSH
+	- It's a dimensionality reduction technique by way of creating a hashing table where similar documents get bucketed in the same bucket. When it's in the same bucket they are then compared for a similar minhash value.
+==========
+
+- Duplicate document detection (deduping) is becoming a very important part of life.
+
+1) take the set of each documnet
+2) find the jaccard similarity of the pair
+	intersection/union
+
+Though there's a problem with using just the sim coefficient in that it doesn't retain sequence of the word.
+
+shingles are a special case of an n-gram where it's tokenized (broken down) at the word level e.g. shingle_this("this quick brown fox") -> ['this', 'quick','brown','fox']
+
+---
+
+Applications of LSH 
+
+One informal but rather intuitive way to think about this is to consider the 2 components of a vector: direction and magnitude.
+
+Direction is the "preference" / "style" / "sentiment" / "latent variable" of the vector, while the magnitude is how strong it is towards that direction.
+
+When classifying documents we'd like to categorize them by their overall sentiment, so we use the angular distance.
+
+Euclidean distance is susceptible to documents being clustered by their L2-norm (magnitude, in the 2 dimensional case) instead of direction. I.e. vectors with quite different directions would be clustered because their distances from origin are similar.
+
+------
+
+goto set up grid search for LSH.
+
+models
+	Annoy
+	LSI
+	nn bruteforce
+	LSHf
+	
+preprocessing:
+	stemming
+	lower case go over
+		- this could take away from semantics in such a case
+	- taking away spaces or not
+	tokenizing:
+		- unigrams, bigrams, trigrams
+		- words and character
+
+using DBSCAN on top of a similarity matrix.
+	- down sides DB SCAN doesn't scale well (O(n^2))
+	- small data sets
+	- LSH beats because the dimensions you scale are fairly small
+
+How are we to evaluate results?
+	- Benchmark against nearest_neighbors?
+
+distinguish between euclidean versus cosine?
+	- euclidean is a distance from eachother in the context of points from some origin. It's good when that's what you're sepcifically using it. I really like euclidean's for it's specific ability to emphasize particular features by scaling them up. Works well if you're building recommender systems
+	
+	- cosine is very good in the context of text documents which has some semantic meaning behind it. This takes the angle of differnet vectors, the wider the most dissimilar there are. There are obviously other simlarity metrics
+
+	How about using some edit distance? They all suck. like Levenstien distance. of this particlar text could differ greatly.
+
+	in this particular case we want to compare the following strings:
+
+	'I really want this to work'
+	'I really want this to work so I could show off to my friends'
+
+	if I wanted a very high similarity for these two strings an edit distance would be terrible.
+
+	Example using lev distance. Can you use something like datamade dedupe? 
+========
+
+resources
+————
+http://stats.stackexchange.com/questions/136755/popular-named-entity-resolution-software
+#look in the resources section
+https://en.wikipedia.org/wiki/Record_linkage
+http://www.umiacs.umd.edu/~getoor/Tutorials/ER_VLDB2012.pdf
+http://nlp.stanford.edu/software/CRF-NER.shtml
+http://infolab.stanford.edu/serf/
+http://www.nltk.org/book/ch07.html

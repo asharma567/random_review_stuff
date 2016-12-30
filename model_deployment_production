@@ -56,8 +56,6 @@ what is mod python?
 
 Put versus post?
 
-Hey Geoff -- How did you end up productionalizing betsy and/or escher? I know this could be a mouthful but I'm up for catching-up assuming you have time. 
-
 sklearn non-parametric
 
 health metrics for prediction, and training. cabana logs, graphana metrics
@@ -100,3 +98,122 @@ What are the trade-offs between option 1 and 2 for model deployment
 	2) serialization, version controlling issues and dependency issues.
 
 Think about how we did this with Zoltar.
+
+
+How did you deploy a model in Ten-x?
+-------------------------------------
+- the defacto standard 
+	storing the parameters on a table and doing the computation through pig/hive scripts.automating it using oozie workflow.
+	
+	PROS-light weight design, easy to update weights, no dependency issues
+	CONS-only parametric models
+
+- api approach
+	use a flask app to wrap a serialized model in a RESTful service. 
+	Make different endpoints for it. 
+	Use AWS load balancer 
+	NGINX
+	Create unit tests for every step of the ML pipeline: preprocessing, train, predict
+
+	PRO-Non-parametric, easy protoype to productions
+	CON-version control, dependency eg prototyped using a different model
+
+best practices
+deployment
+	- health metrics for prediction, and training. cabana logs, graphana metrics
+	- canary deployments
+
+
+Productionalizing models
+=======================
+- Can you walk me through how you go from prototyping to productionizing a model or any change you've made to a pre-existing one step by step?
+- How do you A/B a model and/or change? Which test do you use? Which metrics do you look for? How you are you sampling? What are the assumptions?
+- What else do you check before productionizing a model? what are some of the edge cases you think about?
+- Does anyone review your code?
+- How do you handle load balancing issues?
+- What do you have to know about data engineering?
+
+
+What did I learn from Zocdoc?
+-----------------------------
+
+What's the differences between a relational data base and nosql data bases? What are the trade-offs?
+
+How do you optimize search?
+
+Had I spent about an hour hypothesizing problems before the interview I would've done better. The idea was to get a better sense of their product: match-making between patients and doctors and how one would go about solving that.
+
+If you were building out a feature matrix. How would you solve for conversions of patients and doctors. What information do we collect about the doctor and what information do we know about the patient?
+
+*I didn't know what information they had about users
+
+How does Kafka stand between everything? what real-time stores am I using?
+
+simple randomization of users when rolling out a model to a very small segment of users agnostic to other variables.
+
+How else would you scale this problem s.t. it's minimize computation
+
+What is Kafka, flume, solace
+
+What is hdfs, s3, 
+
+What is Redis?
+
+What is Nginx
+
+what's spark streaming?
+
+spark versus storm?
+
+	spark stream does computation in micro-batch whereas storm does one at a time
+	Storm has a micro-batch api called trident
+
+	Spark is a batch processing framework and as an accessory does micro-batching
+	Storm is a stream processing framework and as an accessory does micro-batching
+
+Spark has some issues with being fault tolerant
+
+What is storm?
+	core storm
+		one at a time
+		low latency
+		operates of tuple streams
+
+		langs
+			everything
+			python
+			Scala
+			Java
+
+
+
+	trident
+		micro batch
+		higher throughput
+		operates on Streams of tuple batches and partition
+
+		langs
+			Java
+			Clojure
+			Scala
+			*python only available on Spark streaming
+
+	what is fault tolerance?
+
+	examples of production deployments--
+		http://storm.apache.org/releases/current/Powered-By.html
+		http://engineering.sharethrough.com/blog/2014/06/27/sharethrough-at-spark-summit-2014-spark-streaming-for-realtime-auctions/
+
+how is storm used in a production setting
+
+great source for how to handle streaming events?
+	http://www.slideshare.net/ptgoetz/apache-storm-vs-spark-streaming
+
+what is flink?
+what is lambda architecture?
+
+KAFKA
+JMS 
+JDBC (hbase)
+what's a pojo
+What is Kinesis

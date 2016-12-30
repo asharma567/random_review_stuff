@@ -1,0 +1,55 @@
+Density based clustering
+==================
+	- outliers
+	- dudupe
+	- reduce scale
+	- explore and visualize complex data
+	- segment a market
+=============
+
+Density-based
+	- DBSCAN
+	- LEVEL set tree
+
+What's Elkan for implementation for K-means?
+
+dudplication woudl be difficult with using the gap-statistic
+
+WHat is a pdf? 
+	-given some points in a space how likely is it to draw that point?
+
+cititation threshold to get into sklearn?
+
+euclidean distance only works on numeric data?
+	I'm not certain that it works purely on numeric data as a opposed to binarized. It would probably still "work" to some to degree but I'd imagine there are better sim metrics.
+
+the goal is you want to use a metric that captures the similarity and dissimilarity 
+
+you could find out core points, border points, and outliers
+
+what is jaccard similarity/distance?
+	- the ratio of the intersection over the union
+
+pros about LST vs dbscann?
+	- parameter optimization, DBSCANN is very dependant on two params: eps, min_sample split
+	- what you'd call a cluster is static for DBSCAN ergo the min sample split
+	- the dendrogram in level set tree will also give you an idea of the density of each cluster relative to eachother
+
+with t-sne you could grid search parameters and greedily retain the one with the lowest KL divergence. But that implies that's the one you want.
+* ask the author about this
+
+
+
+=========================
+
+Look up optics for optimizaing parameters for DBSCANN
+	it basically gridsearches every poss eps and figures out what's the best cluster quality for each and it holds minsample fixed (this tidbit will require domain knowledge)
+
+todo
+----
+BDE-DIFFERENTIAL still needs to get filled in but it offers good incentive to learn in the context of how are they validating these clusters
+
+- create grid-searching tool for t-sne 
+- think about how I could use tsne to inform my dbscann parameters
+- answer the quetsions above
+

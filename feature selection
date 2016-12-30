@@ -1,0 +1,40 @@
+feature selection
+----------------
+- Roc Auc Gap method:
+	Calculating a benchmark Roc_auc 
+	Then remove one feature out calc the roc_auc and record the delta versus the benchmark. Then loop this.
+
+	CONS: it doesn't tell you the directionality like comparing the beta weights would. Though we can figure this out by looping through a contrived test set of some sort and varying each feature value holding all things fixed.
+	
+	PROS: a model could lose it's interpretation via dimensionality reduction
+
+
+- p-value method:
+	OLS stats model report
+	It'll share with you some statistics about the model fit: variables, beta weight, error scores, p-values.
+
+	One's with the lowest p-value have the highest thing
+
+	largest beta, this is a misconception because it could be in a unit s.t. it affects it. But what if it's scaled
+
+
+- Lasso method:
+	Extendable to Elastic net. But just grid searching through the penalty parameter to drop the features which aren't significant but this contradicts what I mentioned above in that it's not dependent to the beta weights.
+
+- information gain:
+	every node on a tree's split depends on the information gain. You can also figure out feature importance this way.
+
+	entropy
+
+	gini impurity
+
+- dimensionality reduction:
+	- PCA 
+	Retaining the first few eigenvectors or however many based on whatever criterion. Then transforming it back to the larger dimensional space to see what contributed the most.
+
+	There's a feature contribution method with PCA.
+
+	
+
+
+

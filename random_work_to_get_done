@@ -1,0 +1,32 @@
+random_work_to_get_done
+======================
+- log transformations and how they're helpful
+- distance metric with mixed variable types
+	http://stats.stackexchange.com/questions/55798/what-is-the-optimal-distance-function-for-individuals-when-attributes-are-nomina/55802#55802
+	http://stats.stackexchange.com/questions/15287/hierarchical-clustering-with-mixed-type-data-what-distance-similarity-to-use
+	http://halweb.uc3m.es/esp/Personal/personas/jmmarin/esp/MetQ/Talk6.pdf
+	http://stackoverflow.com/questions/14009161/similarity-measures-for-vectors-containing-mixed-data-type-discrete-and-continu
+- markov chains
+	https://jeremykun.com/2015/04/06/markov-chain-monte-carlo-without-all-the-bullshit/?utm_content=buffer0b41f&utm_medium=social&utm_source=linkedin.com&utm_campaign=buffer
+- kafka vs kinesis
+	http://www.dani-sola.com/kafka-vs-kinesis/
+- non-parametric clustering
+	http://science.sciencemag.org/content/344/6191/1492.article-info
+	https://blog.dominodatalab.com/topology-and-density-based-clustering/
+- primer on causality
+	https://medium.com/@akelleh/a-technical-primer-on-causality-181db2575e41#.igdw1sr4y
+- paper on sparse clustering
+	just the mathematical section
+- pg 69. data mining
+- tfidf data mining
+- mahalanobis distance	
+	http://matlabdatamining.blogspot.in/2006/11/mahalanobis-distance.html
+	https://www.quora.com/What-exactly-is-Mahalanobis-distance-How-is-it-different-from-Euclidean-distance
+- tsne use case
+	http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0149853
+- hyper-parameter tuning for DBSCANN
+	http://stats.stackexchange.com/questions/88872/a-routine-to-choose-eps-and-minpts-for-dbscan
+- Binary Differential Evolution Algorithm with Hybrid Encoding
+	http://crad.ict.ac.cn/EN/abstract/abstract2561.shtml
+	http://www.tandfonline.com/doi/abs/10.1080/18756891.2013.769769?journalCode=tcis20
+- Gower's similarity
