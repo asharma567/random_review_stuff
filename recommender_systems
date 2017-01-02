@@ -1,0 +1,16 @@
+Recommender_systems
+
+- Knowledge based recommenders 
+- collaborative filtersy
+- neighborhood models
+
+The use-case of a recommender system is to predict the user-item rating s.t. it could ranked versus other items. It's broken down into two main core ideas i) predicting missing values of ratings on items a user hasn't seen yeet ii) maintaining a rank-ordering s.t. top-k items per user or top-k users for an item.
+A good recommender system:
+    - relevance
+    - novelty
+    - serendipity
+        very similar to novely, it has the element of suprise where as novelty is like not to be recommended the same thing as last time
+    - diversity
+        not recommending the similar things in the top-k list. making sure the items are diverse from eachother makes sure it's not boring.
+
+providing an explanation of why a user was recommended a particular trip could be useful
