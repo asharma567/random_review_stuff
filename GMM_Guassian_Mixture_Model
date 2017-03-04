@@ -1,0 +1,27 @@
+GMM is very similar to K-means in that it finds clusters given the number of k pre-specified. It's often said K-means is a special case of a GMM, that said it coudl deduced that GMM is more generalizable. "k-means is actually a special case of GMM in which each cluster’s covariance along all dimensions approaches 0."
+
+Here are some of the differences
+
+- Each of the clusters have it's own covariance matrix which makes GMM very adaptable to variety of shaping data. 
+- K-Means gives hard assignments to observations
+- GMM gives you probabilities of what percentage it belongs to all the clusters. I believe it also provides what percentage the sample belongs to the group overall.
+- EM is optimization method to find the clusters which is subject to a local maxima, K-means uses gradient descent to find the minimal intra-cluster variance i.e. when points stop being assigned to centroids. 
+- K-means is again used to segment the space, so it's limited in the shape of the data it could capture. In that thes clusters are rigid. GMM offers individual covariance matrices for it's clusters(called components or mixtures) which makes it more adaptable to varying shapes of data.
+- It could handle overlapping cluster shapes. K-means cannot.
+- It could also generate sample data from a given cluster.
+
+USES:
+- Anomaly detection
+- Upsampling and Downsampling: it can identify observations that are a part of the major or minority class after it's fit to the data of course.
+- Cases where there overlapping and subclusters. Think of a bimodal plot with the tails overlapping a bit.
+
+Fit/validation:
+- BIC with an elbow method is often pretty reliable. Pick the one that denotes a stark drop instead of picking the minimal which needlessly complicates the model for very minor gains
+- Since the model yields probabilities we could validate with a holdout which was pre-identified perhaps by domain knowledge
+
+
+
+resources:
+https://www.coursera.org/learn/ml-clustering-and-retrieval
+https://www.coursera.org/learn/robotics-learning/lecture/XG0WD/1-4-1-gaussian-mixture-model-gmm
+https://www.quora.com/What-are-the-advantages-to-using-a-Gaussian-Mixture-Model-clustering-algorithm

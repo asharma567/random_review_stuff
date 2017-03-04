@@ -1,0 +1,7 @@
+What is ES?
+    - api available through amazon
+    - it's a search tool which handles indexing and fuzzy-matching 
+        - fuzzy matching: basic levenshtien distance with an error budget
+        - bm125, tfidf: 
+        - analyzer: tokenization custumization
+    - not sure how it indexs but it's very fast. I remember it being similar to binary saerch tree in how autocompletes work.

@@ -1,0 +1,28 @@
+SMOTE, ROSE
+
+What is SMOTE?
+    it's a popular oversampling technique founded in 2002. It oversamples observations at the vector(feature)level as opposed to the data level. It randomly samples observations with replacement. Finds it nearest nieghbor and computes it's distance. Multiplies it's distance with a RANDOM number between 0,1 and uses that as a factor scale the subject up/down to create an artificial subsample that's kinda different. 
+
+    Downfalls
+    I feel like this assumes the observations cluster well (distinctly). Imagine if the minority class points are very far apart from one another and the majority class points are in between. This would be a use-case where SMOTE wouldn't work so well.
+
+    In the event of multiple subclusters woudl also be interesting but it would just pick it's nearest nieghbor if that was the case.
+
+    What do these artificial samples actually look like?
+    I also would feel more comfortable if there was a way to invert the vector representation back out to how it's realized in the data.
+
+    In practice, SMOTE seems to be much better than ROSE. It's also evident in that it's been around for a while and still used quite widely.
+
+What is ROSE?
+    Another technique which produces synthetic samples, which is not as good as SMOTE in practice because it produce samples which are unrealistic.
+
+Upsampling/Downsampling Ensemble approach
+    1) Find K DISTINCT clusters in the Majority class
+    2) copy-paste the minority class K times to each cluster forming a new training set
+    3) fit models
+    5) ensemble votes
+
+
+
+
+
