@@ -68,6 +68,40 @@ distinguish between euclidean versus cosine?
 	Example using lev distance. Can you use something like datamade dedupe? 
 ========
 
+- Cos Tfidf
+- Soft tfidf
+
+- Meta-Levenshtien
+	http://www.aclweb.org/anthology/C08-1075- Fellugi-Suntor
+
+Tokenization
+- character-level: 
+	- counting
+	- skip-grams (variable gap), trigrams, bigrams
+	skips do th best
+- tfidf
+- idf
+	Meta-Levenshtien uses this
+
+	Set comparison
+	- Tverksy
+		- Dice
+		- Manimoto
+	- cosine
+	- Jensen-Shannon
+		- KL divergence of the frequency distributions of tokens in both documents. 
+
+- Editex
+
+- Jaro-Winkler seems to work well for shortnames i.e. first or lastnames
+
+- Smith Waterman
+	- Monger-Elkan
+		seems to outperform Jaro-Winkler and Levenshtien
+
+Chunking technique:
+	- making a lookup s.t. the key is the word/token you're looking for the value is a list of all the documents that contain that word. so if you're looking up 3 words you just do the look-up and look into the intersection of the list of documents.
+
 resources
 ————
 http://stats.stackexchange.com/questions/136755/popular-named-entity-resolution-software
@@ -77,3 +111,5 @@ http://www.umiacs.umd.edu/~getoor/Tutorials/ER_VLDB2012.pdf
 http://nlp.stanford.edu/software/CRF-NER.shtml
 http://infolab.stanford.edu/serf/
 http://www.nltk.org/book/ch07.html
+http://www.cs.cmu.edu/~wcohen/postscript/ijcai-ws-2003.pdf
+https://github.com/chrismattmann/tika-similarity/blob/master/metalevenshtein.py

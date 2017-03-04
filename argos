@@ -1,0 +1,38 @@
+time-series 
+yield curve PCA
+
+This is a sequential type of an outlier detection scheme where they first seperate outlier from noise using a thresholding technique and then use a model of some sort to discriminate anomaly versus outlier. 
+
+I'd imagine the first model using some type of an outlier scoring system. As does the second model but it might be more class specific. This also has benefits of being productionalized becaue it behaves well in an online setting.
+
+Here in lies the problem with recruiting they can't simply assess the outliers from noise. They know what the mainstream looks like but they can't hand the data scientist noise from anomaly.
+
+It also take into account days in which outliers are expected. Ie. events, storms, etc.
+
+SARIMA (Seasonal autoregressive integrated moving average) requires a predefined maximum subspace size, which is often too small for our purposes.
+
+
+
+"We utilize a median approach to allow for statistical robustness." Is this to define thresholds described in first model?
+
+Firstly how do you make thresholds which are dynamically updated.
+
+Never fly blind. Our algorithm has to be computationally robust, always giving us an answer. For example, subspace search algorithms that may not be convergent are undesirable. SARIMA (Seasonal autoregressive integrated moving average) requires a predefined maximum subspace size, which is often too small for our purposes.
+
+She's defined upper and lower bound. She's also indicated the subspacing isn't an effecient way to figure out the space.
+
+How did she defin the initial thresholds?
+	The issue is that she's trying to detect outliers on contiguous points which effectively change the shape of a time-series so using a sliding window based model might not make sense. 
+
+	There's an approach called the hot sax where you take all non-overlapping windows of the same day for example and you put them into one training set and use k-nn method for finding some sequence of points and you use that to be your upper/lower bound. 
+
+*What is the hot sax approach?
+
+The second layer of modeling seems to be a supervised approach which has a predefined class for an outage. 
+
+What if it's something like a mean-shift approach?
+	This is only good for dramatic shifts not gradual ones.
+
+What's SHI
+	She's got a way to inspect the system as a whole by using a graph based representation i.e. nodes are the services and edges are the other services it is connected to. So if one failure occurs, it's easy to see what else it will affect and specifically what engineers to call should something like this occur.
+

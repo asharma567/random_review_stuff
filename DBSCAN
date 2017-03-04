@@ -1,0 +1,11 @@
+DBSCAN issues:
+	iterative sequence involves looking for the core points, border point, noise points.
+	PROS:
+		- searches for densities so it doesn't need a pre-specified number of clusters
+		- can take on arbitrary shapes of clusters
+	CONS:
+		- defining a dense region can be arbitrary and cause for wrongly identifying clusters and missing clusters
+		- eps is the variable you have to grid-search with min points in a sample
+
+
+Level Set Tree was made in answer to the problems here
