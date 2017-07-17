@@ -1,0 +1,53 @@
+ALSO_anomaly_detection
+=============
+There's a truth to using PCA with where k is d-1 eignvectors but it should be enough to use traditional methods for choosing number of eigenvectors as they're accurately capture the normal subspace of data. 
+
+it's proof that the normal stream of data lies in a lower dimensional subspace. After doing PCA you can compute the projection error from the principle eigenvector for each data point. if the data's normal stream is easily modeled by linearly then should suffice
+
+PCA should superior that linear regression in modeling the normal since it uses projection error which is orthoganol but the general takeway I got was try everythign
+
+* IN cases of small data sets, it's difficult to figure out what's the mainstream of data an ensemble approach might work where you walk through each feature treating it as a dependent variable and take the avg of the errors for each data point.
+
+Lookup
+======
+- attribute-wise learning for scoring outliers (ALSO)
+	
+	https://link.springer.com/article/10.1007/s10994-015-5507-y
+
+	https://link.springer.com/chapter/10.1007/978-3-319-47578-3_7
+
+- what are m5 regression trees
+
+PCA
+----
+- How does PCA get rid of outliers? 
+- How does it make them seem more far away? 
+- How many eigenvectors should you choose?
+
+How to produce a wtd score using all features? (what is attribute-wise learning for scoring outliers)
+def get_score_for_a_data_point(data_point):
+	scores = []
+	for target_variable in features:
+		
+		#the logic being if there's a feature with strong correlation to the target variable, 
+		#it'll be down weighted since it's not providing any new information
+		weight =  1 - min(1, RMSE(target_variable))
+		
+		scored_data_point = weight * sqrd_error(data_point, target_variable) 
+		scores.append(scored_data_point)
+	return sum(scores)
+
+Decision Trees
+	If using just a basic decision tree use m5 regression tree. 
+
+Why is RF superior?
+	He remarks that random forests is superior approach on this type of outlier detection (attribute-wise learning for scoring outliers). Not only did he mention the stronger your model the more likely it will be able to produce good outliers but specifically with tree based models it's easier to figure out the locally relevant subspace (the normal patterns) pg 240. So if you notice a high outlier score from a particular model then you could inspect it's path e.g. Feature1 = 0, Feature2 >= 30 which should reveal the normal subspace of the model. Using the information gain should also say something about the most relevant features
+
+	Can we figure out the path with boosting? Yes, you should be able to.
+
+	What are the scenarios where you should use RF versus boosting?
+		- parallelization
+		- boosting does better given that you've spent the time to tune the models, in this use-case RF might make mroe sense
+
+Could you also do classification problems?
+	Yes, use the same methods but one could use the probability, the weight is roc auc score and the min is still 1.0 but at 0.5 should be 0

@@ -1,0 +1,39 @@
+It should be an independent API a ds should maintain almost independently from a dev e.g. retraining or tuning the model. No dependency issues. Root cause analysis. Can be my own code style. 
+- the fact we're already deeply invest it makes it a no-brainer
+- 2 days developer time to learn is trivial from a business perspective
+- isolation
+	- dependency issues.
+	- Root cause analysis: it'll be easier to trace and debug if there's a chain reaction affect.
+
+- Logging in Lambda has to be made which isn't trivial
+- Redundancy in code; for our use-case I don't think this will be a problem
+
+- more dev-time involved
+- code synchronization
+- slower delivery on models and updates
+- potential updates to the model)
+	- tuning ) DS
+	- retraining ) DS
+	- feature engineering NOT involving addition data inputs) DS
+	- feature engineering involving addition data inputs ) DEV
+	- model deteriotion
+		- data deprecation) DEV
+		- sudden failure in performance) Devops -> DS, may require a dev in 1
+
+- future scalability which involves multiple data sci models
+
+
+
+
+
+
+what's the hold-up with lambda on your end? 
+I feel like I've made the process seemless?
+which tools would i need to learn?
+
+breaking
+timeout
+error code table implementation
+fab
+where should we set threshold to aid thier biases
+how can we do this performance track automous of whatever bolton does
