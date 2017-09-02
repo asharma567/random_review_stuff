@@ -1,0 +1,53 @@
+Zappa seems to be a more seemless fit into a Django.
+AWS lock-in
+How can each of the infrastructure's support seemless updates?
+How can each of the support versioning?
+Which involves the least amount of work?
+
+Ravi, yo have you considered just using AWS lambda for model deployment?
+
+Barry, can you show me how we currently use lambda?
+
+Andrew, what do you think of using AWS lambda for model deployment?... it seems like a deviation from flask in that it's not a network/restful service but a function you could invoke. Curious as to what the pros and cons are of lambda versus say zappa/chalice which is flask-like which utilizes lambda.
+
+How do you export a model as a pojo?
+Can I use pure python or will I have to use Java?
+
+1) export model as pojo
+2) write lambda handler
+3) build deployment package
+4) map api endpoint to lambda function
+7) embed end point in application
+
+How is chalice/zappa different from aPi gateway?
+
+https://github.com/awslabs/aws-serverless-express
+
+bottle neck seems to bundling dependencies into a zip. versioning and rolling-updates doesn't seem to be an issue
+
+https://serverlesscode.com/post/scikitlearn-with-amazon-linux-container/
+
+it just seems like it's a framework which sits on top of aws lambda and pi gateway, that's pythonic and integratable with our wsgi.
+
+versioning and rolling updates
+models can live in s3 which will support versioning 
+
+ask barry about using docker
+
+#make the preprocessor take in a dictionary with the fields names
+
+getting around the 50mb dependency issue
+wrapping it as a restful service chalice or pure lambda
+confirm that the caching on barry's end
+
+aws machine learning
+
+signed url
+
+API
+config files for invoking lambda
+access roles 
+
+
+Would an update to a new version just be a matter of pointing to a different bucket on S3?
+

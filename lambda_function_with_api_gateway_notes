@@ -1,0 +1,266 @@
+1) Making the deployment package
+	- The first thing you do is setup an evironment so that you can easily REPL.
+	install docker
+	- docker pull down the same AMI lambda's using
+		docker pull amazonlinux:2016.09
+	- run the shell script build.sh
+		docker run -v $(pwd):/outputs -it amazonlinux:2016.09 \
+    /bin/bash /outputs/build.sh
+	- it'll output all the dependencies in a zip called : venv.zip
+	- unzip this and all scripts
+	- then use lambdaci to test
+		docker run -v "$PWD":/var/task lambci/lambda:python2.7 test.handler
+	- once you've got it running zip all files NOT THE DIRECTORY and upload it to function and test
+	- NOTE it must be under 50 mbs
+		- strip all .pyc files
+		- goto lib folder and delete redudant files
+
+	ref)
+		https://serverlesscode.com/post/scikitlearn-with-amazon-linux-container/
+		https://github.com/lambci/lambci
+
+
+
+2) create the lambda function:
+	
+	#create the lambda function on the console
+		https://us-west-2.console.aws.amazon.com/lambda/home?region=us-west-2#/functions?display=list
+		#select runtime environment as python 2.7 and select blank function
+		#add api gateway
+		#deployment stage: test (end point I already made)
+		#security: open
+		#name the function 
+		#upload your code
+
+		#existing role
+
+	#making an endpoint (api gateway)
+		#services->api gateway
+		#Actions->create resource
+			#Create resource
+			#Create method (this is the endpokint)
+
+
+	#write the file lambda_function.py	
+	import json
+
+	print('Loading function')
+
+
+	def lambda_handler(event, context):
+	    print("Received context: " + str(context))
+	    print("Received event: " + json.dumps(event, indent=2))
+	    
+	    return json.dumps(event, indent=2)
+
+
+	#name of this function: lambda_function.lambda_handler
+	#create an trigger with an api gateway
+
+	#EX the one you'll need for data science model
+
+	import os
+	import ctypes
+
+	for d, _, files in os.walk('lib'):
+	    for f in files:
+	        if f.endswith('.a'):
+	            continue
+	        ctypes.cdll.LoadLibrary(os.path.join(d, f))
+
+	import sklearn
+
+	def handler(event, context):
+	    # do sklearn stuff here
+	    return {'yay': 'done'}
+
+	ref)
+	https://github.com/ryansb/sklearn-build-lambda
+
+3) create the api gateway/post endpoint to the lambda function
+	
+	#it's key to understand there's a seperate endpoint that needs to be created to expose the function publicly as opposed to within the aws infrastructure
+
+	#CREATE METHOD
+	#create a GET and POST seperately
+	#make sure the region you select for the api gateway is the same as the lambda function
+	#do not check lambda proxy configuration
+	#integration type lambda function
+
+	#CREATE stage
+	#grab the api key from here
+
+	
+	Exposing the API externally and invoking lambda function
+
+	{"message": "Internal server error"}'
+	if you're getting this error there's likely a problem with the endpoint configuration.
+
+	create Resource
+	create POST Method
+		Integration type; Lambda Function
+		DO NOT CHECK LAMBDA PROXY INTEGRATION
+		Lambda Region us-west-2
+	after it's created and test it internally by pasting the data into request body
+
+	be sure to "Deploy API" though this trivial from a configuring perspective, it needs to be done
+
+	reference
+	http://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html#getting-started-new-post
+
+	#could use this to 
+	def lambda_handler(event, context):
+	    raise Exception('the sky is falling!')
+	trouble shoot
+
+
+	
+	#Test
+	#to test internally use the lambda api gateway
+	#just to test need to include the header for a post request but not for a get
+	
+	curl -H "Content-Type: application/json" -X POST -d "{\"data in json format\": \"values\"}" api_link/endpoint_name/lambda_function_name
+
+	curl -H "Content-Type: application/json" -X POST -d "{\"rocket\": \"trip\"}" https://j4e8yp6cdi.execute-api.us-west-2.amazonaws.com/{name of endpoint e.g. test}/{name of lambda function e.g. hello-world}
+
+	aws lambda invoke \
+	--invocation-type RequestResponse \
+	--function-name hello-world-python \
+	--region us-west-2 \
+	--log-type Tail \
+	--payload '{"key1":"value1", "key2":"value2", "key3":"value3"}' \
+	outputfile.txt
+
+	postman
+
+	#ping the api using requests
+	url= 'https://j4e8yp6cdi.execute-api.us-west-2.amazonaws.com/test/budget_expense_matcher/'
+	data_= example_input
+	r = requests.post(url, json=data_)
+	r.content
+
+	#example_input 
+	{
+	     "budgets": [ 
+	                {
+	                "budget_id_bea":"1", 
+	                "budget_price_budget": "180", 
+	                "actual_cost_budget": "132.68", 
+	                "start_datetime_trips":"2016-08-17 04:00:00", 
+	                "end_datetime_trips":"2016-08-19 04:00:00",
+	                "generated_at_budget": "2016-08-01 16:52:35",
+	                "budget_type_budget": "car",
+	                "purchase_vendor_reciepts": "UNIGLOBE Travel",
+	                "travel_vendor_reciepts": "National Rent A Car"
+	            },
+	                        {
+	                "budget_id_bea":"2", 
+	                "budget_price_budget": "180", 
+	                "actual_cost_budget": "132.68", 
+	                "start_datetime_trips":"2016-08-17 04:00:00", 
+	                "end_datetime_trips":"2016-08-19 04:00:00",
+	                "generated_at_budget": "2016-08-01 16:52:35",
+	                "budget_type_budget": "car",
+	                "purchase_vendor_reciepts": "UNIGLOBE Travel",
+	                "travel_vendor_reciepts": "National Rent A Car"
+	            }
+
+
+	    ],
+	    "all_user_expense_lineitems": [ 
+	            {
+	                "itemization_id": 1, 
+	                "expense_type_name_expense": "Hotel",
+	                "expense_type_name_itemization": "Hotel",
+	                "vendor_name_expense": "SHERATON SEATTLE HOTEL",
+	                "transaction_date_itemization": "2016-02-10 00:00:00",
+	                "expense_category_expense": "hotel",
+	                "expense_category_itemization": "hotel",
+	                "expensed_amount_itemization": "229.78",
+
+	        }, 
+	    ] 
+	}
+
+	#sample_output_from_model_service 
+	[
+	    {"score": 0.0, "budget_id_bea": "1", "itemization_id": 1}, 
+	    {"score": 0.0, "budget_id_bea": "2", "itemization_id": 1}
+	]
+
+references:
+http://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html
+#see steps 6, 7, 8
+
+https://www.youtube.com/watch?v=8U4RRw3PwGw
+
+https://serverlesscode.com/post/scikitlearn-with-amazon-linux-container/
+
+#build.sh
+	#!/bin/bash
+	set -ex
+
+	yum update -y
+
+	yum install -y \
+	    atlas-devel \
+	    atlas-sse3-devel \
+	    blas-devel \
+	    gcc \
+	    gcc-c++ \
+	    lapack-devel \
+	    python27-devel \
+	    python27-virtualenv \
+	    findutils \
+	    sqlite-devel \
+	    zip
+
+	do_pip () {
+	    pip install --upgrade pip wheel
+	    pip install --use-wheel --no-binary numpy numpy
+	    pip install --use-wheel --no-binary scipy scipy
+	    pip install --use-wheel sklearn
+	    pip install --use-wheel joblib && \
+	    pip install --use-wheel pandas && \
+	    pip install --use-wheel py-stringmatching && \
+	    pip install --use-wheel pytz && \
+	    pip install --use-wheel unidecode && \
+	    pip install --use-wheel nltk && \
+	    python -m nltk.downloader stopwords
+
+	}
+
+	strip_virtualenv () {
+	    echo "venv original size $(du -sh $VIRTUAL_ENV | cut -f1)"
+	    find $VIRTUAL_ENV/lib64/python2.7/site-packages/ -name "*.so" | xargs strip
+	    echo "venv stripped size $(du -sh $VIRTUAL_ENV | cut -f1)"
+
+	    pushd $VIRTUAL_ENV/lib64/python2.7/site-packages/ && zip -r -9 -q /outputs/venv.zip * ; popd
+	    echo "site-packages compressed size $(du -sh /outputs/venv.zip | cut -f1)"
+
+	    pushd $VIRTUAL_ENV && zip -r -q /outputs/full-venv.zip * ; popd
+	    echo "venv compressed size $(du -sh /outputs/full-venv.zip | cut -f1)"
+	}
+
+	shared_libs () {
+	    libdir="$VIRTUAL_ENV/lib64/python2.7/site-packages/lib/"
+	    mkdir -p $VIRTUAL_ENV/lib64/python2.7/site-packages/lib || true
+	    cp /usr/lib64/atlas/* $libdir
+	    cp /usr/lib64/libquadmath.so.0 $libdir
+	    cp /usr/lib64/libgfortran.so.3 $libdir
+	}
+
+	main () {
+	    /usr/bin/virtualenv \
+	        --python /usr/bin/python /sklearn_build \
+	        --always-copy \
+	        --no-site-packages
+	    source /sklearn_build/bin/activate
+
+	    do_pip
+
+	    shared_libs
+
+	    strip_virtualenv
+	}
+	main

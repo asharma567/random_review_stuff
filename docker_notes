@@ -1,0 +1,14 @@
+Docker notes
+-----------
+- containers just host images, the images themselves are the software bundles
+- the way you iterate on docker images is you make adjustments to the actual dockerfile. so if you want to have files on the docker image youhave to add that line to the dockerfile
+- you can also create shortcuts to apps on the image by making an "entry point" on the dokcer image
+- to host an app and expose the api run the following docker run -p 8001:8080 <image:version> this creates an image that listens to the host the specified 
+
+todos
+-----
+- lookup a docker image that hosts a flask app
+	- do this first make the flask app and end point
+
+- run it and interact with it, with the raw data points
+- upload it to the ecs container service once
