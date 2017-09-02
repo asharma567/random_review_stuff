@@ -1,0 +1,36 @@
+What are good upsampling methods?
+	- rose
+	- smote
+	- noisy pca
+
+What are the cost-benefit of each?
+How are when to use?
+
+Also remember to read it at work
+
+
+ROSE draws "smoothed" bootstrap samples from the neighborhood
+SMOTE draws from the area in periphy of hte neighborhood
+	1) find an example of the minor class
+	2) find it's nearest neigbor (assuming it's also in the minor class)
+	3) take the difference
+	4) multiply that difference by some fraction (0-1)
+	5) add back to the subject sample which makes it the nearest neighbor
+
+one vote for SMOTE as it's methods doesn't allow for it to produce unrealistic examples?
+
+informative downsampling methods
+
+EasyEnsemble --
+samples with replacement with the majority and minority class and trains classifier to figure out which part of the major class it should remove.
+
+BalanceCascade --
+makes an ensemble classifier and systematically selects which major class examples to include
+	How does it systematically select?
+
+Lookup SMootboost, databoost
+
+The ensemble method;
+	- find k distinct clusters. Copy-paste your minor class to these distinct clusters and ensemble them
+
+PR curve, cost curves as well. Specifically, cost curves are known to possess the ability to describe a classifier’s performance over varying misclassification costs and class distributions in a visual format. In more than 90% instances, ROC curve is known to perform quite well

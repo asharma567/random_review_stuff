@@ -1,0 +1,35 @@
+- is Jaccard/Dice/Tversky Boolean based or does it take frequencies into account?
+
+- Hamming distance is subsititution based and mandates that the two strings are equal length
+- Lev distance 1 - Lev(s1,s2)/max(len(s1), len(s2))
+	- What's fuzzywuzzy.ratio? It looks like it's straight up edit distance? It's from some other package.
+
+for normalization methods, it would be foolish to naively discard hyphens and apostrophes.
+
+- It looks like it's set based
+
+
+What is Demerau-Levenshtein?
+	it's special case of levenshtein distance where transpositions of two adjacent characters(juxtaposed) are penalized as once rather than the prior model of levenshtien distance where it's penalized twice (2 x replacements).
+
+	the motivation being 80% of spelling errors occur by characters being transpoesd no pun :-)
+
+What is Smith-Waterman?
+What is Smith-Waterman-Gotoh?
+What is Monge-Elkan?
+	n^2 where n is the number of tokens
+	meaning sim(jack johnson, jack hipper) would be 4 comparisons
+
+	so if there are two tokens which are effectively substrings of two larger strings it'll only take into consideration if thier score is past a certain threshold*.
+
+	sim(jack, jack) = 1.0
+	sim(jack, hipper) = 0.0
+	sim(johnson, hipper) = 0.0
+	sim(johnson, jack) = .4
+
+	ME_final_score = 1/2(1.0+.4)
+
+*you could test soundex on the wolfram alpha
+Metaphone is a further improvement on Soundex
+
+It seems like it just tokenizes and compares each individual token. 

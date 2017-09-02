@@ -1,0 +1,24 @@
+reactive design
+---------------
+JOHND.ONE -- personal assistant ai
+
+What is a software agent?
+	basic level of an ai unction. taking sensory information then taking action.
+
+What is an intelligent agent?
+	- knowledge base built
+
+What is an intelligent agent?
+	- build's knowledge base over time
+
+sensors, actuators
+
+resilient, responsive, 
+elastic - loadbalance, 
+message-driven: 
+	modularity between components as opposed to monolithic structure
+
+reactive traits
+- replication
+- containment
+- supervision
