@@ -1,0 +1,84 @@
+[hadoop@ip-10-123-106-52 ~]$ pyspark
+Python 3.6.0 |Continuum Analytics, Inc.| (default, Dec 23 2016, 12:22:00) 
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+Traceback (most recent call last):
+  File "/usr/lib/spark/python/pyspark/shell.py", line 30, in <module>
+    import pyspark
+  File "/usr/lib/spark/python/pyspark/__init__.py", line 44, in <module>
+    from pyspark.context import SparkContext
+  File "/usr/lib/spark/python/pyspark/context.py", line 36, in <module>
+    from pyspark.java_gateway import launch_gateway
+  File "/usr/lib/spark/python/pyspark/java_gateway.py", line 31, in <module>
+    from py4j.java_gateway import java_import, JavaGateway, GatewayClient
+  File "<frozen importlib._bootstrap>", line 961, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 950, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 646, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 616, in _load_backward_compatible
+  File "/usr/lib/spark/python/lib/py4j-0.10.4-src.zip/py4j/java_gateway.py", line 18, in <module>
+  File "/home/hadoop/conda/lib/python3.6/pydoc.py", line 62, in <module>
+    import pkgutil
+  File "/home/hadoop/conda/lib/python3.6/pkgutil.py", line 22, in <module>
+    ModuleInfo = namedtuple('ModuleInfo', 'module_finder name ispkg')
+  File "/usr/lib/spark/python/pyspark/serializers.py", line 393, in namedtuple
+    cls = _old_namedtuple(*args, **kwargs)
+TypeError: namedtuple() missing 3 required keyword-only arguments: 'verbose', 'rename', and 'module'
+>>> import py_stringmatching
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/hadoop/conda/lib/python3.6/site-packages/py_stringmatching/__init__.py", line 11, in <module>
+    from py_stringmatching.similarity_measure.affine import Affine
+  File "/home/hadoop/conda/lib/python3.6/site-packages/py_stringmatching/similarity_measure/affine.py", line 1, in <module>
+    import numpy as np
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/__init__.py", line 142, in <module>
+    from . import add_newdocs
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/add_newdocs.py", line 13, in <module>
+    from numpy.lib import add_newdoc
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/lib/__init__.py", line 8, in <module>
+    from .type_check import *
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/lib/type_check.py", line 11, in <module>
+    import numpy.core.numeric as _nx
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/core/__init__.py", line 33, in <module>
+    from . import _internal  # for freeze programs
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/core/_internal.py", line 12, in <module>
+    from numpy.compat import asbytes, basestring
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/compat/__init__.py", line 14, in <module>
+    from . import py3k
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/compat/py3k.py", line 14, in <module>
+    from pathlib import Path
+  File "/home/hadoop/conda/lib/python3.6/pathlib.py", line 14, in <module>
+    from urllib.parse import quote_from_bytes as urlquote_from_bytes
+  File "/home/hadoop/conda/lib/python3.6/urllib/parse.py", line 227, in <module>
+    _DefragResultBase = namedtuple('DefragResult', 'url fragment')
+  File "/usr/lib/spark/python/pyspark/serializers.py", line 393, in namedtuple
+    cls = _old_namedtuple(*args, **kwargs)
+TypeError: namedtuple() missing 3 required keyword-only arguments: 'verbose', 'rename', and 'module'
+>>> import numpy
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/__init__.py", line 142, in <module>
+    from . import add_newdocs
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/add_newdocs.py", line 13, in <module>
+    from numpy.lib import add_newdoc
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/lib/__init__.py", line 8, in <module>
+    from .type_check import *
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/lib/type_check.py", line 11, in <module>
+    import numpy.core.numeric as _nx
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/core/__init__.py", line 33, in <module>
+    from . import _internal  # for freeze programs
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/core/_internal.py", line 12, in <module>
+    from numpy.compat import asbytes, basestring
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/compat/__init__.py", line 14, in <module>
+    from . import py3k
+  File "/home/hadoop/conda/lib/python3.6/site-packages/numpy/compat/py3k.py", line 14, in <module>
+    from pathlib import Path
+  File "/home/hadoop/conda/lib/python3.6/pathlib.py", line 14, in <module>
+    from urllib.parse import quote_from_bytes as urlquote_from_bytes
+  File "/home/hadoop/conda/lib/python3.6/urllib/parse.py", line 227, in <module>
+    _DefragResultBase = namedtuple('DefragResult', 'url fragment')
+  File "/usr/lib/spark/python/pyspark/serializers.py", line 393, in namedtuple
+    cls = _old_namedtuple(*args, **kwargs)
+TypeError: namedtuple() missing 3 required keyword-only arguments: 'verbose', 'rename', and 'module'
+>>> 
+[1]+  Stopped                 pyspark
+[hadoop@ip-10-123-106-52 ~]$ 

@@ -1,0 +1,415 @@
+# Deployment: 
+
+### Architecture:
+Soa over monolithic
+-------------------
+
+SOA:
++ isolation: 
+	prevents scenarios which are like dependency and versioning issues at the phase of deployment. ML versioning is a big problem in that it evolves pretty quickly and would cause problems in a monolithic structure. E.g. pandas could make a some major changes to dataframes from one version to another.
+
++ reduces engineer time:
+	scenarios which involve the model being updated:
+		tuning) DS
+		retraining ) DS
+		feature engineering NOT involving addition data inputs) DS
+		feature engineering involving addition data inputs ) DEV
+		model deteriotion
+		data deprecation) DEV
+		sudden failure in performance) Devops -> DS, may require a dev in 1
+
++ root cause analysis:
+	it's easier to figure who owns the service and which engineers to contact should something break.
+
++ scalable:
+	could have one service interface with many clients though you could also do this if you invoke the function locally.
+
++ ownership and authors:
+	it's easier to find the owners and authors of the api
+
++ error handling
+
+SOA vs microservices
+------------------------
+wrapping the entire dataproduct within a service i.e. preprocessing, prediction, response
+
+
+Lambda vs EC2+ECS
+-----------------
+Lambda
+------
++ devops light and don't have to worry about performance monitoring
++ scales automatically
++ server is self managed
+- it has limitations: 50mb, 5min timeout, cold start, 2.7 standard libraries, 3.6 incomplete
+	+ size can be combated by decomposition of functions. Lambda is great-way to a true microservice architecture.
+- can't ssh in so AWS Lambda does not provide any visibility into the server infrastructure environment used to run the application code
++ takes a zip and specific provisions that have to run under an AMI environment.
+
+
+ECS
+---
++ takes a docker image so it allows for more flexibility: language, size, etc
+- involves managing a server, scaling, etc.
+
+I think it lambda makes a lot of sense provided you've got the workflow down correctly.
+
+
+
+
+building the zip
+----------------
+This is the final step before uploading to lambda.
+
+Making zip file for lambda
+-------------
+	- The first thing you do is setup an evironment so that you can easily REPL.
+	install docker
+	- docker pull down the same AMI lambda's using
+		```
+		docker pull amazonlinux:2016.09
+		```
+	- run the shell script build.sh (takes time)
+	```
+		docker run -v $(pwd):/outputs -it amazonlinux:2016.09 \
+    /bin/bash /outputs/build.sh
+    ```
+	- it'll output all the dependencies in a zip called : 
+		venv.zip
+	- unzip this and all scripts
+	- trim weight down to 50mb and test full deployment package with lambdaci docker image posted above
+
+build.sh
+```
+#build.sh
+	#!/bin/bash
+	set -ex
+
+	yum update -y
+
+	yum install -y \
+	    atlas-devel \
+	    atlas-sse3-devel \
+	    blas-devel \
+	    gcc \
+	    gcc-c++ \
+	    lapack-devel \
+	    python27-devel \
+	    python27-virtualenv \
+	    findutils \
+	    sqlite-devel \
+	    zip
+
+	do_pip () {
+	    pip install --upgrade pip wheel
+	    pip install --use-wheel --no-binary numpy numpy
+	    pip install --use-wheel --no-binary scipy scipy
+	    pip install --use-wheel sklearn
+	    pip install --use-wheel joblib && \
+	    pip install --use-wheel pandas && \
+	    pip install --use-wheel py-stringmatching && \
+	    pip install --use-wheel pytz && \
+	    pip install --use-wheel unidecode && \
+	    pip install --use-wheel nltk && \
+	    python -m nltk.downloader stopwords
+
+	}
+
+	strip_virtualenv () {
+	    echo "venv original size $(du -sh $VIRTUAL_ENV | cut -f1)"
+	    find $VIRTUAL_ENV/lib64/python2.7/site-packages/ -name "*.so" | xargs strip
+	    echo "venv stripped size $(du -sh $VIRTUAL_ENV | cut -f1)"
+
+	    pushd $VIRTUAL_ENV/lib64/python2.7/site-packages/ && zip -r -9 -q /outputs/venv.zip * ; popd
+	    echo "site-packages compressed size $(du -sh /outputs/venv.zip | cut -f1)"
+
+	    pushd $VIRTUAL_ENV && zip -r -q /outputs/full-venv.zip * ; popd
+	    echo "venv compressed size $(du -sh /outputs/full-venv.zip | cut -f1)"
+	}
+
+	shared_libs () {
+	    libdir="$VIRTUAL_ENV/lib64/python2.7/site-packages/lib/"
+	    mkdir -p $VIRTUAL_ENV/lib64/python2.7/site-packages/lib || true
+	    cp /usr/lib64/atlas/* $libdir
+	    cp /usr/lib64/libquadmath.so.0 $libdir
+	    cp /usr/lib64/libgfortran.so.3 $libdir
+	}
+
+	main () {
+	    /usr/bin/virtualenv \
+	        --python /usr/bin/python /sklearn_build \
+	        --always-copy \
+	        --no-site-packages
+	    source /sklearn_build/bin/activate
+
+	    do_pip
+
+	    shared_libs
+
+	    strip_virtualenv
+	}
+	main
+
+```
+
+techniques on how else to get the file size down:
+	1. first just try and zip and see if that's good enough
+	2. if that doesn't work try the script above to compress the libraries into binaries
+	3. go into the lib folder and remove everything with an '.a' extention
+	4. from venv delete the docs e.g. pandas-0.20.2.dist-info and pip and anything you think you don't need
+	5. all .pyc files, aren't needed
+
+
+
+Basically zipping up the entire contents of the directory. It's very important to note this distinction: zipping up the contents of a folder vs zipping up the folder.
+
+build.sh
+	```
+	#!/bin/bash
+
+	echo 'Creating deployment zip...'
+
+	git archive -o deploy.zip HEAD
+
+	echo 'Done.'
+	```
+
+Prior to doing this there's also a process to the compress the libraries of model itself. There's a 50mb limitation for lambda function so this is a critical part.
+
+keep in mind w lambda:
+	- lamdbda cold start
+	- 2.7 standard libraries, 3.6 incomplete
+
+
+Modify lambda handler with--
+
+main.py
+	```
+	import ctypes
+	import json
+	import os
+
+	from flattened_data_points import FlattenedDataPoints
+	from predict import predict_if_budget_matches_itemization
+
+
+	#this portion of the code decompresses the libraries
+	for d, _, files in os.walk('lib'):
+	    for f in files:
+	        if f.endswith('.a'):
+	            continue
+
+	        ctypes.cdll.LoadLibrary(os.path.join(d, f))
+	        print("success", str(d), str(f))
+
+	def handler(event, context):
+	    print('Start matching expenses to budgets')
+	    print('Received the following input:\n{}'.format(json.dumps(event)))
+
+	    flattened_data_points = FlattenedDataPoints(event).all()
+	    scores = score_all_data_points(flattened_data_points)
+
+	    print('Scores:\n{}'.format(json.dumps(scores)))
+	    print('Finished')
+	    return scores
+	```
+
+
+resource:
+	https://serverlesscode.com/post/deploy-scikitlearn-on-lamba/
+
+
+
+
+end-point
+---------
+resources: https://www.youtube.com/watch?v=8U4RRw3PwGw
+if I had to redo this I'd use: https://serverless.com/framework/docs/providers/aws/guide/intro/
+
+2) create the lambda function:
+	
+	#create the lambda function on the console
+		https://us-west-2.console.aws.amazon.com/lambda/home?region=us-west-2#/functions?display=list
+		#select runtime environment as python 2.7 and select blank function
+		#add api gateway
+		#deployment stage: test (end point I already made)
+		#security: open
+		#name the function 
+		#upload your code
+
+		#existing role
+
+	#making an endpoint (api gateway)
+		#services->api gateway
+		#Actions->create resource
+			#Create resource
+			#Create method (this is the endpokint)
+
+
+	#write the file lambda_function.py	
+	import json
+
+	print('Loading function')
+
+
+	def lambda_handler(event, context):
+	    print("Received context: " + str(context))
+	    print("Received event: " + json.dumps(event, indent=2))
+	    
+	    return json.dumps(event, indent=2)
+
+
+	#name of this function: lambda_function.lambda_handler
+	#create an trigger with an api gateway
+
+3) create the api gateway/post endpoint to the lambda function
+	
+	#it's key to understand there's a seperate endpoint that needs to be created to expose the function publicly as opposed to within the aws infrastructure
+
+	#CREATE METHOD
+	#create a GET and POST seperately
+	#make sure the region you select for the api gateway is the same as the lambda function
+	#do not check lambda proxy configuration
+	#integration type lambda function
+
+	#CREATE stage
+	#grab the api key from here
+
+	
+	Exposing the API externally and invoking lambda function
+
+	{"message": "Internal server error"}'
+	if you're getting this error there's likely a problem with the endpoint configuration.
+
+	create Resource
+	create POST Method
+		Integration type; Lambda Function
+		DO NOT CHECK LAMBDA PROXY INTEGRATION
+		Lambda Region us-west-2
+	after it's created and test it internally by pasting the data into request body
+
+	be sure to "Deploy API" though this trivial from a configuring perspective, it needs to be done
+
+	#could use this to trouble shoot
+	def lambda_handler(event, context):
+	    raise Exception('the sky is falling!')
+	
+
+
+	reference
+	http://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html#getting-started-new-post
+
+4) 
+	How to handle versioning and fault tolerance
+	====
+	- lambda functions are abled to be versioned pretty easily
+	- fault tolerance, you can put up mirrors in various regions incase one goes down
+	for security)
+
+	authentication with new credential
+	special secure network
+	for fault tolerance)
+
+	mirror in multiple regions
+	sustaining a constant service which is always online and not subject to changes due to upgrades
+
+
+resources for creating endpoints api gateway:
+	https://www.youtube.com/watch?v=8U4RRw3PwGw
+
+FAQs
+-----
+
+
+__Should you wrap the function as a docker image and send away to productionize it?__
+
+	Sure but keep everything together should anyone need to make minor adjustments and rebuild. in our case, both an engineer & data scientist own the api.
+
+	The production level code should live in a seperate repo from all the code that lives in general data science folders (sandbox). 
+	i) if there's something an engineer can fix e.g. handling nulls in the preprocessing chain, they could do it themselves and rebuild the image within the repo 
+	ii) this holds even if a data scientist has to fix it as well.
+
+	Having everything contained in one place is nice for--
+		i) rapid adjustments 
+		ii) discoverability 
+		iii) subsequent iterations 
+		iv) general information about the service within documentation: README.md
+
+	README.md
+	--------
+	- name of function and version
+	- business function/question the product was built for
+	- metrics of interest: business & data science
+	- how monitor performance e.g. corresponding datadog dashboard or sql queries to monitor performance
+	- instructions on how to build the docker image which is sent up the model:
+		```
+		Deployment
+
+		To create the deployment package, run the following command while in the root directory of the project:
+
+		$ ./build
+
+		This creates a new file called deploy.zip in the current directory, which can then be uploaded to Amazon Lambda.
+		```
+	- testing locally before sending it up to lambda
+		```
+		Executing Locally
+
+		While in the root directory of the project with Docker running, run the command:
+
+		$ docker run -v "$PWD":/var/task lambci/lambda:python2.7 main.handler JSON_PAYLOAD
+		Replace JSON_PAYLOAD with a JSON formatted payload sent as a string. For example:
+
+		$ docker run -v "$PWD":/var/task lambci/lambda:python2.7 main.handler '{"budgets": [{"budget_price_budget": "140.0", "travel_vendor_receipts": "Southwest Airlines", "purchase_vendor_receipts": "Southwest Airlines", "budget_id": "309366", "start_datetime_trips": "2017-04-18 04:00:00", "generated_at_budget": "2017-04-08 14:55:39", "budget_type_budget": "flight", "actual_cost_budget": "131.98", "end_datetime_trips": "2017-04-19 04:00:00"}], "all_user_expense_lineitems": [{"expensed_amount_itemization": "24.0", "expense_type_name_itemization": "Taxi", "transaction_date_itemization": "2017-04-25 00:00:00", "itemization_id": "4659496", "expense_category_itemization": "taxi", "vendor_name_expense": "taxi", "expense_type_name_expense": "Taxi", "expense_category_expense": "taxi"}]}'
+		```
+
+	- testing at api levl
+		```
+		Alternatively, you can use a tool like Postman to send your JSON payload to the following address:
+
+		https://j4e8yp6cdi.execute-api.us-west-2.amazonaws.com/test/budget_expense_matcher/
+		```
+
+	- Request Format
+		```
+		Request body:
+
+		{
+		    "budgets": [
+		        {
+		            "budget_price_budget": "140.0",
+		            "travel_vendor_receipts": "Southwest Airlines",
+		            "purchase_vendor_receipts": "Southwest Airlines",
+		            "budget_id": "309366",
+		            "budget_type_budget": "flight",
+		            "generated_at_budget": "2017-04-08 14:55:39",
+		            "start_datetime_trips": "2017-04-18 04:00:00",
+		            "actual_cost_budget": "131.98",
+		            "end_datetime_trips": "2017-04-19 04:00:00"
+		        }
+		    ],
+		    "all_user_expense_lineitems": [
+		        {
+		            "expensed_amount_itemization": "24.0",
+		            "expense_type_name_itemization": "Taxi",
+		            "transaction_date_itemization": "2017-04-25 00:00:00",
+		            "itemization_id": "4659496",
+		            "expense_category_itemization": "taxi",
+		            "vendor_name_expense": "taxi",
+		            "expense_type_name_expense": "Taxi",
+		            "expense_category_expense": "taxi"
+		        }
+		    ]
+		}
+		The response should look like the following:
+
+		[
+		    {
+		        "score": 0,
+		        "budget_id": "309366",
+		        "itemization_id": "4659496"
+		    }
+		]
+		```
+
+

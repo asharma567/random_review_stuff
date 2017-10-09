@@ -1,0 +1,45 @@
+DONE pages 15, 16, 32, 34,39,40,41,73, 161, 174, 
+TODO 289,313
+
+pg.34
+"Implications for Managing the Data Science Team
+It is tempting—but usually a mistake—to view the data mining process as a software
+development cycle" ...
+"This can be a mistake because data mining is an exploratory undertaking closer to
+research and development than it is to engineering"
+
+pg.35
+Software skills versus analytics skills
+Although data mining involves software, it also requires skills that may
+not be common among programmers. In software engineering, the
+ability to write efficient, high-quality code from requirements may be
+paramount. Team members may be evaluated using software metrics
+such as the amount of code written or number of bug tickets closed.
+In analytics, it’s more important for individuals to be able to formu‐
+late problems well, to prototype solutions quickly, to make reason‐
+able assumptions in the face of ill-structured problems, to design ex‐
+periments that represent good investments, and to analyze results. In
+building a data science team, these qualities, rather than traditional
+software engineering expertise, are skills that should be sought.
+
+
+ differentiate profitable
+customers from unprofitable ones. This is the realm of data science, using data
+mining techniques for automated pattern finding
+	- what is this "automated pattern finding"?
+
+	Syntactic similarity is not semantic similarity. 
+
+190
+Using supervised learning with to provide cluster description:
+	Sometimes when you come-up with clusters it's quite difficult to see what the over-arching theme is and sometimes it's readily apparent upon visual inspection. Fitting a classifier to the cluster labels while maintaining the same feature space we can create an attribute-wise description of the each of the cluster. 
+
+	There is a distinction in fitting the classifier pooled/unpooled: one will yield how a single class differs from the rest and the other will yield how the all differ from eachother universally. 
+
+	Analogy: there are universal qualities for attractiveness agreeable among all communities then there are those unique to each community individiually.
+
+	Creating a description: interpreting a decision tree is the strongest, logistic reg: beta weights, infomation gain.
+
+	Caveat: this method highlights the differentiable characteristics, not the characteristics that the clusters have in common with the rest. It's a good way to ask "what's unique about this cluster?" So the clustering method clusters examples based on similarities but the classifier highlights differentials.
+
+look-up behavioral profiling on log-normal distribution
