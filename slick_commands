@@ -1,3 +1,39 @@
+
+# finding a file name with a certain desirable sub string while excluding other substrings
+
+```
+find . -iname "*helper*.py" -not -iname "*fft*" -not -iname "*joblib*" | uniq > delete.txt
+```
+
+OR 
+
+
+```
+find . -iname "*helper*.py" ! -iname "*fft*" ! -iname "*joblib*" | uniq > delete.txt
+```
+for whatever reason couldn't this couldn't be resolved in bash, ie the exclusions, so had to write a python script below. Uniq handles the dedpping 
+
+python delete.py
+```
+with open('delete.txt') as f:
+	
+	lis = [line.strip() for line in f if 'fft' not in line and 'joblib' not in line and 'Trash' not in line and 'anaconda' not in line]
+	
+	with open('delete_filtered.txt','w') as b:
+		b.write('\n'.join(lis))
+```
+
+Note subl subed in for open
+
+```
+head -2 delete_filtered.txt | xargs subl 
+```
+
+the above works but it'll exit on error hence leaving a lot of the lines unexecuted on
+
+```
+xargs -n 1 sh -c 'subl $0 || exit 255' < delete_filtered.txt
+```
 Bash cheat sheet
 ================
 
