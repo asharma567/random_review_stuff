@@ -159,6 +159,17 @@ techniques on how else to get the file size down:
 	4. from venv delete the docs e.g. pandas-0.20.2.dist-info and pip and anything you think you don't need
 	5. all .pyc files, aren't needed
 
+The main goal is to do away with stuff you don’t need within a library. As simple as this sounds it’s pretty difficult given time-contraints eg. NLTK’s a very interesting package as it requires more than the simple pypi package, there’s an entire library of corpora. To avoid installing everything I shaved it down to a bear minimum of stopwords-english and wordnet while maintaining the original directory structure (found in nltk_data).
+
+However, note the change in call path—
+```
+import nltk
+nltk.data.path.append("/var/task/nltk_data")
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+from nltk.stem.wordnet import WordNetLemmatizer
+```
+
 
 
 Basically zipping up the entire contents of the directory. It's very important to note this distinction: zipping up the contents of a folder vs zipping up the folder.

@@ -34,6 +34,11 @@ the above works but it'll exit on error hence leaving a lot of the lines unexecu
 ```
 xargs -n 1 sh -c 'subl $0 || exit 255' < delete_filtered.txt
 ```
+
+```
+xargs -n 1 sh -c 'cat $0 || exit 0 ' < delete_filtered.txt >> output.txt
+```
+
 Bash cheat sheet
 ================
 
