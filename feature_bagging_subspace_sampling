@@ -1,0 +1,16 @@
+outliers analysis: Featuer bagging
+-----------------------------------
+
+This is an unsupervised way of finding outliers, generalizable across any dataset. Just like random forrest has a random subset of features it uses for tree splits, this is used similarly. Except in random for the size of that window is fixed. The size of hte window - i believe is radical p. BUt you can change it
+
+here's it different since there's a variance of window size
+
+
+For _ in some_number_times:
+	window_size: 
+		randomly_select_integer_from(range(number_of_total_features/2, number_of_total_features -1))
+
+	feature_M = feature_space[window_size]
+	outlier_scores.append(outlier_scoring_algo(feature_M))
+
+examine_extremes(outlier_scores)

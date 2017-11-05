@@ -1,0 +1,14 @@
+Instability of a decision tree.
+
+Originally I thought the performance/stability of a tree-based models was better post PCA because it pruned out the outliers however this new reading suggests something different.
+
+It has to do with the number splits in the data, that is PCA can - which is what I initially assumed -- rotate the axis such that the classes are linearily seperable. It can rotate it in such a way that it would involve less splits from a decision tree.
+
+The reason why a decision tree would perform better with linear decision bounder or a lower number of splits is because these splits are orthogonal across features hence it would improperly model a smooth/linear decision boundary, misclassifying some examples along the rigid splits.
+
+The particular example, I saw had the data rotated s.t. the classes werent linearly seperable pre-pca. Post pca, it was linearly seperable by one split. Much like the anomaly detection by distance frequency using mahalanobis. 
+
+A good way to check this is - sklearn implementation builds tree stochastically - fix the random_state, build on the data pre and post pca and determine which tree has more depth.
+
+
+
