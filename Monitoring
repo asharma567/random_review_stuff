@@ -1,0 +1,69 @@
+# Monitoring in prod:
+
+#insert pic data dog initial dashboard
+
+For investigation purposes and other reasons you should create an independant table which stores the scored results from the model. The goal here is to tie back to specific results in our case that meant storing foreign keys (ids) etc.
+
+tools -- 
+
+i) sql ii) datadog
+
+motivation: using datadog vs sql
+--------------------------
+Drafted initial tests (precision, recall across time) in SQL and then later deployed real-time monitoring in datadog.
+
+1. we're already leveraging the infrastructure
+2. robust suite of tools for tracking performance:
+	- time-series for detecting trends e.g. a degradation of precision overtime 
+	- anomaly detection i.e. measuring the error of the model as datapoints come-in
+3. tracking things at the event level. So within the instrumentation you could embed some function to fire an event to datadog for tracking information.
+4. also have to determine the window that it looks back e.g. something sensible would be EWMA or median with a span of 20 days and then have thresholds for anomalous points, that is points that have a large distance from the EWMA point.
+5. real-time monitoring with dashboards, SQL could be ran adhoc or can be triggered by a cronjob sending an email report. In our case it was real cool to see what would happen if we changed a threshold and the adjust trade-off being made live on the precision/recall panels.
+
+	Panels
+	------
+	time-range window: 1k
+	- Precision/Recall percentage over the week
+	- time series plot over the week
+	...
+	- aws Lambda function performance metrics:
+		- call count
+		- errors
+		- lambda duration
+			this one's important as lambda's timeout is within 5 minutes so if it gets no response aws kills the job.
+
+
+
+#insert pic choosing from the suite of tools
+
+
+Could do everything above in SQL, it just requires more manual labor and in our case we're leveraging instrumentation the engineers were already relying for performance reporting. So it made a lot of sense for a maintenance purpose.
+
+#footnote
+---------
+	Datadog resources
+	------------------
+	https://help.datadoghq.com/hc/en-us/articles/203766435-What-functions-can-I-apply-to-my-dashboard-charts-
+	ewma_3()	Exponentially Weighted Moving Average with a span of 3
+	ewma_5()	EWMA with a span of 5
+	ewma_10()	EWMA with a span of 10
+	ewma_20()	EWMA with a span of 20
+	median_3()	Median filter, useful for reducing noise, with a span of 3
+	median_5()	Median with a span of 5
+	median_7()	Median with a span of 7
+	median_9()	Median with a span of 
+
+
+	https://www.datadoghq.com/blog/introducing-anomaly-detection-datadog/
+	trend_line()
+	robust_trend() * I'd recommend using this function as it's more robust to outliers
+	piecewise_constant() * shows a mean shift i.e. a sudden drastic change.
+
+Logging
+-------
+- Logentries: 
+	this occurs at the client level
+- Cloudwatch lambda logs: 
+	this occurs at the api level
+
+

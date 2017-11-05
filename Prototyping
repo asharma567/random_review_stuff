@@ -1,0 +1,12 @@
+# Prototyping
+Before prototyping you need to envision the end goal of your model. Think about how to measure it's performance in prod: 
+
+Performance metrics:
+i) Should be able to detect the model performance e.g. accuracy, precision, recall etc and how you're going to measure this over time.
+
+ii) Find a business metric that isn't too far up the funnel. For example, revenue on the entire business would be too far upstream and it's movement would be too noisy to show whether or not the performance of the model was the sole contributor. A better metric would be "median time to approval for trips on a weekly basis" it takes to get points approved which not to ironically is the reason why the data product was being built in the first place. Another metric would the ratio: "ct of matches made by model"/"ct of trips from all lists" then we could focus more on the success rate of the folks at Bolton. Another one is the amount of time an expense line item hits our db to the time it's matched by a user.
+
+to aid in feature engineering or training on a very largesets of data:
+- EMR
+	- Spark
+
