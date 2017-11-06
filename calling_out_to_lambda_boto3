@@ -1,0 +1,124 @@
+from typing import List
+
+import boto3
+import simplejson
+from django.conf import settings
+
+from rocketripapp.models import Budget
+from rocketripexpenses.expense_to_budget_matching_model_v3.converters.budget import BudgetConverter
+from rocketripexpenses.expense_to_budget_matching_model_v3.converters.itemization import ItemizationConverter
+from rocketripexpenses.expense_to_budget_matching_model_v3.converters.score_response import ScoreResponse
+from rocketripexpenses.models import Itemization
+
+
+class BudgetExpenseMatcher(object):
+    def __init__(self, trip_budgets: List[Budget], expense_items: List[Itemization]):
+        self._trip_budgets = trip_budgets
+        self._expense_items = expense_items
+
+    def build_top_level_payload(self):
+        trip_level_data = dict(
+            budgets=[BudgetConverter(budget).convert_to_dict() for budget in self._trip_budgets], all_user_expense_lineitems=[ItemizationConverter(item).convert_to_dict()
+                                                           for item in self._expense_items]
+                )
+        return trip_level_data
+
+    def scores(self) -> List[ScoreResponse]:
+        client = boto3.client('lambda', region_name=settings.EXPENSE_TO_BUDGET_MATCHING_LAMBDA_REGION_NAME)
+        payload = self.build_top_level_payload()
+        response = client.invoke(
+            FunctionName=settings.EXPENSE_TO_BUDGET_MATCHING_LAMBDA_FUNCTION_NAME,
+            InvocationType='RequestResponse',
+            Payload=bytes(simplejson.dumps(payload), 'utf8')
+        )
+
+        decoded_response_payload = simplejson.loads(response['Payload'].read().decode())
+        score_responses = [ScoreResponse(score) for score in decoded_response_payload]
+        return score_responses
+
+
+Calling out to lambda function using boto3
+-------------------------------------------
+
+Assuming the request body looks like the following...
+
+Request body:(this is what boto sends up)
+```
+{
+    "budgets": [
+        {
+            "budget_price_budget": "140.0",
+            "travel_vendor_receipts": "Southwest Airlines",
+            "purchase_vendor_receipts": "Southwest Airlines",
+            "budget_id": "309366",
+            "budget_type_budget": "flight",
+            "generated_at_budget": "2017-04-08 14:55:39",
+            "start_datetime_trips": "2017-04-18 04:00:00",
+            "actual_cost_budget": "131.98",
+            "end_datetime_trips": "2017-04-19 04:00:00"
+        }
+    ],
+    "all_user_expense_lineitems": [
+        {
+            "expensed_amount_itemization": "24.0",
+            "expense_type_name_itemization": "Taxi",
+            "transaction_date_itemization": "2017-04-25 00:00:00",
+            "itemization_id": "4659496",
+            "expense_category_itemization": "taxi",
+            "vendor_name_expense": "taxi",
+            "expense_type_name_expense": "Taxi",
+            "expense_category_expense": "taxi"
+        }
+    ]
+}
+```
+
+The response should look like the following: (this is what the lambda function sends back)
+
+```
+[
+    {
+        "score": 0,
+        "budget_id": "309366",
+        "itemization_id": "4659496"
+    }
+]
+```
+
+The following function would be used to call out to the api.
+
+
+```
+import boto3
+import simplejson
+import settings
+
+
+def get_model_scores():
+    client = boto3.client('lambda', region_name=settings.LAMBDA_REGION_NAME)
+    payload = get_payload()
+    response = client.invoke(
+        FunctionName=settings.LAMBDA_FUNCTION_NAME,
+        InvocationType='RequestResponse',
+        Payload=bytes(simplejson.dumps(payload), 'utf8')
+    )
+
+    decoded_response_payload = simplejson.loads(response['Payload'].read().decode())
+    
+    return decoded_response_payload
+```
+
+
+Lessons learned from designing the API:
+    - Error handling should be done at the api level not at the client level -- suppose things aren't broken down to a very granular microservices level -- the service should complete it's job rather than error out and fail on the whole job.
+
+    Lambda functions have a call cost associated PER call so we thought to combat this we'd send up a larger payload and have all the computation done at the api level. The api was made very brittle such that it would break if there was a null in any of the fields. This was causing a compounding effect in terms of the business flow it was suppose to augment. 
+
+    Solution
+    i) using try/catch blocks wrap the errors in the reponse back to the client
+
+    ii) Break the calls into smaller chunks and log the input outputs to api
+
+
+
+
