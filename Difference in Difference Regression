@@ -1,0 +1,29 @@
+Difference in Difference Regression
+==================================
+
+question:
+Is difference in difference regression superior to an A/B test because it takes into account external variables which may impact both the treatment and the control over time?
+
+- Yes, it's the very motivation. However it could measure it's affects down to a number... that is by how much has it improved
+
+Why is it difference of the mean vs another aggregate statistic?
+- Mean reversion.
+
+resources:
+
+https://stats.stackexchange.com/questions/160359/difference-in-difference-method-how-to-test-for-assumption-of-common-trend-betw
+
+http://www.stat.columbia.edu/~gelman/arm/chap9.pdf
+
+https://www.youtube.com/watch?v=y7TdcpULQog
+
+https://www2.warwick.ac.uk/fac/soc/economics/staff/ffwaldinger/teaching/ec9a8/slides/lecture_3_-_did.pdf
+
+https://stats.stackexchange.com/questions/564/what-is-difference-in-differences
+
+http://www.nber.org/WNE/lect_10_diffindiffs.pdf
+
+https://www.mailman.columbia.edu/research/population-health-methods/difference-difference-estimation
+
+
+
