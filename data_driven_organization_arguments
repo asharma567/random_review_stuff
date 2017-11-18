@@ -1,0 +1,93 @@
+Bullets from the meeting yesterday
+---------
+Quality above speed
+Delight customers
+Great UX
+Utility of product
+ownership/creativity
+Open for extension, closed for modification
+Testing mindset
+Value delivery over planned fulfillment
+Measure everything
+Remove roadblocks to productivity
+Focus on experiences vs. features
+Doubt everything
+Visibility into process
+Work in small batches
+Trust is bigger than control
+Data over opinion
+Ruthless prioritization
+Continuous Improvement
+
+The bullet points we mentioned above lacks a couple things imo: i) the bullet points below ii) structure/hierarchy (e.g. dendrogram)
+- Welcoming harsh feedback from peers, superiors, subordinates
+- innovation & exploration
+
+e.g.
+
+Data-Driven decision making
+---------------------------
+Utility of product
+	See below
+
+Delight customers
+	we have a data product... seriously.
+
+Testing mindset
+	same as below
+
+Measure everything
+	Analysis is done to produce the proper/accurate metrics. e.g. engineering metrics and business metrics are often decoupled or not measured at all. Almost everythign we produce should have osme metric of improvement in mind.
+
+Data over opinion
+	There's been too many times where someone walks into a room where they show something purely based on thier on belief not backed by anyting but thier opinion or the opinion of others. It's hard to argue around numbers.
+
+Ruthless prioritization
+	How do we know what to prioritize and properly assign such "weights" to each task? Analysis could aid here as well
+
+Continuous Improvement
+	How do we know what to improve as opposed to naively iterating on things that don't matter. Analysis could aid here as well.
+
+Opposition
+----------
+
+In this day and age, I can't believe we're taking an opposing stance on this in the first place. To me it marks the obsolence of the mindset of the leadership. Some of the counter arguments I've heard below:
+
+"Data comes in at a certain phase within a company and we're not at the right phase."
+	This argument is said by the engineers because infrastructure needs to be put in place prior to hiring data people. This is true if you hire an army of data people which lack engineering skills and rely on engineers heavily to do any work. 
+
+	Meaning we could hire people with such skills that could do work with minimal support. I'm example of this i.e. putting products in place where there was nothing from end-to-end with minimal support.
+
+	Secondly, we've been around for a few years already. We're not working out of a wework or garage i.e. we're far beyond a founding team. Given we're an analytics company (data), there needs to be atleast 1 person in the founding team at exec level to ensure we're gathering the right data, hiring the right people, etc.
+
+	Thirdly, checkout other analytics orgs at our stage and the emphasis on data they have e.g. Arena (Dawa's new company) has almost as many data scientist/analysts as they do engineers 1:1 ratio - analytics is their product.
+
+"What does data-driven even mean?"
+	This doesn't just stop at the consumer-level. Data-driven decision-making is a mentality that needs to be pervasive throughout our culture here. Meaning it needs to be from the inside-out, organically. How can we be an analytics platform if we ourselves aren't data-driven decision makers.
+
+	For the consumer facing products, data analytics benefit are quite obvious but i think people understand the internal benefits as well. Example can we answer questions like:
+	
+	- Front-end Engineering: If we roll out feature x, what will our conversion rate increase by? How will this impact our revenue stream/adoption?
+
+	- Adoption: What proportion of users at client are not using our platform.
+
+	- Engagement: What percentage are people are coming back? What's our retention rate? What are the frictional points for a user within out platform so we can build correctly?
+
+	- Sales: What are causal factors to the openrate? Which clients are churning and why? 
+
+	I feel like we're sailing a ship without ever checking the compass.
+
+
+
+"Why is it important from for this organization in particular?"
+	
+	Our product IS information. We provide a budget and listings which aids a user in thier decision-making. This is analytics. Front-end and design provides a window, Back-end provides the plumbing. Sales pitches and markets the product.
+
+	The irony is each of those departments has a representative voice at the exec leave, centrality, etc. Data on the other hand has none of the above.
+
+	Sales isn't the answer. If we have a strong product we wouldn't have to have such a large emphasis on sales. 
+
+	We no longer live in an era where sales requires such a large emphasis. Today more than ever given the availability information (analytics), slick salesmenship is easily debunked.
+
+
+

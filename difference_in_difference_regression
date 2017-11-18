@@ -1,0 +1,44 @@
+difference in difference regression?
+WNI?
+	Wonderful New Intervention, place holder for some type of new feature implementing which hopefully leads to a lift in X
+
+parallel trends?
+
+begs the question why not just take a control vs treatment and just track that over time?
+
+ add some autocorrelation to individual classes?
+ what does each class represent? group of folks?
+ and do we seriously assume the scores are normally distributed?
+
+ what's this avg_lm_scores?
+
+ Schedule some tiem to go over his other post of flights
+
+
+
+ 			why does he do this twice instead of just adding it all once?
+
+            # If it's in the treatment group, then the class will improve by an average of 8
+            # Learner Mastery points after Launch Day
+            lm_boost = np.random.normal(8, 2, num_months)*wni_launched
+ 
+            # We're also going to give all treatment classes a 5-point Learner Mastery
+            # boost because we assume they're naturally better somehow (perhaps because they're
+            # taught by more motivated instructors)
+            lm_boost += np.random.normal(5, 1, num_months
+
+            #what's the first digit?
+            np.random.normal(3, 1, num_months)
+
+    what's this do?
+    # Add an ARMA process to make this examle more real-world
+    avg_lm_scores += sm.tsa.arma_generate_sample([1, -.2, -.1], [1], nsample=10)
+
+
+What are the assumptions being made when doing this kind of analysis?
+
+	Perallelism: The average change in target_variable in our treatment group would've been the same as the change in the target_variable in the control group.
+
+	*a violation of the parallel assumption - which is what DID is founded on - is if something that's not related to our dependant variable impacted the one of the groups and not the other at the same time OR at all.
+
+How would you interpret all the regression variables?

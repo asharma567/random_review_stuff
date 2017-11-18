@@ -1,0 +1,87 @@
+Workflow of a Data Scientist
+
+Before we begin this workflow the question needs to be asked. Do we need this product? Why do we need it more than other products on the horizon? etc. Typically the lead does this analysis and doles out the problem to the best suited on the team: specialty in a problem-space, pre-existing relationship with the product team, etc. could all be reasons to appoint a particular data scientist over another.
+
+Sometimes it's very difficult to know how long a business problem will take to solve which is why we have to understand scoping takes about a 1-2 week process and from there better understanding the cost-benefits we can make a prudent decision.
+
+- Exploration (R/D): 
+
+Analysis & Scoping of the problem. 
+75% DS 
+20% PMs/Users
+5% Engineer to learn how the data is generated.
+
+This phase is spent understanding the business problem at hand through analysis and speaking with stake-holders/participants. Empathy with them about the problems/frustrations they're facing is key. Understanding the data capture and how it's being captured is also important - the nuances of the data is equally important.
+
+Scoping is extremely important. Naively runnning into battle without a plan is a redflag. This should take a about 1-2 weeks and should be shown to a PM. 
+
+Here's information gleaned from the scope:
+- Communication of an understanding of the problem (alignment is crucial here). A clear understanding of what success looks like post-deployment.
+- Several techniques are enumerated and the MVP is identified.
+- Task-level break-down and time-level break-down which deadlined
+- Accurate Metrics of interest (business and data science)
+- Productionization
+- Pitfalls and back-ups 
+- Tools and datasets required
+- Communication of results
+
+A PM/stakholder buys and execution goes underway.
+
+- Prototyping: 
+Development experimentation infrasctructure for various approaches. 
+90% DS, 
+10% PM.
+
+This where we put theory to practice. From the techniques enumerated above we take the MVP approach and few different sub-techiques with a benchmark and a metric for optimization in-place and construct a testing infrastructure.
+
+This is typically done in a sandbox and the success from a business perspective can't be measured here so the only metric used is the model-specific ones.
+
+- Productionization: 
+Deployment of Model and implementation of performance metrics (business & DS). 
+25% PM, 
+30% DS, 
+45% Engineer.
+
+Once we have a model prototyped we're happy with (DS and PM) we execute the productionization phase. Here we answer questions about all the nuances it'll face during implementation.
+
+All the testing/monitoring for the model must be thought of before-hand and clearly communicated here. When should a model be updated? what are the next steps for a model update? What are dependencies? What are the shortcomings of the model i.e. when does it break and where is it weak?
+
+Any engineer should be able to easily download and use the model. e.g. we've been using an independent github repo with python code could take a step further and use a Docker Image. Input and Ouput needs to be stated very clearly from an engineers perspective.
+
+The engineer and DS should work jointly on the type of service that's delivered e.g. Ec2 vs Lambda, Scalability issues, etc.
+
+- Communication of results: 
+For example, our flight blog post, 
+70% DS, 
+30% PM.
+
+Self-stated but it's usually a blog or presentation after some amount of time in prod to demonstrate success and what it means from a revenue perspective.
+
+Storage of work
+———
+- make your own folders
+- create a sandbox to protect analysis
+- tldr: jupyter notebook, markdown
+- authors
+- data
+- reproducibility
+---
+title: I Found that Lemurs Do Funny Dances
+authors:
+- sally_smarts
+- wesley_wisdom
+tags:
+- knowledge
+- example
+created_at: 2016-06-29
+updated_at: 2016-06-30
+tldr: This is short description of the content and findings of the post.
+---
+
+
+RT_first_data_repo
+
+knowledge_repo --repo RT_first_data_repo init
+
+git remote add origin https://github.com/rocketrip/data.git
+git push -u origin master
