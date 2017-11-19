@@ -1,38 +1,52 @@
 # Deployment: 
 
-### Architecture:
+
+### Motivation
+For a couple of years, I researched best-practices for model deployment at the time there wasn't much available as such I've made this post to share my learnings from my recent journey: __A data scientist operating with minimal support, no data/ml engineers or devops team.__ 
+
+As you could imagine, there's a decent amount of interaction with engineers during this phase so I wrote this to support arguments for my methodology from the perspective of cost-benefit tradeoffs.
+
+### Distinctions in Architecture Paradigms:
+
 Soa over monolithic
 -------------------
 
 SOA:
 + isolation: 
-	prevents scenarios which are like dependency and versioning issues at the phase of deployment. ML versioning is a big problem in that it evolves pretty quickly and would cause problems in a monolithic structure. E.g. pandas could make a some major changes to dataframes from one version to another.
+	Prevents dependency and versioning issues. ML package versioning is a big problem in that it evolves pretty quickly and would cause problems in a monolithic structure. E.g. pandas could make a some major changes to dataframes from one version to another e.g. changes/updates in pandas used in model_for_fraud_detection will have an impact on model_monitoring_churn.
 
-+ reduces engineer time:
++ reduces engineer time/involvment:
 	scenarios which involve the model being updated:
-		tuning) DS
-		retraining ) DS
-		feature engineering NOT involving addition data inputs) DS
-		feature engineering involving addition data inputs ) DEV
-		model deteriotion
-		data deprecation) DEV
-		sudden failure in performance) Devops -> DS, may require a dev in 1
+		* tuning) DS
+		* retraining ) DS
+		* feature engineering NOT involving addition data inputs) DS
+		* feature engineering involving addition data inputs ) DEV
+		* model deteriotion
+		* data deprecation) DEV
+		* sudden failure in performance) Devops -> DS, may require a dev in 1
 
 + root cause analysis:
-	it's easier to figure who owns the service and which engineers to contact should something break.
+	Easier to figure who owns the service and which engineers to contact should something break.
 
 + scalable:
-	could have one service interface with many clients though you could also do this if you invoke the function locally.
+	Could have one service interface with many clients though you could also do this if you invoke the function locally.
 
 + ownership and authors:
-	it's easier to find the owners and authors of the api
+	Easier to find the owners and authors of the api.
 
 + error handling
+	Should be delivered in the client response and should be done at the api level so that it's scalable across requests anostic to client.
 
 SOA vs microservices
-------------------------
-wrapping the entire dataproduct within a service i.e. preprocessing, prediction, response
+--------------------
+This is the subtle distinction of wrapping the entire dataproduct within a service i.e. preprocessing, prediction, and response (SOA) or decompose them to smaller services which call eachother (microservices).
 
+Much like best-practices used in software development, good design is flexible to change and reusable. Analagously the motivation for microservices e.g. two seperate models which use the same feature matrix. they would each call the same preprocesing service.
+
+Though we went with SOA, I think that's an initial step to mircoservices.
+
+
+## Tools for hosting the service
 
 Lambda vs EC2+ECS
 -----------------
@@ -43,16 +57,18 @@ Lambda
 + server is self managed
 - it has limitations: 50mb, 5min timeout, cold start, 2.7 standard libraries, 3.6 incomplete
 	+ size can be combated by decomposition of functions. Lambda is great-way to a true microservice architecture.
-- can't ssh in so AWS Lambda does not provide any visibility into the server infrastructure environment used to run the application code
-+ takes a zip and specific provisions that have to run under an AMI environment.
+- can't ssh into server, AWS Lambda does not provide any control infrastructure & environment used to run the application code
++ takes a zip file restrained by specific AMI environment provisions.
 
 
 ECS
 ---
 + takes a docker image so it allows for more flexibility: language, size, etc
+- better optionality for setting-up infrastructure. since this an area that's well outside my profession, it only serves as a distraction.
 - involves managing a server, scaling, etc.
+- this would also use flask frame-work which - for me - has been unreliable.
 
-I think it lambda makes a lot of sense provided you've got the workflow down correctly.
+Given you've already paid the learning pains, lambda makes much more sense for a data scientist who's looking for a hands-off approach.
 
 
 
@@ -81,7 +97,6 @@ Making zip file for lambda
 
 build.sh
 ```
-#build.sh
 	#!/bin/bash
 	set -ex
 
@@ -152,29 +167,30 @@ build.sh
 
 ```
 
-techniques on how else to get the file size down:
+techniques on otherways to get the file size down:
 	1. first just try and zip and see if that's good enough
 	2. if that doesn't work try the script above to compress the libraries into binaries
 	3. go into the lib folder and remove everything with an '.a' extention
 	4. from venv delete the docs e.g. pandas-0.20.2.dist-info and pip and anything you think you don't need
 	5. all .pyc files, aren't needed
 
-The main goal is to do away with stuff you don’t need within a library. As simple as this sounds it’s pretty difficult given time-contraints eg. NLTK’s a very interesting package as it requires more than the simple pypi package, there’s an entire library of corpora. To avoid installing everything I shaved it down to a bear minimum of stopwords-english and wordnet while maintaining the original directory structure (found in nltk_data).
+Main goal is to do away with stuff you don’t need within a library. As simple as this sounds it’s pretty difficult given time-contraints eg. NLTK’s a very interesting package as it requires more than the simple pypi package, there’s an entire library of corpora. To avoid installing everything I shaved it down to a bear minimum of stopwords-english and wordnet while maintaining the original directory structure (found in nltk_data).
 
 However, note the change in call path—
-```
-import nltk
-nltk.data.path.append("/var/task/nltk_data")
-from nltk.corpus import stopwords
-from nltk.stem.snowball import SnowballStemmer
-from nltk.stem.wordnet import WordNetLemmatizer
-```
+	```
+	import nltk
+	nltk.data.path.append("/var/task/nltk_data")
+	from nltk.corpus import stopwords
+	from nltk.stem.snowball import SnowballStemmer
+	from nltk.stem.wordnet import WordNetLemmatizer
+	```
 
 
+Zipping
+-------
+Zip up the entire contents of the directory. It's very important to note this distinction: zipping up the contents of a folder vs zipping up the folder.
 
-Basically zipping up the entire contents of the directory. It's very important to note this distinction: zipping up the contents of a folder vs zipping up the folder.
-
-build.sh
+zip.sh
 	```
 	#!/bin/bash
 
@@ -185,11 +201,13 @@ build.sh
 	echo 'Done.'
 	```
 
-Prior to doing this there's also a process to the compress the libraries of model itself. There's a 50mb limitation for lambda function so this is a critical part.
+Compressing the libraries
+-------------------------
+Prior to this, there's also a process to the compress the libraries of model itself. One provision of Lambda is a 50mb limitation of the zip - _large pain point for me._
 
-keep in mind w lambda:
-	- lamdbda cold start
-	- 2.7 standard libraries, 3.6 incomplete
+__Special considerations:__
+	- lamdbda cold start, 5 min timeout. If the service doesn't get a heartbeat in 5 mins it'll aws will kill the service. 
+	- 2.7 standard libraries, 3.6 incomplete. As of this writing, you'll likely have downgrade your app in python 2.7. This sounds like a bigger deal then it actually is, many engineers oppose this but the change is trivial from a time perspective.
 
 
 Modify lambda handler with--
@@ -232,32 +250,32 @@ resource:
 
 
 
-end-point
----------
+Making the end-point on aws
+------------------
 resources: https://www.youtube.com/watch?v=8U4RRw3PwGw
-if I had to redo this I'd use: https://serverless.com/framework/docs/providers/aws/guide/intro/
+if I had to redo this part I'd use: https://serverless.com/framework/docs/providers/aws/guide/intro/
 
-2) create the lambda function:
+2) steps to create the lambda function:
 	
-	#create the lambda function on the console
+	- login to console and create the lambda function:
 		https://us-west-2.console.aws.amazon.com/lambda/home?region=us-west-2#/functions?display=list
-		#select runtime environment as python 2.7 and select blank function
-		#add api gateway
-		#deployment stage: test (end point I already made)
-		#security: open
-		#name the function 
-		#upload your code
+	- select runtime environment as python 2.7 and select blank function
+	- add api gateway
+	- deployment stage: test (end point we already made)
+	- security: open
+	- name the function 
+	- upload your code
+	- existing role
 
-		#existing role
-
-	#making an endpoint (api gateway)
-		#services->api gateway
-		#Actions->create resource
-			#Create resource
-			#Create method (this is the endpokint)
+	- Making an endpoint (api gateway)
+		- Services->api gateway
+		- Actions->create resource
+			- Create resource
+			- Create method (this is the endpokint)
 
 
-	#write the file lambda_function.py	
+	# write lambda_function.py	
+	```
 	import json
 
 	print('Loading function')
@@ -268,28 +286,29 @@ if I had to redo this I'd use: https://serverless.com/framework/docs/providers/a
 	    print("Received event: " + json.dumps(event, indent=2))
 	    
 	    return json.dumps(event, indent=2)
+	```
 
-
-	#name of this function: lambda_function.lambda_handler
-	#create an trigger with an api gateway
+	- name: lambda_function.lambda_handler
+	- create a trigger with an api gateway
 
 3) create the api gateway/post endpoint to the lambda function
 	
-	#it's key to understand there's a seperate endpoint that needs to be created to expose the function publicly as opposed to within the aws infrastructure
+	_*it's key to understand there's a seperate endpoint that needs to be created to expose the function publicly as opposed to within the aws infrastructure_
 
-	#CREATE METHOD
-	#create a GET and POST seperately
-	#make sure the region you select for the api gateway is the same as the lambda function
-	#do not check lambda proxy configuration
-	#integration type lambda function
+	### CREATE METHOD
+	- create a GET and POST seperately
+	- make sure the region you select for the api gateway is the same as the lambda function
+	- do not check lambda proxy configuration
+	- integration type lambda function
 
-	#CREATE stage
-	#grab the api key from here
+	### CREATE stage
+	- grab the api key from here
 
 	
 	Exposing the API externally and invoking lambda function
-
+	```
 	{"message": "Internal server error"}'
+	```
 	if you're getting this error there's likely a problem with the endpoint configuration.
 
 	create Resource
@@ -297,45 +316,36 @@ if I had to redo this I'd use: https://serverless.com/framework/docs/providers/a
 		Integration type; Lambda Function
 		DO NOT CHECK LAMBDA PROXY INTEGRATION
 		Lambda Region us-west-2
-	after it's created and test it internally by pasting the data into request body
+	after it's created, test it internally by copy-pasting the data into request body
 
 	be sure to "Deploy API" though this trivial from a configuring perspective, it needs to be done
 
-	#could use this to trouble shoot
+	#handler used to troubleshoot
+	```
 	def lambda_handler(event, context):
 	    raise Exception('the sky is falling!')
-	
-
+	```
 
 	reference
 	http://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html#getting-started-new-post
 
 4) 
-	How to handle versioning and fault tolerance
+	Versioning and fault tolerance
 	====
-	- lambda functions are abled to be versioned pretty easily
+	- versioning, How to do it through cli (http://docs.aws.amazon.com/lambda/latest/dg/versioning-intro.html) though there's an even easier approach through the console. Alternatively, could also have the function call the deployment package from an s3 bucket and could just change the pointer.
 	- fault tolerance, you can put up mirrors in various regions incase one goes down
-	for security)
+	- security, allows for auth with new credentials.
 
-	authentication with new credential
-	special secure network
-	for fault tolerance)
-
-	mirror in multiple regions
-	sustaining a constant service which is always online and not subject to changes due to upgrades
-
-
-resources for creating endpoints api gateway:
-	https://www.youtube.com/watch?v=8U4RRw3PwGw
 
 FAQs
 -----
 
 
-__Should you wrap the function as a docker image and send away to productionize it?__
+### Should you wrap the function as a docker image and send away to productionize it?
 
-	Sure but keep everything together should anyone need to make minor adjustments and rebuild. in our case, both an engineer & data scientist own the api.
+	Sure but keep everything together should anyone need to make minor adjustments and rebuild, we used a single git repo solely for this. In our case, both an engineer & data scientist own the api.
 
+### The repo
 	The production level code should live in a seperate repo from all the code that lives in general data science folders (sandbox). 
 	i) if there's something an engineer can fix e.g. handling nulls in the preprocessing chain, they could do it themselves and rebuild the image within the repo 
 	ii) this holds even if a data scientist has to fix it as well.

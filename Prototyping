@@ -1,4 +1,5 @@
 # Prototyping
+
 Before prototyping you need to envision the end goal of your model. Think about how to measure it's performance in prod: 
 
 Performance metrics:
