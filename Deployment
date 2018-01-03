@@ -38,8 +38,13 @@ SOA:
 	Should be delivered in the client response and should be done at the api level so that it's scalable across requests anostic to client.
 
 SOA vs microservices
+<<<<<<< HEAD
 --------------------
 This is the subtle distinction of wrapping the entire dataproduct within a service i.e. preprocessing, prediction, and response (SOA) or decompose them to smaller services which call eachother (microservices).
+=======
+------------------------
+wrapping the entire dataproduct within a service i.e. preprocessing, prediction, response. This is a good first step towards a true microservices archtecture where even the former: preprocessing & prediction are invoked independently.
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
 
 Much like best-practices used in software development, good design is flexible to change and reusable. Analagously the motivation for microservices e.g. two seperate models which use the same feature matrix. they would each call the same preprocesing service.
 
@@ -73,30 +78,20 @@ Given you've already paid the learning pains, lambda makes much more sense for a
 
 
 
-building the zip
-----------------
+Making deployment zip for lambda
+-------------
 This is the final step before uploading to lambda.
 
-Making zip file for lambda
--------------
-	- The first thing you do is setup an evironment so that you can easily REPL.
-	install docker
-	- docker pull down the same AMI lambda's using
-		```
-		docker pull amazonlinux:2016.09
-		```
-	- run the shell script build.sh (takes time)
-	```
-		docker run -v $(pwd):/outputs -it amazonlinux:2016.09 \
-    /bin/bash /outputs/build.sh
-    ```
-	- it'll output all the dependencies in a zip called : 
-		venv.zip
-	- unzip this and all scripts
-	- trim weight down to 50mb and test full deployment package with lambdaci docker image posted above
+As consequence to the provisioning benefits of using lambda, we need to build software such that it's compatible with it's environment and size restrictions. Here's how to do it--
 
-build.sh
+_*if zipped deployment package is less than 50mb, skip to (7)_
+
+1. install docker
+2. docker pull down the same AMI lambda's using
 ```
+docker pull amazonlinux:2016.09
+```
+<<<<<<< HEAD
 	#!/bin/bash
 	set -ex
 
@@ -164,9 +159,101 @@ build.sh
 	    strip_virtualenv
 	}
 	main
+=======
+3. build in lambda the environment using lambda (takes time)
+```
+docker run -v $(pwd):/outputs -it amazonlinux:2016.09 \
+/bin/bash /outputs/build_dependencies_in_lambda_environment.sh
+```
+4. it'll output all the dependencies compressed as binaries in a zip called: 'venv.zip'
+5. unzip this and add all other scripts: lambda_handler, main function,..
+6. trim weight down to 50mb (zipped)
+7. test full deployment package with lambdaci's docker image 
 
+before you do this step, i) install lambci ii) rename script containing the handler to 'lambda_function.py' and the handler function to 'lambda_handler'
+```
+docker run -v "$PWD":/var/task lambci/lambda:python2.7
 ```
 
+other techniques on sizing down:
+1. go into the lib folder and remove everything with an '.a' extension
+2. from venv delete the docs e.g. pandas-0.20.2.dist-info and pip and anything you think you don't need
+3. strip all .pyc files as they aren't needed
+
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
+
+build_dependencies_in_lambda_environment.sh
+```
+#!/bin/bash
+set -ex
+
+yum update -y
+
+yum install -y \
+    atlas-devel \
+    atlas-sse3-devel \
+    blas-devel \
+    gcc \
+    gcc-c++ \
+    lapack-devel \
+    python27-devel \
+    python27-virtualenv \
+    findutils \
+    sqlite-devel \
+    zip
+
+do_pip () {
+    pip install --upgrade pip wheel
+    pip install --use-wheel --no-binary numpy numpy
+    pip install --use-wheel --no-binary scipy scipy
+    pip install --use-wheel sklearn
+    pip install --use-wheel joblib && \
+    pip install --use-wheel pandas && \
+    pip install --use-wheel py-stringmatching && \
+    pip install --use-wheel pytz && \
+    pip install --use-wheel unidecode && \
+    pip install --use-wheel nltk && \
+    python -m nltk.downloader stopwords
+
+}
+
+strip_virtualenv () {
+    echo "venv original size $(du -sh $VIRTUAL_ENV | cut -f1)"
+    find $VIRTUAL_ENV/lib64/python2.7/site-packages/ -name "*.so" | xargs strip
+    echo "venv stripped size $(du -sh $VIRTUAL_ENV | cut -f1)"
+
+    pushd $VIRTUAL_ENV/lib64/python2.7/site-packages/ && zip -r -9 -q /outputs/venv.zip * ; popd
+    echo "site-packages compressed size $(du -sh /outputs/venv.zip | cut -f1)"
+
+    pushd $VIRTUAL_ENV && zip -r -q /outputs/full-venv.zip * ; popd
+    echo "venv compressed size $(du -sh /outputs/full-venv.zip | cut -f1)"
+}
+
+shared_libs () {
+    libdir="$VIRTUAL_ENV/lib64/python2.7/site-packages/lib/"
+    mkdir -p $VIRTUAL_ENV/lib64/python2.7/site-packages/lib || true
+    cp /usr/lib64/atlas/* $libdir
+    cp /usr/lib64/libquadmath.so.0 $libdir
+    cp /usr/lib64/libgfortran.so.3 $libdir
+}
+
+main () {
+    /usr/bin/virtualenv \
+        --python /usr/bin/python /sklearn_build \
+        --always-copy \
+        --no-site-packages
+    source /sklearn_build/bin/activate
+
+    do_pip
+
+    shared_libs
+
+    strip_virtualenv
+}
+main
+```
+
+<<<<<<< HEAD
 techniques on otherways to get the file size down:
 	1. first just try and zip and see if that's good enough
 	2. if that doesn't work try the script above to compress the libraries into binaries
@@ -184,8 +271,27 @@ However, note the change in call path—
 	from nltk.stem.snowball import SnowballStemmer
 	from nltk.stem.wordnet import WordNetLemmatizer
 	```
+=======
 
+NLTK requires more than the simple pypi package, there’s an entire library of corpora. To avoid installing everything I shaved it down to a bear minimum of stopwords-english and wordnet directories while maintaining the original directory structure (found in 'nltk_data').
 
+*note the change in call path
+```
+import nltk
+nltk.data.path.append("/var/task/nltk_data")
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+from nltk.stem.wordnet import WordNetLemmatizer
+```
+
+Basically zipping up the entire contents of the directory. **It's very important to note this distinction: zipping up the contents of a folder vs zipping up the folder.**
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
+
+build_deployment_zip.sh
+```
+#!/bin/bash
+
+<<<<<<< HEAD
 Zipping
 -------
 Zip up the entire contents of the directory. It's very important to note this distinction: zipping up the contents of a folder vs zipping up the folder.
@@ -195,53 +301,63 @@ zip.sh
 	#!/bin/bash
 
 	echo 'Creating deployment zip...'
+=======
+echo 'Creating deployment zip...'
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
 
-	git archive -o deploy.zip HEAD
+git archive -o deploy.zip HEAD
 
-	echo 'Done.'
-	```
+echo 'Done.'
+```
 
 Compressing the libraries
 -------------------------
 Prior to this, there's also a process to the compress the libraries of model itself. One provision of Lambda is a 50mb limitation of the zip - _large pain point for me._
 
+<<<<<<< HEAD
 __Special considerations:__
 	- lamdbda cold start, 5 min timeout. If the service doesn't get a heartbeat in 5 mins it'll aws will kill the service. 
 	- 2.7 standard libraries, 3.6 incomplete. As of this writing, you'll likely have downgrade your app in python 2.7. This sounds like a bigger deal then it actually is, many engineers oppose this but the change is trivial from a time perspective.
+=======
+keep in mind w lambda:
+	- lamdbda cold start, the first call will be slower than normal
+	- 2.7 standard libraries are full and 3.6 are incomplete which is why we downgraded to 2.7 during this particular run.
+	- 5 min timeout. It'll kill your function if it takes longer than 5 mins to run.
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
 
 
 Modify lambda handler with--
 
-main.py
-	```
-	import ctypes
-	import json
-	import os
+lamnda_handler.py
+```
+import ctypes
+import json
+import os
 
-	from flattened_data_points import FlattenedDataPoints
-	from predict import predict_if_budget_matches_itemization
+from flattened_data_points import FlattenedDataPoints
+from predict import score_all_data_points
 
 
-	#this portion of the code decompresses the libraries
-	for d, _, files in os.walk('lib'):
-	    for f in files:
-	        if f.endswith('.a'):
-	            continue
+#this portion of the code decompresses the libraries
+for d, _, files in os.walk('lib'):
+    for f in files:
+        if f.endswith('.a'):
+            continue
 
-	        ctypes.cdll.LoadLibrary(os.path.join(d, f))
-	        print("success", str(d), str(f))
+        ctypes.cdll.LoadLibrary(os.path.join(d, f))
+        print("success", str(d), str(f))
 
-	def handler(event, context):
-	    print('Start matching expenses to budgets')
-	    print('Received the following input:\n{}'.format(json.dumps(event)))
+def handler(event, context):
+    print('Start matching expenses to budgets')
+    print('Received the following input:\n{}'.format(json.dumps(event)))
 
-	    flattened_data_points = FlattenedDataPoints(event).all()
-	    scores = score_all_data_points(flattened_data_points)
+    flattened_data_points = FlattenedDataPoints(event).all()
+    scores = score_all_data_points(flattened_data_points)
 
-	    print('Scores:\n{}'.format(json.dumps(scores)))
-	    print('Finished')
-	    return scores
-	```
+    print('Scores:\n{}'.format(json.dumps(scores)))
+    print('Finished')
+    return scores
+```
 
 
 resource:
@@ -250,6 +366,7 @@ resource:
 
 
 
+<<<<<<< HEAD
 Making the end-point on aws
 ------------------
 resources: https://www.youtube.com/watch?v=8U4RRw3PwGw
@@ -269,12 +386,38 @@ if I had to redo this part I'd use: https://serverless.com/framework/docs/provid
 
 	- Making an endpoint (api gateway)
 		- Services->api gateway
+=======
+Making the end-point
+--------------------
+
+If I had to redo this I'd use: https://serverless.com/framework/docs/providers/aws/guide/intro/
+
+1) create the lambda function:
+	
+	a) create the lambda function on the console
+	configurations:
+		 - https://us-west-2.console.aws.amazon.com/lambda/home?region=us-west-2#/functions?display=list
+		 - select runtime environment as python 2.7 and select blank function
+		 - add api gateway
+		 - deployment stage: test (end point I already made)
+		 - security: open
+		 - name the function 
+		 - upload your code
+		 - existing role
+
+	b) making an endpoint (api gateway)
+		- services->api gateway
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
 		- Actions->create resource
 			- Create resource
 			- Create method (this is the endpokint)
 
 
+<<<<<<< HEAD
 	# write lambda_function.py	
+=======
+	c) write main test function: 'lambda_function.py'	
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
 	```
 	import json
 
@@ -288,6 +431,7 @@ if I had to redo this part I'd use: https://serverless.com/framework/docs/provid
 	    return json.dumps(event, indent=2)
 	```
 
+<<<<<<< HEAD
 	- name: lambda_function.lambda_handler
 	- create a trigger with an api gateway
 
@@ -306,11 +450,32 @@ if I had to redo this part I'd use: https://serverless.com/framework/docs/provid
 
 	
 	Exposing the API externally and invoking lambda function
+=======
+	- name of this function: lambda_function.lambda_handler
+	
+	d) create trigger with an api gateway
+
+2) create the api gateway/post endpoint to the lambda function
+	
+	**There's a seperate endpoint that needs to be created to expose the function publicly as opposed to within the aws infrastructure.**
+
+	a) CREATE METHOD
+	- create a GET and POST seperately
+	- make sure the region you select for the api gateway is the same as the lambda function
+	- do not check lambda proxy configuration
+	- integration type lambda function
+
+	b) CREATE stage
+	- grab the api key from here
+
+	c) Exposing the API externally and invoke lambda function
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
 	```
 	{"message": "Internal server error"}'
 	```
 	if you're getting this error there's likely a problem with the endpoint configuration.
 
+<<<<<<< HEAD
 	create Resource
 	create POST Method
 		Integration type; Lambda Function
@@ -325,16 +490,36 @@ if I had to redo this part I'd use: https://serverless.com/framework/docs/provid
 	def lambda_handler(event, context):
 	    raise Exception('the sky is falling!')
 	```
+=======
+	- create Resource
+	- create POST Method
+		- Integration type; Lambda Function
+		- DO NOT CHECK LAMBDA PROXY INTEGRATION
+		- Lambda Region us-west-2
+	
+	after it's created and test it internally by pasting the data into request body
 
-	reference
+	be sure to click "Deploy API" though this trivial from a configuring perspective, it needs to be done.	
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
+
+	reference:
 	http://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started.html#getting-started-new-post
 
+<<<<<<< HEAD
 4) 
 	Versioning and fault tolerance
 	====
 	- versioning, How to do it through cli (http://docs.aws.amazon.com/lambda/latest/dg/versioning-intro.html) though there's an even easier approach through the console. Alternatively, could also have the function call the deployment package from an s3 bucket and could just change the pointer.
 	- fault tolerance, you can put up mirrors in various regions incase one goes down
 	- security, allows for auth with new credentials.
+=======
+3) How to handle versioning and fault tolerance
+	====
+	- lambda functions are abled to be versioned pretty easily
+	- fault tolerance, you can put up mirrors in multiple regions incase one goes down for security. Always online and not subject to changes due to upgrades.
+	- also allows for auth with new credential for security reasons
+
+>>>>>>> ffc9d161d5e6dd1d80d62c138259ddafd868992d
 
 
 FAQs
@@ -432,5 +617,44 @@ FAQs
 		    }
 		]
 		```
+Example: Calling out using boto3
+--------------------------------
+
+Assuming the request body looks like the one above...
+
+
+The following function would be used to call out to the api.
+
+```
+import boto3
+import simplejson
+import settings
+
+
+def get_model_scores():
+    client = boto3.client('lambda', region_name=settings.LAMBDA_REGION_NAME)
+    payload = get_payload()
+    response = client.invoke(
+        FunctionName=settings.LAMBDA_FUNCTION_NAME,
+        InvocationType='RequestResponse',
+        Payload=bytes(simplejson.dumps(payload), 'utf8')
+    )
+
+    decoded_response_payload = simplejson.loads(response['Payload'].read().decode())
+    
+    return decoded_response_payload
+```
+
+
+Lessons learned from designing the API:
+    - Error handling should be done at the api level not at the client level -- suppose things aren't broken down to a very granular microservices level -- the service should complete it's job rather than error out and fail on the whole job.
+
+    Lambda functions have a call cost associated PER call so we thought to combat this we'd send up a larger payload and have all the computation done at the api level. The api was made very brittle such that it would break if there was a null in any of the fields. This was causing a compounding effect in terms of the business flow it was suppose to augment. 
+
+    Solution:
+    i) using try/catch blocks wrap the errors in the reponse back to the client
+
+    ii) Break the calls into smaller chunks and log the input outputs to api
+
 
 
