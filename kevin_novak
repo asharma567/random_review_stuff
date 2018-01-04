@@ -1,129 +1,121 @@
-When he asked me whether or not I knew the causality of my rejections? I commented it was the Jr data scientists were the biggest the threat. This was a little difficult to say because it comes a bit arrogant. So perhaps I should also include that, I'm a bit weak on the theoretical side, which is something I'm working to mitigate by studying.
+When he asked me whether or not I knew the causality of my rejections? I commented it was the Jr data scientists were the biggest the threat. This was a little difficult to say because it comes off a bit arrogant. So perhaps I should also include that, I'm a bit weak on the theoretical side, which is something I'm working to mitigate by studying.
 
-What was your motivation to join Uber? (it was a year old, just raised an A round)
+Thought further about what you mentioned on consistent feedback... If I had to think of it myself it would be not understanding the business problem well enough if I had to give myself any.
+
+What was your motivation to join Uber? (about a year old, just raised an A round)
 - He didn't know if it was or wasn't going to be successful, but the business idea made sense
 - He wanted to work with a group of people that were smarter than he was. That's how he measured downside. The people and what he'd learn from them.
 - This is yet another example of how it doesn't pay to chase first order needs/desires (money, cars, titles, etc.) 
 
-Did you have any trouble convincing the cofounders about the importance of data
-He did not, mostly because the they were technical and it was easy to reason with them.
-The challenge comes when trying to convince intuition decision-makers e.g. CEO is a salesperson.
+Did you have any trouble convincing the cofounders about the importance of data?
+He did not, mostly because they were technical and it was easy to reason with them from a data-driven perspective.
+Intuition based decision-making is the hallmark of sales org e.g. CEO is a salesperson. 
 As a matter of fact, he often use to poach from companies who CEO was a sales person because they knew Data was an afterthought hence making the data people unhappy
-
-A major headache early one was separating the data orgs: operations (internal facing analytics) & R&D (consumer facing)
-A) They differed in titles which caused confusion about capabilities within the org, HR and comp. 
-Redundancy and inefficiency of resources, DS on one side being understaffed
-B) The data infrastructure sat on two individual servers which caused a big mess
 
 Con of a Technical Cofounder?
 They could have strong bias for a particular TechStack and this could cause a lot of problems later on. There problem was travis was all about php which is known to be an antiquated language. RT was that it's monolithic.
+
+If you had to rebuild Uber's data team?
+A major headache early on was separating the data orgs: operations (internal facing analytics) & R&D (consumer facing)
+A) They differed in titles which caused confusion about capabilities within the org, HR and comp. 
+Redundancy and inefficiency of resources, DS on one side being understaffed.
+B) The data infrastructure sat on two individual servers which caused a big mess.
+
+Data needs to have it's own identity, it's own director, provided the groups large enough. If it's not it should roll-up into engineering...
+Engineers offer the most day-to-day benefits to enable data scientist for success
+- access to data
+- meaning of the data
+- tooling
+etc.
+
+Benefits of a unified data org (consumer facing products vs internal faving (BI))
+	- distinctions between job title became clear
+	- job title standardization with corresponding skills 
+	- promotions
+	- redundancy of meetings, tools, resources
+	- lines of ownership of tasks are clear
+	- centrality of infrastructure
+		- data eng not good enough at customer relations where they could handle two seperate orgs
+	- there will be a point where an anlayst will need to use something beyond data analysis for a particular job. Hence the centrality aids to education.
+	- allocate resources more efficiently
+	- better career pathing 
+	- better services for clients rather than engineering being hometown client
+
+	Without a data org, it's harder to recruit.
+	- says the leadership doesn't take it seriously
+	- he was always working so, no voice at that table
+
+
 
 What habits would you encourage?
 - Stay opinionated, if not even more so
 - Stay assertive
 - Reluctant to compromise
 
-
-How did you get adoption from units across the org in areas that wouldn't normally consider data scientist
+How did you get adoption from units across the org in areas that wouldn't normally consider a data scientist?
+e.g. advocacy groups, public policy groups, people operations. 
 - trial period, where they got a taste. 
+- Blow past the self-doubters about data sci not needed in their group. Bait them in by saying, "your team's excited my team's excited, lets not killed motivation." 
+- seekout a data scientist who's also enthusiastic about the domain at hand and a champion on the subject team that's open minded about a novel approach and join the two. That way you get two excited people working on something
 
-Reporting lines
+How should reporting lines be?
 You need to get their commitment Data is a function of the company which deserves it's own entity
 
-Today's environment
+What skills do you look for in a DS in today's environment?
 Technical skills are being abstracted away with the advent of tooling e.g. AWS ML. It's important not to depend too much on these ML solutions because they constrain the solution space by they're ability and hence the product.
 
 Ideal DS
 - Technical background, SE heavy
-- Corporate competitiveness
+- Strong sense of corporate competitiveness
 
-Starting team map
+Initial Team Structure
+======================
 
-Assuming DS Manager already in-place
+Assuming DS Manager already in-place. This is someone with deep technical knowledge.
 
 1st hire
-	10x DS
+--------
+10x DS 
+Pay above market. This will be your measuring stick.
 
 2nd - 5th
-	- todo list executers
-	- Enthusiasm
-	- Strong executers
-	- Technical Chops competent
+---------
+- todo list executers
+- Enthusiasm
+- Strong executers
+- Competent Technical Chops-wise
 
-5-25
-	- Project employees
-	- Leadership potential
-
+5 - 25
+------
+- Project employees
+- Leadership potential
 
 
 What was your last project there?
 The operations tooling group where they made: Data Science as a service basically: Experimentation, Prediction, Customer-segmentation. 
 
-The automation/standardization of a workflow.
+The automation/standardization of a workflow (Sklearn specific to Uber).
 
-Gaining adoption for the ML platform tools was challenging because people were very much attached to their workflow, tools, biases. The strategy was to do it through workflow automation rather than application so no one's egos were hurt. Which ultimately led to further adoption and company-wide ML IQ and standardization. The tooling group came about as a result of the large scale around 500 data people. Other than that shared libraries go along way.
+Gaining adoption for the ML platform tools was challenging because people were very much attached to their workflow, tools, biases. The strategy was to do it through workflow automation rather than application so no one's egos were hurt. Which ultimately led to further adoption and company-wide ML IQ and standardization. The tooling group came about as a result of the large scale around 500 data people. Other than that, shared libraries go a long way.
 
-Technical people have strong unfounded biases that make them very hard to persuade even more so than the internal clients.
+Technical people have strong unfounded biases which make them very hard to persuade even more so than internal clients.
 
-Thought further about what you mentioned on consistent feedback... If I had to think of it myself it would be not understanding the business problem well enough if I had to give myself any.
+Example structure of a team: Dynamic Pricing
+- 8 data scientist 
+- 2 engineers 
+- 1 pm
+Create teams adequately weighted staff-wise for it's purpose i.e. a design team would have more designers than anything else.
 
-unify operations and consumerfacing apps.. 1 data org
-	- distinctions between job title became very little
-	- job title standardization with corresponding skills 
-	- promotions
-	- redundancy in terms of meetings
-	- lines of ownership of tasks are clear
-	- centrality of infrastructure
-		- data eeng not good enough at customer relations where they could handle two
-	- there will be a point where an anlayst will need to use something beyond data analyst for a particular job
-	- allocate resources more efficiently
-
-Travis was very easy to convince from a data-driven business
-	- Hallmark of sales org
-
-Con of a technical cofounder they're overconfident about there tech-stack (biased). 
-
-If anything more opinionated and assertive.
-
-Getting people to adopt data in advocacy groups, public policy groups, people operations. 
-
-Blow past the self-doubters about data sci not needed in their group. Bait them in by saying, your team's excited my team's excited, lets not killed motivation. 
-
-The key was to take someone on data team excited about a novel approach that's applicable to another group and join them wiht a data champion in that group that way you get two excited people working on something.
-
-
-dynamic pricing at uber
-8 data scientist 2 engineers 1 pm
-
-How'd you spot leadership qualities in potential new hires? 
-Sounds like you spent a lot of time in management early on, did you ever find yourself getting rusty on the technical side and having shortcomings in your role as a result? I'm asking because I'm curious as to how technical should the "Head of DS" be? How hands on are they expected to be or are they just in meetings and having 1 on 1s all day.
-
-Do you guys want a head of data science? After that's clear, that I'm to grow into that role then start building out the team.
-
-Data needs to have it's own Data identity, it's own director. granted it doesn't amount an extra leadership overhead.
-
-Engineers offer the most day to day benefits to enable data scientist for success
-	- access to data
-	- meaning of the day
-	- tooling
-
-It's harder to recruit
-	- says the leadership doesn't take it seriously
-	- he was always working so, no voice at that table
-
-- career pathing 
-- better service clients rather than engineering being hometown client
+Does management want a head of data science? 
+After that's utterly clear, grow into that role then start building out the team.
 
 "I'm happy to build out the team but I need a commitemnt, it'll be it's own distinct org"
 
-Why uber?
-- understood the business model and it made sense
-- exercising downside scenario, what's left? the people, he felt lucky to be out of the team
-	- imposter syndrome
-
-lied and said, he knows how to write code in python.
-
 More skills on application as opposed learning the tools and nuances of using it. Over time, it's becoming less technical skills. Urgency/corporate competitiveness.
 
+Follow-up questions
+--------------
+- How'd you spot leadership qualities in potential new hires? 
+- Sounds like you spent a lot of time in management early on, did you ever find yourself getting rusty on the technical side and having shortcomings in your role as a result? I'm asking because I'm curious as to how technical should the "Head of DS" be? How hands on are they expected to be or are they just in meetings and having 1 on 1s all day.
 
 

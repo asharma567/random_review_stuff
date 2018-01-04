@@ -1,21 +1,35 @@
+'''
+todos
+-----
+#get the cv thing to work
+
+    #I've tried to add this however it only produces a negative score for total_price
+    #perhaps try looking for another implementation, i've also tried adding makescorer 
+    #function
+
+    # weight = model_cv_score(
+    #     self.model, 
+    #     X, 
+    #     y, 
+    #     folds=10,
+    #     scoring='r2'
+    # )
+
+#refactor for readability
+#find the intersection between the basic dependency outlier model
+#send to charu
+#ask him about the roc_auc
+'''
+
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-#get the cv thing to work
-#refactor for readability
-#find the intersection between the basic dependency outlier model
-#send to charu
-#ask him about the roc_auc
 
 class attribute_wise_learning_for_outlier_detector(object):
     
-    def __init__(
-            self, 
-            training_data, 
-            model=None
-        ):
+    def __init__(self, training_data, model=None):
         
         if not model:
 
@@ -71,6 +85,7 @@ class attribute_wise_learning_for_outlier_detector(object):
                 weight = 0            
                 feature_relevence_weights_dict[target_variable_name] = weight
                 continue
+            
 
             #* the scoring functions here needs to be crossvalidated
             #the major differenc I could see here rmse is much more aggressive than
@@ -83,25 +98,16 @@ class attribute_wise_learning_for_outlier_detector(object):
                 feature_relevence_weights_dict.append(weight)
             else:
                 weight = _score_regression_model_r2(y, self.model.predict(X))
-                
-                #I've tried to add this however it only produces a negative score for total_price
-                #perhaps try looking for another implementation, i've also tried adding makescorer 
-                #function
-                
-                # weight = model_cv_score(
-                #     self.model, 
-                #     X, 
-                #     y, 
-                #     folds=10,
-                #     scoring='r2'
-                # )
-                
                 feature_relevence_weights_dict[target_variable_name] = weight
             
-            # also compute the squared error
             errors_by_feature[target_variable_name] = _compute_errors(self.model, X, y)
     
         return feature_relevence_weights_dict, pd.DataFrame(errors_by_feature)
+
+    def compute_errors_for_target_variable(self, training_data, target_variable_name):
+        X, y = self._get_XY_and_add_dummies(training_data, target_variable_name)        
+        self.model.fit(X, y)
+        return _compute_errors(self.model, X, y)
 
     def _transform_to_scale_0_to_1(self, roc_auc_score): 
         # [2*(item % 0.5) for item in roc_auc_score]
@@ -119,6 +125,16 @@ class attribute_wise_learning_for_outlier_detector(object):
 
 
 
+def get_model_cv_scores(model, feat_matrix, labels, folds=10, scoring='r2'):
+    
+    '''
+    I: persisted model object, feature matrix (numpy or pandas datafram), labels, k-folds, scoring metric
+    O: mean of scores over each k-fold (float)
+    '''
+    from sklearn import model_selection
+    import numpy as np
+    scores = model_selection.cross_val_score(model, feat_matrix, labels, cv=folds,scoring=scoring, n_jobs=-1)
+    return np.median(scores), np.mean(scores), scores
 
 
 def model_cv_score(model, feat_matrix, labels, folds=10, scoring='roc_auc'):
@@ -167,7 +183,6 @@ def _compute_errors(model, X, y):
 
 def _vector_varies_in_values(vector): 
     return len(set(vector)) != 1
-
 
 def dummy_it(input_df, linear_model=False):
     '''
