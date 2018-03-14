@@ -1,0 +1,26 @@
+median absolute deviation (MAD)
+=======================
+
+This is a good way to extract anomalies from streaming set of data-points in real-time. 
+
+To add even more rigor we could use Grubb's test. Which repeatedly exercises MAD to get a set of k outliers with some level of statistical significance.
+
+Argument being STD uses the mean within the calcuation of variance (Ex[i] - (Ex[i]))
+
+variance = sum([(x_i - mu)^2 for x_i in stream_univariate_points ])/total_number_of_points 
+
+
+variance = sum([(x_i)^2 for x_i in stream_univariate_points ])/total_number_of_points - mu^2
+
+Key point using the average, isnt ideal.
+Var(X) = E(X2) – (E(X))^2
+Var(X) = E(X2) – (mu)^2
+
+
+Hence the motivation for MAD
+
+
+
+MAD = median (abs(point - median(X)) for point in points))
+
+Notice how above uses someting more inline with euclidean distance as opposed to l_1 right here.

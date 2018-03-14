@@ -1,0 +1,21 @@
+- Hotel deduper
+- Overview of data science applications for RT's problem space
+- Mentoring a Jr Data Scientist
+- Educating management on Data Science workflows 
+- Created team structuring material
+- Providing support/education for other analytical personnel in the company e.g. automating calibrations
+- End-to-end delivery of Approval's model even the engineering/design aspects
+- scoped automation and executed fraud detection (manually) and later iterations of the model
+- Educating product & engineering on Data-products
+- Scope of the Receipt mapping model on the Bolton side
+- Automated Scripts for Data Engineering platform for parallelized computation on massive datasets and guidlines for model deployment and monitoring (infrastructure and tests)
+- docker usage guidelines
+- v1, v2, v3 (scope) flights recommender and budgeting engine
+- v2 flights model can also be used for automated insights generation
+- central repo for all data projects
+- paper for new flights algo
+- educated engineering on the benefits of a SOA archeticture and executed with our first aws lambda service
+- AON: RT ROI analysis (proving causality analysis)
+- comprehensive documentation on all deployed dataproducts
+- presentation about fraud detection with approvals
+- kayak scraper to benchmark against current recommendations

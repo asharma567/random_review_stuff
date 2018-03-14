@@ -9,11 +9,11 @@ What was your motivation to join Uber? (about a year old, just raised an A round
 
 Did you have any trouble convincing the cofounders about the importance of data?
 He did not, mostly because they were technical and it was easy to reason with them from a data-driven perspective.
-Intuition based decision-making is the hallmark of sales org e.g. CEO is a salesperson. 
-As a matter of fact, he often use to poach from companies who CEO was a sales person because they knew Data was an afterthought hence making the data people unhappy
+Intuition based decision-making is the hallmark of a sales org e.g. CEO is a salesperson. 
+As a matter of fact, he often used to poach from such companies because they knew Data was an afterthought hence making the data people unhappy
 
 Con of a Technical Cofounder?
-They could have strong bias for a particular TechStack and this could cause a lot of problems later on. There problem was travis was all about php which is known to be an antiquated language. RT was that it's monolithic.
+They could have strong bias for a particular TechStack and this could cause a lot of problems later on. There problem was Travis was all about php which is known to be an antiquated language. RT was that it's monolithic.
 
 If you had to rebuild Uber's data team?
 A major headache early on was separating the data orgs: operations (internal facing analytics) & R&D (consumer facing)
@@ -22,13 +22,14 @@ Redundancy and inefficiency of resources, DS on one side being understaffed.
 B) The data infrastructure sat on two individual servers which caused a big mess.
 
 Data needs to have it's own identity, it's own director, provided the groups large enough. If it's not it should roll-up into engineering...
-Engineers offer the most day-to-day benefits to enable data scientist for success
+Engineers offer the most day-to-day benefits to enable data scientists for success
 - access to data
 - meaning of the data
 - tooling
+- like-mindedness interms of workflow
 etc.
 
-Benefits of a unified data org (consumer facing products vs internal faving (BI))
+Benefits of a unified data org 
 	- distinctions between job title became clear
 	- job title standardization with corresponding skills 
 	- promotions
@@ -59,7 +60,7 @@ e.g. advocacy groups, public policy groups, people operations.
 - seekout a data scientist who's also enthusiastic about the domain at hand and a champion on the subject team that's open minded about a novel approach and join the two. That way you get two excited people working on something
 
 How should reporting lines be?
-You need to get their commitment Data is a function of the company which deserves it's own entity
+You need to get commitment Data is a function of the company which deserves it's own entity
 
 What skills do you look for in a DS in today's environment?
 Technical skills are being abstracted away with the advent of tooling e.g. AWS ML. It's important not to depend too much on these ML solutions because they constrain the solution space by they're ability and hence the product.
