@@ -1,0 +1,3 @@
+My qualm with reconstruction error is it fits a plane with projection error though it computes distances at time of reconstruction using standard distance from the point.
+
+I think it's also weaker because it's linear. PCA projects on to a linear manifold AND the outliers are feature based outliers. It might be worth performing just see what you get.
