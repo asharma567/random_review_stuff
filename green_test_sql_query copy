@@ -1,0 +1,104 @@
+-- need to have an anchor for a rolling number
+create temporary table if not exists bea as  (
+	SELECT 
+		budget_id, 
+		COUNT(*) as number_of_lineitems_per_budget
+	
+    FROM
+		rocketripapp_budgetexpenseassociation
+	
+    WHERE 
+		deleted_at IS NULL
+	
+    GROUP BY
+		budget_id
+);
+
+
+
+create temporary table if not exists true_positives as (
+-- this is equivalent to the true_positives (true positives)
+	SELECT 
+		bea_.budget_id, 
+		COUNT(*) as number_of_lineitems_per_budget
+	
+    FROM
+		rocketripapp_budgetitemizationmatch as model_results, 
+		rocketripapp_budgetexpenseassociation as bea_
+	
+	WHERE 
+		bea_.deleted_at IS NULL 
+			AND
+		model_results.itemization_id = bea_.itemization
+			AND 
+		model_results.budget_id = bea_.budget_id
+
+	GROUP BY
+		1
+);
+
+
+-- coverage
+create temporary table if not exists coverage as (
+	SELECT 
+		bea.budget_id,
+		true_positives.number_of_lineitems_per_budget /bea.number_of_lineitems_per_budget as percentage_of_budget_captured
+	
+    FROM
+		bea,
+		true_positives
+
+	WHERE 
+		bea.budget_id = true_positives.budget_id
+);
+
+
+create temporary table if not exists all_positives as (
+-- this is equivalent to the true_positives (true positives)
+	SELECT 
+		budget_id, 
+		COUNT(*) as number_of_lineitems_per_budget
+	
+    FROM
+		rocketripapp_budgetitemizationmatch as model_results
+	
+	GROUP BY
+		1
+);
+
+
+-- precision
+create temporary table if not exists prec as (
+SELECT 
+	true_positives.budget_id,
+	true_positives.number_of_lineitems_per_budget / all_positives.number_of_lineitems_per_budget as percentage_of_budget_accurate
+    
+FROM
+	all_positives,
+	true_positives
+
+WHERE 
+	all_positives.budget_id = true_positives.budget_id
+);
+
+-- make final table here
+SELECT
+	coverage.budget_id,
+    prec.percentage_of_budget_accurate, 
+    coverage.percentage_of_budget_captured
+    
+FROM
+	prec, coverage
+    
+WHERE
+	prec.budget_id = coverage.budget_id 
+
+ORDER BY 1 ASC 
+;
+
+
+DROP TABLE  bea;
+DROP TABLE true_positives;
+DROP TABLE  coverage;
+DROP TABLE  all_positives;
+DROP TABLE  prec;

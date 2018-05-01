@@ -1,0 +1,40 @@
+What do track?
+	- coverage at the trip level
+		# trips scored(tagged) / # trips processed
+			- trips scored(tagged) - trips processed = predicted_negatives: 
+				- how many asked for thier points?
+				- can we direct the bolton users here by having them look 
+
+				for trips in a certain time frame?
+					- using BI's metric: 
+
+				# of FNs: 
+					not in the itemization table, but it's in the bea table.
+
+				it's okay to assume all budgets are tagged via the zendesk process
+
+	- precision
+
+
+can data dog reach out to queries
+can you do rolling averages w datadog
+
+
+which metric garauntee success of the model from a business perspective:
+	Median(time_delta = itemization.created_at - bea.created_at)
+
+	represents the amount of time an expense line item hits our db to the time it's matched by a user. Our goal is to minimize this time.
+
+biases on the threshold:
+
+Assumption made with triggering an event with datadog--
+	The one caveat woudl be 
+
+make the query for approval's coverage w tracking with SQL
+	05-16-2017
+	06-26-2017 
+
+
+- design review on the lambda function
+	- expand budget_expense_association
+	- fix spelling on reciepts
