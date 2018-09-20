@@ -1,0 +1,18 @@
+Local outlier factor 
+---------------------
+- LOF is meant for multidimensional case as opposed to univariate (MAD)
+*figure out how to compute k, if you're trying to find the optimal k when in dbscann
+
+use-case
+This is a great way to discern what's an outlier relative to each dataset while enabling outliers ACROSS datasets. 
+
+prior to LOF there's a concept of 
+
+density = mass/volume
+
+reachability-distance = max(k-nn(a), dist(a,b))
+
+LRD = len(set(neighbors(subject_pt)))/for each point (reach(a,b))
+
+lof score ~ 1 means average density of your neighbor is 1 time as much, > 1 translates to e.g. 3  means the average density of your neighbore is 3 times as much as you.
+

@@ -1,0 +1,66 @@
+Screening a data science candidate
+-----------------------------------
+
+Ideally you should hire a data scientist according to your needs. That is if she's going to building systems and recommender engines, then you'd want to hire someone that's more of a machine learning engineering. That is, a data scientist with a strong engineering slant to them. If the needs are more about client interaction then more than MBA type would be necessary.
+
+When designing it a take-home it should surface these competency areas as much as possible.
+
+skills
+
+- scoping
+
+everything below but greater emphasis on the respective stuff.
+
+builder (codes for machines)
+- productionization skills
+- model deployment
+- big (o) notation
+- designing api best practices
+- clean/flexible code
+
+
+mba / analytical type (codes for people)
+- communication of technical detail
+- notebook with qauntitative to qaulitative analysis
+- presentation skills
+- visualization
+- causal inference
+- experimental design
+
+
+
+Interviewing Flow:
+
+preface the job descriptions about not inflating their resume as it we're just trying to accurately measure str/weaknesses (yes! it's okay to have them :-)
+
+Initial (recruiter/hr) -> 
+
+pedigree, ethusiasm (why do you want work for us?)
+
+Tech screen (30 mins)
+	Directory traverse question) 
+		bash skills, native python skills
+
+	Past work, professional or side-projects)
+		dive in technically and have them explain
+		and also question them on, Theory, like why'd you guys use this model versus that one. 
+		how'd you measure success of this project
+		how was it prioritized
+
+Take-home
+	Duration:
+	couched as 3 hours long but in reality it would take over a weekend.
+
+	Types of take-homes:
+
+	ideally the takehome would reflect the project you're looking to hire them for. That way there's minimal slippage from thier performance on the take-home and they're performance at work.
+
+	mba / analytical type
+	"Find some random Insights and present" Don't do this you lazy asshole but it does test some level creativity.
+
+	builder
+	train a model and wrap it in a flask app.
+
+	we're going to ask them to tackle the corpus of complaints. 
+
+	deliverable: analysis and -- based on discovery in analysis --  scope into productionization roadmap	

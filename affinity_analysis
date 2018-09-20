@@ -1,0 +1,6 @@
+Affinity_analysis aka market-basket analysis
+================= 
+
+This answer's the business question: "If customer bought X, they'll also likely purchase Y"
+
+It's as simpy as making a data from where the rows are customers the columns are items bought (or not) and then computing a correlation matrix, making recommendations based on that. To prove causation, which woudl make the aforementioned statement valid, is the next step so association pattern mining should also be researched to prove assumptions to demonstrate casusation.

@@ -122,3 +122,5 @@ some_dict.update(a)
 sorted(some_dict.items(), key=lambda x:x[1], reversed=True)[:1]
 
 
+pd.set_option('display.float_format', lambda x: '%.2f' % x)
+find . -type f -size +100M
