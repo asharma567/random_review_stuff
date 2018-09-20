@@ -1,0 +1,11 @@
+- How does sagemaker compare to Google's colab notebook: Something where that could be shared among a team
+Pros
+Free gpu tier
+Able to share w other folks
+Same as ipython notebook
+Seemless when it comes to using most DL applications
+
+Cons
+Have to reprovision it with dependencies after a certain downtime
+Non integration with S3 and other aws products
+Enabled for tensorflow 
