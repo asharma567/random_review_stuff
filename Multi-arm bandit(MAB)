@@ -1,0 +1,34 @@
+Multi-arm bandit(MAB)
+======================
+- This is a special case of reinforcement learning. Where exploration & exploitation is done simultaneously.
+
+a/b testing
+---------
+The most naive algorithm. It assumes there will be an initial phase of testing recommendation efficacy and it will forever work with the same recommender. So, it has one exploration phase and then exploits in contrast with MAB which does exploration and exploitation in simultaneously. 
+
+pitfalls, of this method you coudl be stuck with the wrong strategy forever. Unless you continuously a/b test.
+
+epsilon greedy
+	explore e % of the time exploit (1-e)
+	e-is basically for "exploration". The smaller, the higher exploitation of the highest earning strategy, which might make sense if you're in a setting where there arent' not items coming into the system.
+
+	but if you do have new items that need to be readily tested, as is the case with advertisements, this might not be the best fit algo. (pitfall)
+
+	this is just prevents you being stuck with the same algo in an everchanging environment.
+
+upper bounding methods
+	(UCB1)
+	
+	- The exploration phase has a bias toward strategies with the highest upper bounds. 
+	- Bounds is pertinent to the range of the distribution of pay-offs. As a strategy is learned more the bounds are tightened. As such, this is advantageous when bringing in new data.
+	- the trade-off for exploraton vs exploitation is setting the CI limits 99% > more exploration vs 95%... 99% has a higher upper bound than 95. New slot machines will naturally have a larger CI and the upper bounds will larger here too, but as more data is sampled he CI narrows as does the CI as such, 99 requires more trials (exploration)
+		#i'm still not satisfied as to why this leads to more exploration.
+		- begs the question, how do you construct a CI? repeated sampling. CI: is a range of values for the subject parameter. So, if we get a new #, we can say with 99% confidence it falls within that range.
+
+It works as follows:
+	1) Incremental training: allocate training datasets for each arm
+	2) Upperbound estimate: compute upperbounds
+	3) Recommendation: select the arm with the highest upper bound
+
+
+

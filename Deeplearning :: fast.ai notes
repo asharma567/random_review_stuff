@@ -1,0 +1,28 @@
+Deeplearning // fast.ai notes
+
+when we're optimizing for precision in a highly imbalanced dataset, we probably shouldn't create synthetic samples of th minority class because, we need to very accurate in positive case
+
+how do you downsample/upsample?
+you need to maintain the distribution of the minority or majority class while doing so.
+
+what's another way of arranging a sparse matrix for collab filter? (user/item or movie)
+
+tuples: user_id, item_id, rating
+
+encoding sometimes might not yield value in model performance but it'll yield it interpretation of the specific category that's driving the change
+
+What's spearman's correlation?
+how to find correlation amongst (multicollinearity)?
+find the rank correlation where, data points are ranked against eachother adn then the ranks are plotted to see if there's collinearity in the rank.
+
+The pitfall of using just correlation, it assumes linearity and most of the times two features are fairly correlated but might be 1:1 linear.
+
+for the most part it's pretty much the same as standard r^2 correlation but ties are handled better with spearmen.
+
+spearmen also ranks points very similar to the way RF does
+
+Where and how do we use it?
+when dropping redundant/multicollinear features from feature space. From the spearmen coefficient matrix, create a dendrogram, pickout the features which are pretty much the same and then run each pair though the leave feature out gap score process
+
+what's partial dependence plot?
+very much like hte shaply concept, what's the relationship between two variables holding all else equal?.. it's a clear way to visualize this relationship.
