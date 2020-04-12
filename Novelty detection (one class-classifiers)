@@ -1,0 +1,68 @@
+Novelty detection (one class-classifiers)
+---------------
+
+https://scikit-learn.org/stable/modules/generated/sklearn.svm.OneClassSVM.html
+
+according to sklearn's implementation you can fit the entire entire dataset (normal + outliers) and it'll return to you the outliers in the dataset. Though, if one is aware of the contimination or proportion of outliers, it's probably best to prescribe it. 
+
+In both learning of both of these algos, one is better at detecting outliers adn the other at finding normal points.
+
+If you can, you should tune the algos on a known dataset
+
+
+- One-class SVM
+This algo is designed to envelope/fit/learn the normal class (negative/majority) and predict the outliers. Though, it's better at finding the normal datapoints than finding the outliers. 
+
+It's also possible to the opposite: learn the minority class and predict the negatives or other positives (should be better at predicting other positives).
+
+nu = # outliers/ # norm examples
+
+The model can be fit on all examples in the training dataset or just those examples in the majority class. Perhaps try both on your problem.
+
+
+https://towardsdatascience.com/outlier-detection-with-one-class-svms-5403a1a1878c
+
+"You can switch your goal from trying to balance the dataset, to trying to predict the minority class using outlier detection techniques."
+This woudl only make sense if the outliers were also far from eachother instead of being clustered up together, ultimately making them cluster (albiet minority) of another class
+
+ROC AUC is very misleading in highly imbalanced cases because it's so easy to predict the minority class. So, making that statement of 84% of the time, isn't as safe because ROC AUC assumes balance.
+
+from imblearn.over_sampling import ADASYN 
+ada = ADASYN()
+from imblearn.under_sampling import RandomUnderSampler 
+rus = RandomUnderSampler() 
+from imblearn.combine import SMOTEENN 
+smo = SMOTEENN() 
+X_resampled, y_resampled = smo.fit_sample(X_train, y_train) 
+clf = LogisticRegression() 
+clf.fit(X_resampled, y_resampled)
+
+He also does a great job of showing the downsides of oversampling the data.
+
+
+He also was smart enough to make a scatter matrix of all the features with the two different classes using different colors and he removed the features which didnt' seperate the classes well.
+
+He trains SVM on the normal class and is able to easily predict the outliers. 
+
+He also used visualization heavily while tuning gamma
+from sklearn.svm import OneClassSVM 
+train, test = train_test_split(data, test_size=.2) 
+train_normal = train[train['y']==0] 
+train_outliers = train[train['y']==1] 
+outlier_prop = len(train_outliers) / len(train_normal) 
+svm = OneClassSVM(kernel='rbf', nu=outlier_prop, gamma=0.000001) svm.fit(train_normal[['x1','x4','x5']])
+
+
+- isoforest
+This fits on the entire dataset and is better at predicting the outliers from the normal(majority/negative). Though it's strange because you'd think, it's two sides of the same coin, but I'm referring to "new data points". 
+
+Isoforests are better at predicting the outliers vs inlier (normal/negative class)
+
+
+https://towardsdatascience.com/outlier-detection-with-isolation-forest-3d190448d45e
+"Isolation Forest is an outlier detection technique that identifies anomalies instead of normal observations"
+
+
+
+sources
+https://machinelearningmastery.com/one-class-classification-algorithms/
