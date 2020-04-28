@@ -34,6 +34,8 @@ Data adjustments
 
 	eg. save each portion of the hacked away class and copy-paste the minority class to each one, use ensembling to figure out the votes.
 
+	A much sophisticated approach to above is cluster the majority class and copy-paste the positive class to all the clusters of the majority class. Effectively this is like contrasting a positive label per category of the majority. Then ensembling the votes of all the learners at the end. This should solve a lot of thin data and overfitting problems.
+
 
 =====
 
