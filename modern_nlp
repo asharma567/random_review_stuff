@@ -35,6 +35,47 @@ What is attention?
 what's an attention mask?
 	it's used when batches have varying lengths of sentences.
 
+What's a transformer?
+	
+	TLDR
+
+	RNNs were sequence based which makes it slow to process word embeddings, vectorizations like word2vec weren't rich enough. So transformers were made were made. It would process word embeddings simultaneously and leverages GPUs much better than the it's predecessors.
+
+	Notice how much more complex the NLP models are in comparison to computer vision models. 
+
+	That's probably because it's the most sophisticated function of a human, the thing that distingiushse our species vs others: Communication.
+
+	The evolution:
+
+	RNN's were initial used to model langauge because of it's implicit sequential nature or markov chain. 
+
+	But it had problems with log sequences: exploding and vanishing gradients and it was slow to train. 
+
+	LSTM to answer that. It also gave it the net bi directionality but it was still sequential in nature (ergo sequence to sequence modeling).
+
+	Tfidf and word2vec also weren't good "language mdoels" meaning the word embeddings weren't rich enough to capture the semantic meanings&relationships.
+
+
+	what's an embedding space?
+
+		words post vectorization get mapped to an embedding space and the distances between the word embeddnigs can give an idea of their relationship to one another.
+
+		If the position of the word within a sentence is also used, we get context + word vector = richer word embedding 
+
+
+
+	What's the best model out to date (May 2020)
+	- XLNET is the best transformer to date. Supposed to be better than BERT
+
+Word2vec vs Bert?
+	The problem with word2vec is that each word has only one vector but in the real world each word has different meaning depending on the context and sometimes the meaning can be totally different (for example, bank as a financial institute vs bank of the river)
+
+What are word embeddings?
+	vector representation of words. Modern methods include the context as well (relative position)
+
+
+re: NLP, what can we do now that we couldn't do before use-case wise?
+
 What is a learning rate scheduler?
 	depending one varies the learning rate, you'll have difference in loss total lose and rate of convergrence. 
 
