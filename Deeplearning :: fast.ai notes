@@ -26,3 +26,70 @@ when dropping redundant/multicollinear features from feature space. From the spe
 
 what's partial dependence plot?
 very much like hte shaply concept, what's the relationship between two variables holding all else equal?.. it's a clear way to visualize this relationship.
+
+aucpr
+	it’s great when you favor only a single class because you could just focus on perfecting the curve for that single class instead of the average of the two. ROCAUC treats the importance of both classes equally. But usually in an unbalanced setting we're more concerned with one vs the other.
+
+	A model with perfect skill is depicted as a point at a coordinate of (1,1). A skillful model is represented by a curve that bows towards a coordinate of (1,1). A no-skill classifier will be a horizontal line on the plot with a precision that is proportional to the number of positive examples in the dataset. For a balanced dataset this will be 0.5.
+
+	"AUCROC can be interpreted as the probability that the scores given by a classifier will rank a randomly chosen positive instance higher than a randomly chosen negative one." -- Page 54, Learning from Imbalanced Data Sets, 2018.
+
+	"Precision-recall curves (PR curves) are recommended for highly skewed domains where ROC curves may provide an excessively optimistic view of the performance." -— A Survey of Predictive Modelling under Imbalanced Distributions, 2015.
+
+	src [end of page]: https://machinelearningmastery.com/roc-curves-and-precision-recall-curves-for-imbalanced-classification/
+
+	That said, we shouldn't be averaging the two curves for each class that'll just be making another ROC curve - which is designed to treat two classes equally - out of the PR readings.
+
+
+
+Macro averaging vs micro averaging
+	say you're averaging aucpr/f1 scores from two classes and you need to roll it into one number for ease of comparison and decision-making. you can taek the two scores calculated independently and simply average them:
+
+	5+5/2 = 5; which is a bit naive but simple and easy to explain 
+
+	OR 
+
+	you can weight them by their respective size/representation in the training set. (think of micro as "macro weighted")
+
+	(.6) + 5 (0.4) 5 =
+
+	that's micro-averaging
+
+	
+
+
+F1 score, zoom in on the sweet spot
+
+
+
+Auc isn’t the best for imbalance because it underestimate the fpr
+	in the same spirit of accuracy being a poor metric becuase if even if a model naively chooses one class only it'll show as 90%+ accurate in an imbalanced dataset same goes for FPR given all thresholds. 
+
+	as such, area under precision/recall curves (AUC PR) are better. 
+
+	but w/ auc pr you have to put a "no skill benchmark"
+
+Spearman vs Pearson 
+	Pearson is designed to capture linear relationship between two features where as, spearman will capture monotonic relationship which is what you're ultimately: 'are these two features correlated' i.e. do these features move in lock-step with another (whether or not it's perfectly linear). 
+
+	As you can tell the problem arises from correlated but non-linear relationships. Pearson will mistakenly tell you there's little relationship becaues there's a lot of error vs a straight line.
+
+	To get around this spearmen compares the difference in the independent ranks of the features: datapoint1 = 86.3 (rank101) vs 93.4 (rank30) = 70 (difference)
+
+
+
+
+Calibration 
+	probability score normalization via some rescaling function.
+
+	sklearns calibration package
+
+	sklearn dummyclassifier
+
+	Platt vs isotonic
+		Isotonic regression is known to be more robust though it is more prone to overfittedness.
+
+		platt is used mostly when the points are rather sigmoidal in shape i.e. probabilities are most towards 0.0 or 1.0, not spread out very evenly.
+
+
+
