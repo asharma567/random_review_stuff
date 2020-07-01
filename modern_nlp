@@ -8,3 +8,51 @@ why DistilBertModel vs anything else?
 - make a tier is much cheaper
 
 - what's an autoencoder do?
+
+
+what is encoder-decoder?
+	
+	One of the benefits of deeplearning is that it does feature engineering for you. Much more so, than tree based models. Encoding raw data to a feature space (mapping) is very much what encoding is. 
+
+	Like raw text to embeddings and then using those embeddings to form a cluster or passing it to a classifier.
+
+	however, if you need an output like a reply to a sentence, or different representation of an image. then you'll need to use a decoder. "machine-translation" is a good word to capture this.
+
+	src: https://www.quora.com/What-is-an-Encoder-Decoder-in-Deep-Learning
+
+
+What is attention?
+	feeble understanding, but it's regarded as the most powerful concepts in deep learning.
+
+	in machine translation (see above) the longer the sentence the easier it was to lose context of the words at the beginning, attention resolves this.
+
+	Basically, when generating the ouput word, how much should we paying attention to each of the words in the input in sentence. Or the attention weight for the corresponding word and it's position e.g. if we're doing a languange translation.
+
+	https://www.youtube.com/watch?v=quoGRI-1l0A
+
+	https://towardsdatascience.com/intuitive-understanding-of-attention-mechanism-in-deep-learning-6c9482aecf4f
+
+what's an attention mask?
+	it's used when batches have varying lengths of sentences.
+
+What is a learning rate scheduler?
+	depending one varies the learning rate, you'll have difference in loss total lose and rate of convergrence. 
+
+Why is a warm-up necessary?
+	If your data set is highly differentiated, you can suffer from a sort of "early over-fitting". 
+
+	If your shuffled data happens to include a cluster of related, strongly-featured observations, your model's initial training can skew badly toward those features -- or worse, toward incidental features that aren't truly related to the topic at all.
+
+	Warm-up is a way to reduce the primacy effect of the early training examples. Without it, you may need to run a few extra epochs to get the convergence desired, as the model un-trains those early superstitions.
+
+	https://stackoverflow.com/questions/55933867/what-does-learning-rate-warm-up-mean
+
+
+How to combat exploding gradient?
+	- gradient clip hack
+
+
+what is eval_mode?
+	it's just like the training mode but regularization (dropout) and batch normalization aren't enabled.
+
+	that's why you'd want to state : no gradeint #no modifications to the training weights.
