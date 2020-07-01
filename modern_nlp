@@ -1,0 +1,10 @@
+why DistilBertModel vs anything else?
+	DistilBERT is a small, fast, cheap and light Transformer model trained by distilling Bert base. It has 40% less parameters than bert-base-uncased , runs 60% faster while preserving over 95% of Bert's performances as measured on the GLUE language understanding benchmark.
+- what is hierarchical Bayesian model?
+- how do we get around the memory allocation issues?
+	GCP to allocate more mem
+
+- is there a way to make an 4+ hour autoshut off?
+- make a tier is much cheaper
+
+- what's an autoencoder do?
