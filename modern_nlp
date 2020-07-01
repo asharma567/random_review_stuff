@@ -56,3 +56,6 @@ what is eval_mode?
 	it's just like the training mode but regularization (dropout) and batch normalization aren't enabled.
 
 	that's why you'd want to state : no gradeint #no modifications to the training weights.
+
+NLP had a pivotal moment in 2018 where - like in CV - discovered the power of transfer learning. This is post word2vec and glove. As such, the model is passed on as well i.e. we no longer have to train NLP models from scratch.
+
